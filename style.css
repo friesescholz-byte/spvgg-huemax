@@ -2816,6 +2816,9 @@ textarea.form-control {
     }
 }
 
+.sponsors-heading {
+    text-align: center;
+}
 
 /* --- Mobile Footer Centering (Prevent left margin squeeze) --- */
 @media (max-width: 768px) {
