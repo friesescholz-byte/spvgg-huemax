@@ -1,0 +1,277 @@
+﻿<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Geschichte - SpVgg Hüddessum/Machtsum e.V. von 1920</title>
+    <link rel="stylesheet" href="style.css">
+    <!-- FontAwesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    <style>
+        /* Timeline specific styles */
+        .timeline {
+            position: relative;
+            max-width: 800px;
+            margin: 4rem auto 0;
+            padding: 1rem;
+        }
+        .timeline::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 31px;
+            width: 2px;
+            height: 100%;
+            background-color: var(--border-color);
+        }
+        .timeline-item {
+            position: relative;
+            margin-bottom: 3.5rem;
+            padding-left: 70px;
+        }
+        .timeline-item:last-child {
+            margin-bottom: 0;
+        }
+        .timeline-dot {
+            position: absolute;
+            left: 20px;
+            top: 5px;
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            background-color: var(--accent-color);
+            border: 5px solid var(--bg-main);
+            box-shadow: var(--shadow-sm);
+            z-index: 10;
+            transition: var(--transition-fast);
+        }
+        .timeline-item:hover .timeline-dot {
+            background-color: var(--primary-color);
+            transform: scale(1.2);
+        }
+        .timeline-year {
+            font-family: var(--font-heading);
+            font-size: 1.6rem;
+            font-weight: 800;
+            color: var(--primary-color);
+            line-height: 1;
+            margin-bottom: 0.5rem;
+        }
+        .timeline-content {
+            background-color: var(--bg-white);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-md);
+            padding: 1.75rem 2rem;
+            box-shadow: var(--shadow-sm);
+            transition: var(--transition-smooth);
+        }
+        .timeline-item:hover .timeline-content {
+            box-shadow: var(--shadow-md);
+            border-color: rgba(21, 62, 2, 0.12);
+        }
+        .timeline-title {
+            font-size: 1.15rem;
+            font-weight: 700;
+            color: var(--primary-dark);
+            margin-bottom: 0.5rem;
+        }
+        .timeline-text {
+            font-size: 0.98rem;
+            margin-bottom: 0;
+            color: var(--text-muted);
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Header / Navigation -->
+    <header class="header subpage-header">
+        <div class="container nav-container">
+            <a href="index.html" class="logo">
+                <img src="https://pub-b33108412309406a9a941ddc51e9a5b9.r2.dev/spvgg-huemax/logo.png" onerror="this.onerror=null; this.src='logo.png';" alt="SpVgg HüMax Logo">
+                <span class="logo-text">SpVgg HüMax</span>
+            </a>
+            <nav class="nav-menu">
+                <div class="nav-item">
+                    <a href="index.html" class="nav-link">Willkommen</a>
+                </div>
+                <div class="nav-item">
+                    <a href="verein.html" class="nav-link">Verein <i class="fas fa-chevron-down"></i></a>
+                    <ul class="dropdown-menu">
+                        <li class="dropdown-item"><a href="verein.html">Verein</a></li>
+                        <li class="dropdown-item"><a href="sponsoren.html">Sponsoren</a></li>
+                        <li class="dropdown-item"><a href="vorstand.html">Vorstand</a></li>
+                        <li class="dropdown-item"><a href="geschichte.html">Geschichte</a></li>
+                        <li class="dropdown-item"><a href="aktuelles.html">Aktuelles</a></li>
+                    </ul>
+                </div>
+                <div class="nav-item">
+                    <a href="gruppen.html" class="nav-link">Mannschaften <i class="fas fa-chevron-down"></i></a>
+                    <ul class="dropdown-menu">
+                        <li class="dropdown-item"><a href="gruppen.html">Mannschaften</a></li>
+                        <li class="dropdown-item"><a href="ersteherren.html">1. Herren</a></li>
+                        <li class="dropdown-item"><a href="zweiteherren.html">2. Herren</a></li>
+                        <li class="dropdown-item"><a href="altherren.html">Altherren</a></li>
+                    </ul>
+                </div>
+                <div class="nav-item">
+                    <a href="kontakt.html" class="nav-link">Kontakt</a>
+                </div>
+                
+            </nav>
+            <div class="burger-menu">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+    </header>
+
+    <!-- Subpage Hero -->
+    <section class="subpage-hero">
+        <div class="hero-bg-pattern"></div>
+        <div class="container">
+            <h1 class="hero-title">Unsere <span>Geschichte</span></h1>
+            <div class="subpage-hero-nav">
+                <a href="index.html">Startseite</a>
+                <span class="separator"></span>
+                <a href="verein.html">Verein</a>
+                <span class="separator"></span>
+                <span class="current">Geschichte</span>
+            </div>
+        </div>
+    </section>
+
+    <!-- Section: Der Sültenpaul -->
+    <section class="section section-light">
+        <div class="container" style="max-width: 900px;">
+            <div class="reveal-item">
+                <h2 class="accent-line">Der "Sültenpaul"</h2>
+                <p class="lead" style="margin-top: 1.5rem;">Ein historischer Rückblick auf die Ursprünge unseres Sportgeländes.</p>
+                
+                <p>In der Frühzeit Machtsums gab es im Ort wahrscheinlich vier Siedlungskerne, alle weit östlich von diesem Standpunkt. Die Ansiedlung lag in West-Ost-Richtung, eingebettet in einen grünen Korridor, dessen natürliche Grenze im Westen das Stillgewässer "Sültenpaul" bildete. In der Geländekerbe sammelte sich das Wasser zu einem Bachlauf, dieser stellte frühgeschichtlich die Grundversorgung des Dorfes mit Wasser für Mensch und Tier sicher.</p>
+                
+                <p>Das Gewässer führte zum heutigen "Neuen Graben" auch Mühlenbeek genannt, der in ungefähhrer Nord-Süd-Richtung zum Bruchgraben nach Norden entwässert. Auf der GaußÂ´schen Landesaufnahme aus dem Jahre 1827-1840 sind mehrere große Teiche und Weiher dargestellt, vermutlich gab es in Machtsum aber früher noch weitere kleine Tümpel.</p>
+                
+                <p>Am westlichen Ortsrand befinden sich Flurstücke mit dem Bestandteil "Beek". Beek ist eine mittelniederdeutsche Bezeichnung für Bach. Dort befinden sich die Flurstücke "Beekanger", "Am Beeke", "Landwehrfeld hinter dem Beekanger" und "Landwehrfeld am Beekanger". Im Beekanger befand sich auch der sogenannte "Sültenpaul". Dieser früher größte Teich der Ortschaft erhielt seinen Namen wegen des Salzgehaltes seines Wassers. Der altdeutsche Begriff Sülte kommt von "Sulta", übersetzt Salz. Der Begriff Paul kommt vom "Pfuhl", übersetzt Tümpel/Sumpf.</p>
+                
+                <p>An seinem Südufer befand sich der "Sültenpaulbrunnen", der auch in trockenen Jahren salzhaltiges Wasser führte. Die Salzhaltigkeit rührt von einem unterirdischen Salzvorkommen her, welches sich westlich von Machtsum bis hinter Drispenstedt befindet. Im Norden des Sültenpauls führte die Hildesheim-Peine-Kreis-Eisenbahn entlang. Noch weiter westlich vom Sültenpaul Richtung Hönnersum verlief die Landwehr in nord-südlicher Richtung, die im 15. Jahrhundert errichtet wurde und der Wehrhaftigkeit des Hildesheimer Umlandes diente.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Section: Timeline / Vereinsgeschichte -->
+    <section class="section section-soft">
+        <div class="container">
+            <h2 class="accent-line-center reveal-item">Meilensteine der Vereinsgeschichte</h2>
+            <p style="text-align: center; max-width: 600px; margin: 0 auto;" class="reveal-item">Vom Zuschütten des Salzpfuhls bis zur modernen Spielvereinigung.</p>
+            
+            <div class="timeline reveal-item">
+                <!-- 1920 -->
+                <div class="timeline-item">
+                    <div class="timeline-dot"></div>
+                    <div class="timeline-year">1920 / 1931</div>
+                    <div class="timeline-content">
+                        <h4 class="timeline-title">Gründung & Sportplatzbau</h4>
+                        <p class="timeline-text">Gründung des Vereins Germania Machtsum (später Germania, zeitweise DJK Machtsum). 1931 wurde der Salzpfuhl "Sültenpaul" in freiwilliger Arbeit zugeschüttet, um das Gelände für einen Fußballplatz nutzbar zu machen. Die Kreisbahn lieferte täglich 14 Waggons Schotter, der über Schienen und Loren der Zuckerfabrik Clauen verteilt wurde.</p>
+                    </div>
+                </div>
+
+                <!-- 1933 -->
+                <div class="timeline-item">
+                    <div class="timeline-dot"></div>
+                    <div class="timeline-year">1933 / 1951</div>
+                    <div class="timeline-content">
+                        <h4 class="timeline-title">RSV Machtsum & Erweiterung</h4>
+                        <p class="timeline-text">Der Verein nimmt unter dem Namen RSV (Rasensportverein) Machtsum den offiziellen Spielbetrieb auf. Nach den Kriegsjahren wird der Sportplatz im Jahr 1951 zur Anpassung an moderne Standards um 15 Meter verbreitert.</p>
+                    </div>
+                </div>
+
+                <!-- 1952 -->
+                <div class="timeline-item">
+                    <div class="timeline-dot"></div>
+                    <div class="timeline-year">1952</div>
+                    <div class="timeline-content">
+                        <h4 class="timeline-title">Die Fusion zur Spielvereinigung</h4>
+                        <p class="timeline-text">RSV Machtsum fusioniert mit dem Sportverein Grün-Gelb Hüddessum zur heutigen Spielvereinigung Hüddessum/Machtsum e.V. Zur Gestaltung der Sportanlage wurden in diesem Jahr 100 Pappeln gepflanzt, die noch heute das charakteristische Bild des Vereinsgeländes prägen.</p>
+                    </div>
+                </div>
+
+                <!-- 1955 -->
+                <div class="timeline-item">
+                    <div class="timeline-dot"></div>
+                    <div class="timeline-year">1955 / 1961</div>
+                    <div class="timeline-content">
+                        <h4 class="timeline-title">Bau des Vereinsheims</h4>
+                        <p class="timeline-text">1955 finden auf dem Gelände sportliche Wettkämpfe anlässlich der 800-Jahrfeier Machtsums statt. 1961 errichten die Mitglieder in beeindruckender Eigenleistung das erste feste Clubhaus, welches am 18.11.1961 feierlich eingeweiht wurde und die alte Wellblechbaracke ersetzte. Es wurde seither stetig saniert und erweitert.</p>
+                    </div>
+                </div>
+            </div>
+            
+            <p style="text-align: center; margin-top: 3.5rem; font-size: 0.85rem; font-style: italic;" class="reveal-item">Quelle: Ortsrat & Archivclub Machtsum im Oktober 2010</p>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-col footer-about">
+                    <h3 style="color: var(--text-light); font-weight: 800; font-size: 1.4rem;">SpVgg HüMax</h3>
+                    <p>Spielvereinigung Hüddessum/Machtsum e.V. von 1920. Dein familiärer Sportverein mit Herz, Leidenschaft und großer Tradition.</p>
+                    <div class="footer-socials">
+                        <a href="https://www.facebook.com/svghuemax" target="_blank" class="footer-social-link" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
+                        <a href="https://www.instagram.com/spvgg.huemax?igsh=cTA3YmF6M2lxeGpr" target="_blank" class="footer-social-link" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+                    </div>
+                </div>
+                <div class="footer-col">
+                    <h3>Verein</h3>
+                    <ul class="footer-links">
+                        <li><a href="verein.html">Über uns</a></li>
+                        <li><a href="sponsoren.html">Sponsoren</a></li>
+                        <li><a href="vorstand.html">Vorstand</a></li>
+                        <li><a href="geschichte.html">Geschichte</a></li>
+                        <li><a href="aktuelles.html">Aktuelles</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h3>Mannschaften</h3>
+                    <ul class="footer-links">
+                        <li><a href="ersteherren.html">1. Herren</a></li>
+                        <li><a href="zweiteherren.html">2. Herren</a></li>
+                        <li><a href="altherren.html">Altherren</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h3>Kontakt Info</h3>
+                    <div class="footer-info-item">
+                        <i class="fas fa-map-marker-alt"></i>
+                        <div class="footer-info-text">
+                            <strong>Sportplatz Machtsum</strong>
+                            Lindenstraße, 31177 Harsum
+                        </div>
+                    </div>
+                    <div class="footer-info-item">
+                        <i class="fas fa-envelope"></i>
+                        <div class="footer-info-text">
+                            <strong>E-Mail Kontakt</strong>
+                            info@huemax.de
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <hr class="footer-divider">
+            <div class="footer-bottom">
+                <p>&copy; 2026 SpVgg Hüddessum/Machtsum e.V. von 1920. Erstellt mit Scholz & Friese Webdesign.</p>
+                <div class="footer-legal-links">
+                    <a href="impressum.html">Impressum</a>
+                    <a href="datenschutz.html">Datenschutz</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>
+

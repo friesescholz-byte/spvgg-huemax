@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Verein - SpVgg Hüddessum/Machtsum e.V. von 1920</title>
+    <link rel="stylesheet" href="style.css">
+    <!-- FontAwesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+</head>
+<body>
+
+    <!-- Header / Navigation -->
+    <header class="header subpage-header">
+        <div class="container nav-container">
+            <a href="index.html" class="logo">
+                <img src="https://pub-b33108412309406a9a941ddc51e9a5b9.r2.dev/spvgg-huemax/logo.png" onerror="this.onerror=null; this.src='logo.png';" alt="SpVgg HüMax Logo">
+                <span class="logo-text">SpVgg HüMax</span>
+            </a>
+            <nav class="nav-menu">
+                <div class="nav-item">
+                    <a href="index.html" class="nav-link">Willkommen</a>
+                </div>
+                <div class="nav-item">
+                    <a href="verein.html" class="nav-link">Verein <i class="fas fa-chevron-down"></i></a>
+                    <ul class="dropdown-menu">
+                        <li class="dropdown-item"><a href="verein.html">Verein</a></li>
+                        <li class="dropdown-item"><a href="sponsoren.html">Sponsoren</a></li>
+                        <li class="dropdown-item"><a href="vorstand.html">Vorstand</a></li>
+                        <li class="dropdown-item"><a href="geschichte.html">Geschichte</a></li>
+                        <li class="dropdown-item"><a href="aktuelles.html">Aktuelles</a></li>
+                    </ul>
+                </div>
+                <div class="nav-item">
+                    <a href="gruppen.html" class="nav-link">Mannschaften <i class="fas fa-chevron-down"></i></a>
+                    <ul class="dropdown-menu">
+                        <li class="dropdown-item"><a href="gruppen.html">Mannschaften</a></li>
+                        <li class="dropdown-item"><a href="ersteherren.html">1. Herren</a></li>
+                        <li class="dropdown-item"><a href="zweiteherren.html">2. Herren</a></li>
+                        <li class="dropdown-item"><a href="altherren.html">Altherren</a></li>
+                    </ul>
+                </div>
+                <div class="nav-item">
+                    <a href="kontakt.html" class="nav-link">Kontakt</a>
+                </div>
+                
+            </nav>
+            <div class="burger-menu">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+    </header>
+
+    <!-- Subpage Hero -->
+    <section class="subpage-hero">
+        <div class="hero-bg-pattern"></div>
+        <div class="container">
+            <h1 class="hero-title">Unser <span>Verein</span></h1>
+            <div class="subpage-hero-nav">
+                <a href="index.html">Startseite</a>
+                <span class="separator"></span>
+                <span class="current">Verein</span>
+            </div>
+        </div>
+    </section>
+
+    <!-- Main Content -->
+    <section class="section section-light">
+        <div class="container">
+            <div class="grid-2">
+                <div class="reveal-item">
+                    <h2 class="accent-line">Was treibt uns an?</h2>
+                    <p class="lead" style="margin-top: 1.5rem;">Gemeinschaft, Sport und Leidenschaft im Amateurbereich.</p>
+                    <p>Ein Amateur-Fußballverein lebt von der Leidenschaft und dem Engagement seiner Mitglieder, die aus unterschiedlichsten Gründen zusammenkommen, um den Sport zu leben. Im Gegensatz zu Profivereinen, bei denen finanzielle Interessen und globaler Erfolg oft an erster Stelle stehen, ist der Antrieb eines Amateurvereins tief in der Gemeinschaft und der Liebe zum Fußball verwurzelt.</p>
+                </div>
+                <div class="card reveal-item" style="background-color: var(--bg-light);">
+                    <p style="margin-bottom: 0;">Die treibende Kraft unseres Vereins ist vor allem die Begeisterung für den Sport. Für viele Spieler geht es nicht um Ruhm oder große Geldsummen, sondern um den Spaß am Spiel, das Zusammenspiel mit Freunden und das Gefühl, Teil von etwas Größerem zu sein.</p>
+                    <p style="margin-top: 1.5rem; margin-bottom: 0;">Die SpVgg HüMax bietet eine Plattform, um sportliche Leidenschaft auszuleben, sich körperlich zu betätigen und die Herausforderungen eines Wettbewerbs zu meistern â€“ alles ohne den Druck und die Kommerzialisierung des Profi-Fußballs.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Section: Geburtstage & Jubiläen -->
+    <section class="section section-soft" style="border-top: 1px solid var(--border-color);">
+        <div class="container">
+            <div class="sponsors-heading reveal-item" style="margin-bottom: 3rem;">
+                <h2 class="accent-line-center">Geburtstags- und Jubiläumskalender</h2>
+                <p>Bleibe auf dem Laufenden über Geburtstage und Vereinsjubiläen unserer Mitglieder.</p>
+            </div>
+            
+            <div class="birthday-calendar-wrapper reveal-item" style="max-width: 800px; margin: 0 auto;">
+                <div class="birthday-card">
+                    <div class="birthday-header">
+                        <button class="calendar-btn" id="prev-month-btn" aria-label="Vorheriger Monat"><i class="fas fa-chevron-left"></i></button>
+                        <div class="birthday-current-month" id="month-year-label">Juli 2026</div>
+                        <button class="calendar-btn" id="next-month-btn" aria-label="Nächster Monat"><i class="fas fa-chevron-right"></i></button>
+                    </div>
+                    
+                    <ul class="birthday-list" id="monthly-events-container">
+                        <!-- Will be dynamically populated by Javascript -->
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Call to Action Info -->
+    <section class="section section-soft">
+        <div class="container">
+            <div style="max-width: 800px; margin: 0 auto; text-align: center;" class="reveal-item">
+                <h2 style="font-size: 2.2rem; color: var(--primary-dark); font-weight: 800;">Möchtest du Teil unserer SpVgg werden?</h2>
+                <p style="margin-top: 1.25rem; margin-bottom: 2.5rem; font-size: 1.1rem;">Wir freuen uns immer über neue Gesichter! Egal ob als aktiver Spieler in den Herren- oder Altherrenmannschaften, als Trainer, Sponsor oder einfach als unterstützendes Mitglied.</p>
+                <a href="kontakt.html" class="btn btn-secondary"><i class="fas fa-paper-plane"></i> Kontaktiere uns</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-col footer-about">
+                    <h3 style="color: var(--text-light); font-weight: 800; font-size: 1.4rem;">SpVgg HüMax</h3>
+                    <p>Spielvereinigung Hüddessum/Machtsum e.V. von 1920. Dein familiärer Sportverein mit Herz, Leidenschaft und großer Tradition.</p>
+                    <div class="footer-socials">
+                        <a href="https://www.facebook.com/svghuemax" target="_blank" class="footer-social-link" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
+                        <a href="https://www.instagram.com/spvgg.huemax?igsh=cTA3YmF6M2lxeGpr" target="_blank" class="footer-social-link" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+                    </div>
+                </div>
+                <div class="footer-col">
+                    <h3>Verein</h3>
+                    <ul class="footer-links">
+                        <li><a href="verein.html">Über uns</a></li>
+                        <li><a href="sponsoren.html">Sponsoren</a></li>
+                        <li><a href="vorstand.html">Vorstand</a></li>
+                        <li><a href="geschichte.html">Geschichte</a></li>
+                        <li><a href="aktuelles.html">Aktuelles</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h3>Mannschaften</h3>
+                    <ul class="footer-links">
+                        <li><a href="ersteherren.html">1. Herren</a></li>
+                        <li><a href="zweiteherren.html">2. Herren</a></li>
+                        <li><a href="altherren.html">Altherren</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h3>Kontakt Info</h3>
+                    <div class="footer-info-item">
+                        <i class="fas fa-map-marker-alt"></i>
+                        <div class="footer-info-text">
+                            <strong>Sportplatz Machtsum</strong>
+                            Lindenstraße, 31177 Harsum
+                        </div>
+                    </div>
+                    <div class="footer-info-item">
+                        <i class="fas fa-envelope"></i>
+                        <div class="footer-info-text">
+                            <strong>E-Mail Kontakt</strong>
+                            info@huemax.de
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <hr class="footer-divider">
+            <div class="footer-bottom">
+                <p>&copy; 2026 SpVgg Hüddessum/Machtsum e.V. von 1920. Erstellt mit Scholz & Friese Webdesign.</p>
+                <div class="footer-legal-links">
+                    <a href="impressum.html">Impressum</a>
+                    <a href="datenschutz.html">Datenschutz</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>
+

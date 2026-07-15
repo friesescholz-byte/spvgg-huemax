@@ -1,0 +1,184 @@
+﻿<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kontakt - SpVgg Hüddessum/Machtsum e.V. von 1920</title>
+    <link rel="stylesheet" href="style.css">
+    <!-- FontAwesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+</head>
+<body>
+
+    <!-- Header / Navigation -->
+    <header class="header subpage-header">
+        <div class="container nav-container">
+            <a href="index.html" class="logo">
+                <img src="https://pub-b33108412309406a9a941ddc51e9a5b9.r2.dev/spvgg-huemax/logo.png" onerror="this.onerror=null; this.src='logo.png';" alt="SpVgg HüMax Logo">
+                <span class="logo-text">SpVgg HüMax</span>
+            </a>
+            <nav class="nav-menu">
+                <div class="nav-item">
+                    <a href="index.html" class="nav-link">Willkommen</a>
+                </div>
+                <div class="nav-item">
+                    <a href="verein.html" class="nav-link">Verein <i class="fas fa-chevron-down"></i></a>
+                    <ul class="dropdown-menu">
+                        <li class="dropdown-item"><a href="verein.html">Verein</a></li>
+                        <li class="dropdown-item"><a href="sponsoren.html">Sponsoren</a></li>
+                        <li class="dropdown-item"><a href="vorstand.html">Vorstand</a></li>
+                        <li class="dropdown-item"><a href="geschichte.html">Geschichte</a></li>
+                        <li class="dropdown-item"><a href="aktuelles.html">Aktuelles</a></li>
+                    </ul>
+                </div>
+                <div class="nav-item">
+                    <a href="gruppen.html" class="nav-link">Mannschaften <i class="fas fa-chevron-down"></i></a>
+                    <ul class="dropdown-menu">
+                        <li class="dropdown-item"><a href="gruppen.html">Mannschaften</a></li>
+                        <li class="dropdown-item"><a href="ersteherren.html">1. Herren</a></li>
+                        <li class="dropdown-item"><a href="zweiteherren.html">2. Herren</a></li>
+                        <li class="dropdown-item"><a href="altherren.html">Altherren</a></li>
+                    </ul>
+                </div>
+                <div class="nav-item">
+                    <a href="kontakt.html" class="nav-link">Kontakt</a>
+                </div>
+                
+            </nav>
+            <div class="burger-menu">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+    </header>
+
+    <!-- Subpage Hero -->
+    <section class="subpage-hero">
+        <div class="hero-bg-pattern"></div>
+        <div class="container">
+            <h1 class="hero-title">Kontaktiere <span>uns</span></h1>
+            <div class="subpage-hero-nav">
+                <a href="index.html">Startseite</a>
+                <span class="separator"></span>
+                <span class="current">Kontakt</span>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Form & Info -->
+    <section class="section section-light">
+        <div class="container">
+            <div class="grid-2" style="align-items: start;">
+                <!-- Form block -->
+                <div class="form-card reveal-item">
+                    <h2 class="accent-line" style="margin-bottom: 1.5rem;">Schreib uns eine Nachricht</h2>
+                    <p style="margin-bottom: 2rem;">Nach deiner Kontaktanfrage werden wir uns schnellstmöglich mit dir in Verbindung setzen!</p>
+                    
+                    <form action="#" method="POST">
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="vorname">Vorname (erforderlich)</label>
+                                <input type="text" id="vorname" name="vorname" class="form-control" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="nachname">Nachname (erforderlich)</label>
+                                <input type="text" id="nachname" name="nachname" class="form-control" required>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="email">E-Mail Adresse (erforderlich)</label>
+                            <input type="email" id="email" name="email" class="form-control" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="nachricht">Nachricht (erforderlich)</label>
+                            <textarea id="nachricht" name="nachricht" class="form-control" required></textarea>
+                        </div>
+                        <div class="form-group" style="margin-bottom: 0; margin-top: 2rem;">
+                            <button type="submit" class="btn btn-secondary" style="width: 100%;"><i class="fas fa-paper-plane"></i> Nachricht Senden</button>
+                        </div>
+                    </form>
+                </div>
+
+                <!-- Info block -->
+                <div class="reveal-item" style="display: flex; flex-direction: column; gap: 2rem;">
+                    <div class="card" style="background-color: var(--bg-light);">
+                        <h3 style="color: var(--primary-dark); font-weight: 800; font-size: 1.5rem;"><i class="fas fa-map-marker-alt" style="color: var(--accent-color);"></i> Spielstätten</h3>
+                        <p style="margin-top: 1rem; margin-bottom: 0;"><strong>Sportplatz Machtsum</strong><br>Lindenstraße, 31177 Harsum (Machtsum)</p>
+                        <p style="margin-top: 1rem; margin-bottom: 0;"><strong>Sportplatz Hüddessum</strong><br>31177 Harsum (Hüddessum)</p>
+                        <p style="margin-top: 1rem; margin-bottom: 0;"><strong>Sportplatz Borsum</strong> (Spielgemeinschaft)<br>Borsumer Wald, 31177 Harsum (Borsum)</p>
+                    </div>
+
+                    <div class="card" style="background-color: var(--bg-light);">
+                        <h3 style="color: var(--primary-dark); font-weight: 800; font-size: 1.5rem;"><i class="fas fa-envelope" style="color: var(--accent-color);"></i> Direktkontakt</h3>
+                        <p style="margin-top: 1rem; margin-bottom: 0;">Für allgemeine Anfragen:</p>
+                        <a href="mailto:info@huemax.de" style="color: var(--primary-color); font-weight: 700; font-size: 1.1rem; display: block; margin-top: 0.5rem;"><i class="far fa-envelope"></i> info@huemax.de</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-col footer-about">
+                    <h3 style="color: var(--text-light); font-weight: 800; font-size: 1.4rem;">SpVgg HüMax</h3>
+                    <p>Spielvereinigung Hüddessum/Machtsum e.V. von 1920. Dein familiärer Sportverein mit Herz, Leidenschaft und großer Tradition.</p>
+                    <div class="footer-socials">
+                        <a href="https://www.facebook.com/svghuemax" target="_blank" class="footer-social-link" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
+                        <a href="https://www.instagram.com/spvgg.huemax?igsh=cTA3YmF6M2lxeGpr" target="_blank" class="footer-social-link" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+                    </div>
+                </div>
+                <div class="footer-col">
+                    <h3>Verein</h3>
+                    <ul class="footer-links">
+                        <li><a href="verein.html">Über uns</a></li>
+                        <li><a href="sponsoren.html">Sponsoren</a></li>
+                        <li><a href="vorstand.html">Vorstand</a></li>
+                        <li><a href="geschichte.html">Geschichte</a></li>
+                        <li><a href="aktuelles.html">Aktuelles</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h3>Mannschaften</h3>
+                    <ul class="footer-links">
+                        <li><a href="ersteherren.html">1. Herren</a></li>
+                        <li><a href="zweiteherren.html">2. Herren</a></li>
+                        <li><a href="altherren.html">Altherren</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h3>Kontakt Info</h3>
+                    <div class="footer-info-item">
+                        <i class="fas fa-map-marker-alt"></i>
+                        <div class="footer-info-text">
+                            <strong>Sportplatz Machtsum</strong>
+                            Lindenstraße, 31177 Harsum
+                        </div>
+                    </div>
+                    <div class="footer-info-item">
+                        <i class="fas fa-envelope"></i>
+                        <div class="footer-info-text">
+                            <strong>E-Mail Kontakt</strong>
+                            info@huemax.de
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <hr class="footer-divider">
+            <div class="footer-bottom">
+                <p>&copy; 2026 SpVgg Hüddessum/Machtsum e.V. von 1920. Erstellt mit Scholz & Friese Webdesign.</p>
+                <div class="footer-legal-links">
+                    <a href="impressum.html">Impressum</a>
+                    <a href="datenschutz.html">Datenschutz</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>
+

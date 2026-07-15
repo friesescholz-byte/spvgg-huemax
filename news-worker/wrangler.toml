@@ -1,0 +1,7 @@
+name = "huemax-news-api"
+main = "index.js"
+compatibility_date = "2026-07-15"
+
+[[kv_namespaces]]
+binding = "NEWS_KV"
+id = "212554fce73a4b24af5f037235ae078c"
