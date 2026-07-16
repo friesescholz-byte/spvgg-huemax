@@ -1091,7 +1091,7 @@
                 });
             };
 
-            const renderAdminBirthdaysList = () => {
+            function renderAdminBirthdaysList() {
                 adminBirthdaysList.innerHTML = '';
                 
                 const searchEl = document.getElementById('admin-birthdays-search');
@@ -1190,7 +1190,7 @@
 
                     adminBirthdaysList.appendChild(item);
                 });
-            };
+            }
 
             const resetBirthdayForm = () => {
                 addBirthdayForm.reset();
