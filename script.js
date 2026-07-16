@@ -112,9 +112,18 @@ document.addEventListener('DOMContentLoaded', () => {
     });
     // 6. Interactive Birthday & Anniversary Calendar
     const monthlyEventsContainer = document.getElementById('monthly-events-container');
-    if (monthlyEventsContainer) {
+    const homepageEventsList = document.getElementById('homepage-events-list');
+
+    if (monthlyEventsContainer || homepageEventsList) {
+        let currentYear = 2026;
+        let currentMonth = 6; // July (0-indexed)
+
+        const monthNames = [
+            'Januar', 'Februar', 'März', 'April', 'Mai', 'Juni',
+            'Juli', 'August', 'September', 'Oktober', 'November', 'Dezember'
+        ];
+
         let calendarData = [
-            // January
             { day: 1, month: 0, type: 'birthday', label: 'Marius Thalmann', detail: 'Wurde 22 (Geburtstag)' },
             { day: 1, month: 0, type: 'birthday', label: 'Josef Aue', detail: '75 Jahre Vereinsjubiläum' },
             { day: 1, month: 0, type: 'birthday', label: 'Hermann Brönneke', detail: '75 Jahre Vereinsjubiläum' },
@@ -135,88 +144,67 @@ document.addEventListener('DOMContentLoaded', () => {
             { day: 15, month: 0, type: 'birthday', label: 'Johann Friedrich Wawrzoch', detail: 'Wurde 15 (Geburtstag)' },
             { day: 15, month: 0, type: 'birthday', label: 'Phil Pissis', detail: 'Wurde 17 (Geburtstag)' },
             { day: 16, month: 0, type: 'birthday', label: 'Heiko Ernst', detail: 'Wurde 58 (Geburtstag)' },
-
-            // February
             { day: 14, month: 1, type: 'birthday', label: 'Frank Müller', detail: 'Wurde 42 (Geburtstag)' },
             { day: 20, month: 1, type: 'birthday', label: 'Christian Hartmann', detail: 'Wurde 36 (Geburtstag)' },
-
-            // March
             { day: 5, month: 2, type: 'birthday', label: 'Tim Ostrowski', detail: 'Wurde 29 (Geburtstag)' },
             { day: 18, month: 2, type: 'birthday', label: 'Steven Smout', detail: 'Wurde 33 (Geburtstag)' },
-
-            // April
             { day: 12, month: 3, type: 'birthday', label: 'Christopher Köditz', detail: 'Wurde 41 (Geburtstag)' },
             { day: 25, month: 3, type: 'birthday', label: 'Jessica Kiene', detail: 'Wurde 30 (Geburtstag)' },
-
-            // May
             { day: 8, month: 4, type: 'birthday', label: 'Marius Hartmann', detail: 'Wurde 31 (Geburtstag)' },
             { day: 30, month: 4, type: 'birthday', label: 'Marten Schildhammer', detail: 'Wurde 35 (Geburtstag)' },
-
-            // June
             { day: 15, month: 5, type: 'birthday', label: 'Kevin Bastian', detail: 'Wurde 28 (Geburtstag)' },
             { day: 22, month: 5, type: 'birthday', label: 'Max Dettmar', detail: 'Wurde 32 (Geburtstag)' },
-
-            // July
             { day: 21, month: 6, type: 'birthday', label: 'Frank Müller', detail: '10 Jahre Vereinsjubiläum' },
-
-            // August
             { day: 15, month: 7, type: 'birthday', label: 'Philipp Metzner', detail: '10 Jahre Vereinsjubiläum' },
             { day: 16, month: 7, type: 'birthday', label: 'Christian Hartmann', detail: '10 Jahre Vereinsjubiläum' },
             { day: 20, month: 7, type: 'birthday', label: 'David Meyerhöfer', detail: '10 Jahre Vereinsjubiläum' },
-
-            // September
             { day: 10, month: 8, type: 'birthday', label: 'Marius Thalmann', detail: 'Wurde 23 (Geburtstag)' },
-
-            // October
             { day: 5, month: 9, type: 'birthday', label: 'Christopher Köditz', detail: 'Wurde 42 (Geburtstag)' },
-
-            // November
             { day: 12, month: 10, type: 'birthday', label: 'Tim Ostrowski', detail: 'Wurde 30 (Geburtstag)' },
-
-            // December
             { day: 19, month: 11, type: 'birthday', label: 'Marius Hartmann', detail: 'Wurde 32 (Geburtstag)' }
         ];
 
-        const monthNames = [
-            'Januar', 'Februar', 'März', 'April', 'Mai', 'Juni',
-            'Juli', 'August', 'September', 'Oktober', 'November', 'Dezember'
-        ];
-
-        let currentYear = 2026;
-        let currentMonth = 6; // July
-
-        const monthYearLabel = document.getElementById('month-year-label');
-        const prevMonthBtn = document.getElementById('prev-month-btn');
-        const nextMonthBtn = document.getElementById('next-month-btn');
-
         const renderBirthdays = () => {
-            monthYearLabel.textContent = `${monthNames[currentMonth]} ${currentYear}`;
+            if (!monthlyEventsContainer) return;
+            const monthYearLabel = document.getElementById('month-year-label');
+            const searchEl = document.getElementById('calendar-search');
+            const searchQuery = searchEl ? searchEl.value.toLowerCase().trim() : '';
+
             monthlyEventsContainer.innerHTML = '';
 
-            const monthlyEvents = calendarData.filter(item => {
-                return item.month === currentMonth;
-            }).sort((a, b) => a.day - b.day);
+            if (searchQuery !== '') {
+                // Search mode: across all months
+                monthYearLabel.textContent = `Suchergebnisse für "${searchQuery}"`;
+                
+                const filteredEvents = calendarData.filter(item => {
+                    return (item.label || '').toLowerCase().includes(searchQuery);
+                }).sort((a, b) => {
+                    if (a.month !== b.month) return a.month - b.month;
+                    return a.day - b.day;
+                });
 
-            if (monthlyEvents.length === 0) {
-                monthlyEventsContainer.innerHTML = `
-                    <div style="text-align: center; padding: 3rem 1.5rem; color: var(--text-muted);">
-                        <i class="fas fa-birthday-cake" style="font-size: 3.5rem; opacity: 0.25; margin-bottom: 1.25rem; display: block; color: var(--primary-color);"></i>
-                        <span style="font-weight: 500; font-size: 1.05rem;">Keine Geburtstage oder Jubiläen in diesem Monat.</span>
-                    </div>
-                `;
-            } else {
-                monthlyEvents.forEach(e => {
+                if (filteredEvents.length === 0) {
+                    monthlyEventsContainer.innerHTML = `
+                        <div style="text-align: center; padding: 3rem 1.5rem; color: var(--text-muted);">
+                            <i class="fas fa-search" style="font-size: 3.5rem; opacity: 0.25; margin-bottom: 1.25rem; display: block; color: var(--primary-color);"></i>
+                            <span style="font-weight: 500; font-size: 1.05rem;">Keine passenden Mitglieder gefunden.</span>
+                        </div>
+                    `;
+                    return;
+                }
+
+                filteredEvents.forEach(e => {
                     const li = document.createElement('li');
                     li.className = 'birthday-item';
                     
                     const dayString = e.day < 10 ? `0${e.day}` : e.day;
-                    const monthString = monthNames[currentMonth].substring(0, 3);
-                    const isJubilaeum = e.detail.toLowerCase().includes('jubiläum');
+                    const monthString = monthNames[e.month] ? monthNames[e.month].substring(0, 3) : '';
+                    const isJubilaeum = (e.detail || '').toLowerCase().includes('jubiläum');
                     const iconClass = isJubilaeum ? 'fas fa-award' : 'fas fa-gift';
 
                     li.innerHTML = `
-                        <div class="birthday-date-badge">
-                            <span class="birthday-date-day">${dayString}</span>
+                        <div class="birthday-date-badge" style="${isJubilaeum ? 'background-color: rgba(229,179,82,0.15); color: #b8860b;' : ''}">
+                            <span class="birthday-date-day" style="${isJubilaeum ? 'color: #b8860b;' : ''}">${dayString}</span>
                             <span class="birthday-date-month">${monthString}</span>
                         </div>
                         <div class="birthday-content">
@@ -229,50 +217,139 @@ document.addEventListener('DOMContentLoaded', () => {
                     `;
                     monthlyEventsContainer.appendChild(li);
                 });
+            } else {
+                // Standard mode: show selected month
+                monthYearLabel.textContent = `${monthNames[currentMonth]} ${currentYear}`;
+
+                const monthlyEvents = calendarData.filter(item => {
+                    return item.month === currentMonth;
+                }).sort((a, b) => a.day - b.day);
+
+                if (monthlyEvents.length === 0) {
+                    monthlyEventsContainer.innerHTML = `
+                        <div style="text-align: center; padding: 3rem 1.5rem; color: var(--text-muted);">
+                            <i class="fas fa-birthday-cake" style="font-size: 3.5rem; opacity: 0.25; margin-bottom: 1.25rem; display: block; color: var(--primary-color);"></i>
+                            <span style="font-weight: 500; font-size: 1.05rem;">Keine Geburtstage oder Jubiläen in diesem Monat.</span>
+                        </div>
+                    `;
+                } else {
+                    monthlyEvents.forEach(e => {
+                        const li = document.createElement('li');
+                        li.className = 'birthday-item';
+                        
+                        const dayString = e.day < 10 ? `0${e.day}` : e.day;
+                        const monthString = monthNames[currentMonth].substring(0, 3);
+                        const isJubilaeum = (e.detail || '').toLowerCase().includes('jubiläum');
+                        const iconClass = isJubilaeum ? 'fas fa-award' : 'fas fa-gift';
+
+                        li.innerHTML = `
+                            <div class="birthday-date-badge" style="${isJubilaeum ? 'background-color: rgba(229,179,82,0.15); color: #b8860b;' : ''}">
+                                <span class="birthday-date-day" style="${isJubilaeum ? 'color: #b8860b;' : ''}">${dayString}</span>
+                                <span class="birthday-date-month">${monthString}</span>
+                            </div>
+                            <div class="birthday-content">
+                                <h4 class="birthday-name">${e.label}</h4>
+                                <p class="birthday-desc">${e.detail}</p>
+                            </div>
+                            <div class="birthday-icon-wrapper" title="${isJubilaeum ? 'Vereinsjubiläum' : 'Geburtstag'}">
+                                <i class="${iconClass}"></i>
+                            </div>
+                        `;
+                        monthlyEventsContainer.appendChild(li);
+                    });
+                }
             }
         };
 
-        // Event listeners
-        prevMonthBtn.addEventListener('click', () => {
-            currentMonth--;
-            if (currentMonth < 0) {
-                currentMonth = 11;
-                currentYear--;
-            }
-            renderBirthdays();
-        });
+        const renderHomepageBirthdays = () => {
+            if (!homepageEventsList) return;
 
-        nextMonthBtn.addEventListener('click', () => {
-            currentMonth++;
-            if (currentMonth > 11) {
-                currentMonth = 0;
-                currentYear++;
-            }
-            renderBirthdays();
-        });
+            const today = new Date();
+            const year = today.getFullYear();
+
+            const mapped = calendarData.map(e => {
+                let eventYear = year;
+                if (e.month < today.getMonth() || (e.month === today.getMonth() && e.day < today.getDate())) {
+                    eventYear = year + 1;
+                }
+                const targetDate = new Date(eventYear, e.month, e.day);
+                return { ...e, targetDate };
+            });
+
+            mapped.sort((a, b) => a.targetDate - b.targetDate);
+            const next5 = mapped.slice(0, 5);
+
+            homepageEventsList.innerHTML = '';
+            const monthsShort = ['Jan', 'Feb', 'Mär', 'Apr', 'Mai', 'Jun', 'Jul', 'Aug', 'Sep', 'Okt', 'Nov', 'Dez'];
+
+            next5.forEach(e => {
+                const isJubilaeum = (e.detail || '').toLowerCase().includes('jubiläum');
+                const iconClass = isJubilaeum ? 'fas fa-award' : 'fas fa-gift';
+
+                const div = document.createElement('div');
+                div.className = 'event-item';
+                div.innerHTML = `
+                    <div class="event-date" style="background-color: rgba(229, 179, 82, 0.1); color: var(--accent-color);">
+                        <span class="event-day" style="color: var(--accent-color); font-weight: 800; display: block; text-align: center; font-size: 1.2rem; line-height: 1.1;">${e.day}</span>
+                        <span class="event-month" style="font-size: 0.72rem; text-transform: uppercase; font-weight: 700; display: block; text-align: center;">${monthsShort[e.month]}</span>
+                    </div>
+                    <div class="event-info">
+                        <h4 class="event-title" style="font-weight: 700; color: var(--primary-dark); font-size: 1.05rem;">${e.label}</h4>
+                        <span class="event-time" style="color: var(--text-muted); font-weight: 500;">
+                            <i class="${iconClass}"></i> ${e.detail}
+                        </span>
+                    </div>
+                `;
+                homepageEventsList.appendChild(div);
+            });
+        };
+
+        // Event listeners
+        const prevMonthBtn = document.getElementById('prev-month-btn');
+        const nextMonthBtn = document.getElementById('next-month-btn');
+        if (prevMonthBtn && nextMonthBtn) {
+            prevMonthBtn.addEventListener('click', () => {
+                currentMonth--;
+                if (currentMonth < 0) {
+                    currentMonth = 11;
+                    currentYear--;
+                }
+                renderBirthdays();
+            });
+
+            nextMonthBtn.addEventListener('click', () => {
+                currentMonth++;
+                if (currentMonth > 11) {
+                    currentMonth = 0;
+                    currentYear++;
+                }
+                renderBirthdays();
+            });
+        }
 
         const calendarSearchInput = document.getElementById('calendar-search');
         if (calendarSearchInput) {
             calendarSearchInput.addEventListener('input', renderBirthdays);
         }
 
-        // Render default birthday list immediately on load (instant load)
+        // Render initial data immediately
         renderBirthdays();
+        renderHomepageBirthdays();
 
-        // Fetch live birthdays asynchronously from Cloudflare Worker API in the background
+        // Fetch live birthdays from Worker API in the background
         fetch('https://huemax-news-api.friese-scholz.workers.dev/api/birthdays')
             .then(res => res.json())
             .then(data => {
                 if (data && Array.isArray(data) && data.length > 0) {
                     calendarData = data;
-                    renderBirthdays(); // Refresh with live database entries
+                    renderBirthdays();
+                    renderHomepageBirthdays();
                 }
             })
             .catch(err => {
-                console.error('Error fetching live birthdays, using local fallback:', err);
+                console.error('Error fetching live birthdays:', err);
             });
     }
-
     // Helper to open News Modal
     const openNewsModal = (art) => {
         let overlay = document.getElementById('news-modal');
