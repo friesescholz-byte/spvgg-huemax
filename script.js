@@ -251,18 +251,20 @@ document.addEventListener('DOMContentLoaded', () => {
             renderBirthdays();
         });
 
-        // Fetch birthdays from Cloudflare Worker API
+        // Render default birthday list immediately on load (instant load)
+        renderBirthdays();
+
+        // Fetch live birthdays asynchronously from Cloudflare Worker API in the background
         fetch('https://huemax-news-api.friese-scholz.workers.dev/api/birthdays')
             .then(res => res.json())
             .then(data => {
                 if (data && Array.isArray(data) && data.length > 0) {
                     calendarData = data;
+                    renderBirthdays(); // Refresh with live database entries
                 }
-                renderBirthdays();
             })
             .catch(err => {
                 console.error('Error fetching live birthdays, using local fallback:', err);
-                renderBirthdays();
             });
     }
 
@@ -432,19 +434,19 @@ document.addEventListener('DOMContentLoaded', () => {
             });
         };
 
-        // Fetch news from Cloudflare Worker API
+        // Render default news immediately on load for instant feel
+        renderNews(defaultArticles);
+
+        // Fetch live news asynchronously from Cloudflare Worker API in the background
         fetch('https://huemax-news-api.friese-scholz.workers.dev/api/news')
             .then(res => res.json())
             .then(data => {
                 if (data && Array.isArray(data) && data.length > 0) {
-                    renderNews(data);
-                } else {
-                    renderNews(defaultArticles);
+                    renderNews(data); // Refresh with live database entries
                 }
             })
             .catch(err => {
-                console.error('Error fetching live news, falling back to local defaults:', err);
-                renderNews(defaultArticles);
+                console.error('Error fetching live news:', err);
             });
     }
 
@@ -529,19 +531,19 @@ document.addEventListener('DOMContentLoaded', () => {
             });
         };
 
-        // Fetch news from Cloudflare Worker API
+        // Render default news immediately on load for instant feel
+        renderHomepageNews(defaultArticles);
+
+        // Fetch live news asynchronously from Cloudflare Worker API in the background
         fetch('https://huemax-news-api.friese-scholz.workers.dev/api/news')
             .then(res => res.json())
             .then(data => {
                 if (data && Array.isArray(data) && data.length > 0) {
-                    renderHomepageNews(data);
-                } else {
-                    renderHomepageNews(defaultArticles);
+                    renderHomepageNews(data); // Refresh with live database entries
                 }
             })
             .catch(err => {
                 console.error('Error fetching live news for homepage:', err);
-                renderHomepageNews(defaultArticles);
             });
     }
 

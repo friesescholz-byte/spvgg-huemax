@@ -1003,11 +1003,7 @@ a {
         grid-template-columns: repeat(2, 1fr);
     }
 }
-@media (max-width: 576px) {
-    .stats-grid {
-        grid-template-columns: 1fr;
-    }
-}
+
 
 /* --- 10. Calendar & Event List --- */
 .event-widget {
@@ -2468,24 +2464,24 @@ textarea.form-control {
         gap: 1.75rem !important;
     }
     
-    /* Stats Grid */
+    /* Stats Grid - Always 2 columns on mobile to prevent vertical stacking and keep it compact */
     .stats-grid {
-        grid-template-columns: repeat(4, 1fr) !important;
-        gap: 0.5rem !important;
+        grid-template-columns: repeat(2, 1fr) !important;
+        gap: 0.75rem !important;
     }
     
     .stat-card {
-        padding: 0.75rem 0.25rem !important;
+        padding: 1rem 0.5rem !important;
         border-radius: var(--radius-sm) !important;
     }
     
     .stat-number {
-        font-size: 1.45rem !important;
-        margin-bottom: 0.2rem !important;
+        font-size: 1.65rem !important;
+        margin-bottom: 0.25rem !important;
     }
     
     .stat-label {
-        font-size: 0.72rem !important;
+        font-size: 0.78rem !important;
         line-height: 1.25 !important;
     }
     
@@ -2637,9 +2633,7 @@ textarea.form-control {
         font-size: 2.1rem !important;
     }
     
-    .stats-grid {
-        grid-template-columns: 1fr !important;
-    }
+
     
     .match-teams span {
         font-size: 0.95rem !important;
