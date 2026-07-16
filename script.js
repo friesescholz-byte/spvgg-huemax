@@ -164,6 +164,18 @@ document.addEventListener('DOMContentLoaded', () => {
             { day: 19, month: 11, type: 'birthday', label: 'Marius Hartmann', detail: 'Wurde 32 (Geburtstag)' }
         ];
 
+        const formatDetail = (detail) => {
+            if (!detail) return '';
+            let str = detail.trim();
+            if (str.startsWith('Wurde ')) {
+                str = str.replace(/^Wurde\s+/, '');
+            }
+            if (/^\d+$/.test(str)) {
+                str += ' (Geburtstag)';
+            }
+            return str;
+        };
+
         const renderBirthdays = () => {
             if (!monthlyEventsContainer) return;
             const monthYearLabel = document.getElementById('month-year-label');
@@ -209,7 +221,7 @@ document.addEventListener('DOMContentLoaded', () => {
                         </div>
                         <div class="birthday-content">
                             <h4 class="birthday-name">${e.label}</h4>
-                            <p class="birthday-desc">${e.detail}</p>
+                            <p class="birthday-desc">${formatDetail(e.detail)}</p>
                         </div>
                         <div class="birthday-icon-wrapper" title="${isJubilaeum ? 'Vereinsjubiläum' : 'Geburtstag'}">
                             <i class="${iconClass}"></i>
@@ -249,7 +261,7 @@ document.addEventListener('DOMContentLoaded', () => {
                             </div>
                             <div class="birthday-content">
                                 <h4 class="birthday-name">${e.label}</h4>
-                                <p class="birthday-desc">${e.detail}</p>
+                                <p class="birthday-desc">${formatDetail(e.detail)}</p>
                             </div>
                             <div class="birthday-icon-wrapper" title="${isJubilaeum ? 'Vereinsjubiläum' : 'Geburtstag'}">
                                 <i class="${iconClass}"></i>

@@ -1039,6 +1039,18 @@
                 adminBirthdaysSearch.addEventListener('input', renderAdminBirthdaysList);
             }
 
+            const formatDetail = (detail) => {
+                if (!detail) return '';
+                let str = detail.trim();
+                if (str.startsWith('Wurde ')) {
+                    str = str.replace(/^Wurde\s+/, '');
+                }
+                if (/^\d+$/.test(str)) {
+                    str += ' (Geburtstag)';
+                }
+                return str;
+            };
+
             // --- BIRTHDAYS FORM FIELDS DYNAMIC TOGGLE ---
             const birthdayTypeSelect = document.getElementById('birthday-type');
             const groupMemberSince = document.getElementById('group-member-since');
@@ -1150,7 +1162,7 @@
                         <div class="admin-list-info" style="margin-left: 1rem;">
                             <div class="admin-list-title" style="font-size: 0.95rem; margin-bottom: 0.15rem;">${entry.label}</div>
                             <div class="admin-list-meta" style="font-size: 0.82rem;">
-                                <span><i class="${iconClass}" style="color: var(--accent-color);"></i> ${entry.detail}</span>
+                                <span><i class="${iconClass}" style="color: var(--accent-color);"></i> ${formatDetail(entry.detail)}</span>
                             </div>
                         </div>
                         <div style="display: flex; align-items: center; gap: 0.5rem;">
@@ -1168,10 +1180,21 @@
                             document.getElementById('birthday-month').value = target.month;
                             
                             const hasSince = target.memberSince !== undefined && target.memberSince !== null;
-                            const hasBirthYear = target.birthYear !== undefined && target.birthYear !== null;
+                            let hasBirthYear = target.birthYear !== undefined && target.birthYear !== null;
+                            let birthYearVal = hasBirthYear ? target.birthYear : '';
+                            
+                            // Fallback: extract birthYear from detail string if it contains "Wurde X" or "X (Geburtstag)"
+                            if (!hasBirthYear && target.detail && !hasSince) {
+                                const match = target.detail.match(/(?:Wurde\s+)?(\d+)/);
+                                if (match) {
+                                    const age = parseInt(match[1]);
+                                    birthYearVal = 2026 - age;
+                                }
+                            }
+                            
                             document.getElementById('birthday-type').value = hasSince ? 'jubilee' : 'birthday';
                             document.getElementById('birthday-member-since').value = hasSince ? target.memberSince : '';
-                            document.getElementById('birthday-birth-year').value = hasBirthYear ? target.birthYear : '';
+                            document.getElementById('birthday-birth-year').value = birthYearVal;
                             toggleBirthdayFormFields();
 
                             birthdayFormTitle.innerHTML = '<i class="fas fa-edit" style="color: var(--accent-color); margin-right: 0.5rem;"></i> Eintrag bearbeiten';
@@ -1249,7 +1272,7 @@
                     if (birthYearVal) {
                         birthYear = parseInt(birthYearVal);
                         const age = 2026 - birthYear;
-                        detail = `Wurde ${age}`;
+                        detail = `${age} (Geburtstag)`;
                     } else {
                         detail = 'Geburtstag';
                     }
