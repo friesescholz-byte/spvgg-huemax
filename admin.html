@@ -513,6 +513,19 @@
 
     <!-- Admin Dynamic Page Script -->
     <script>
+        // Global Developer Error Banner Helper
+        window.onerror = function(message, source, lineno, colno, error) {
+            let errDiv = document.getElementById('debug-error-banner');
+            if (!errDiv) {
+                errDiv = document.createElement('div');
+                errDiv.id = 'debug-error-banner';
+                errDiv.style = 'position: fixed; top: 0; left: 0; width: 100%; background: #dc3545; color: #fff; padding: 1rem; font-family: monospace; z-index: 999999; font-size: 0.9rem; text-align: left; box-shadow: 0 4px 10px rgba(0,0,0,0.3);';
+                document.body.appendChild(errDiv);
+            }
+            errDiv.innerHTML = `<strong>JavaScript-Fehler aufgetreten:</strong> ${message}<br><small>Datei: ${source} | Zeile: ${lineno}:${colno}</small>`;
+            return false;
+        };
+
         document.addEventListener('DOMContentLoaded', () => {
             const defaultArticlesList = [
                 {
@@ -1103,7 +1116,7 @@
                     item.innerHTML = `
                         <div style="width: 50px; height: 50px; border-radius: 50%; background-color: rgba(21, 62, 2, 0.06); color: var(--primary-color); display: flex; align-items: center; justify-content: center; font-weight: bold; font-size: 0.9rem; flex-shrink: 0; flex-direction: column;">
                             <span>${entry.day}</span>
-                            <span style="font-size: 0.65rem; text-transform: uppercase;">${months[entry.month].substring(0,3)}</span>
+                            <span style="font-size: 0.65rem; text-transform: uppercase;">${months[entry.month] ? months[entry.month].substring(0,3) : ''}</span>
                         </div>
                         <div class="admin-list-info" style="margin-left: 1rem;">
                             <div class="admin-list-title" style="font-size: 0.95rem; margin-bottom: 0.15rem;">${entry.label}</div>
