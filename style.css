@@ -2891,3 +2891,45 @@ textarea.form-control {
 .slider-dot:hover {
     background-color: var(--accent-color) !important;
 }
+
+
+/* --- Mobile News Modal Optimization --- */
+@media (max-width: 768px) {
+    .news-modal-window {
+        width: 100% !important;
+        height: 100% !important;
+        max-height: 100vh !important;
+        border-radius: 0 !important;
+        transform: translateY(100%) !important;
+    }
+    
+    .news-modal-overlay.active .news-modal-window {
+        transform: translateY(0) !important;
+    }
+    
+    .news-modal-hero {
+        height: 240px !important;
+    }
+    
+    .news-modal-body {
+        padding: 1.5rem !important;
+    }
+    
+    .news-modal-title {
+        font-size: 1.45rem !important;
+        margin-bottom: 1rem !important;
+    }
+    
+    .news-modal-text {
+        font-size: 0.98rem !important;
+        line-height: 1.55 !important;
+    }
+    
+    .news-modal-close {
+        top: 0.75rem !important;
+        right: 0.75rem !important;
+        width: 36px !important;
+        height: 36px !important;
+        font-size: 1.05rem !important;
+    }
+}
