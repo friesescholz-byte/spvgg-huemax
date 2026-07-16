@@ -308,7 +308,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     <div class="event-info">
                         <h4 class="event-title" style="font-weight: 700; color: var(--primary-dark); font-size: 1.05rem;">${e.label}</h4>
                         <span class="event-time" style="color: var(--text-muted); font-weight: 500;">
-                            <i class="${iconClass}"></i> ${e.detail}
+                            <i class="${iconClass}"></i> ${formatDetail(e.detail)}
                         </span>
                     </div>
                 `;
