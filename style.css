@@ -2877,3 +2877,17 @@ textarea.form-control {
 
 
 
+
+/* --- News Slideshow Carousel --- */
+.slider-btn {
+    transition: all 0.25s ease !important;
+}
+.slider-btn:hover {
+    background-color: var(--accent-color) !important;
+    opacity: 1 !important;
+    color: var(--primary-dark) !important;
+    transform: translateY(-50%) scale(1.08) !important;
+}
+.slider-dot:hover {
+    background-color: var(--accent-color) !important;
+}

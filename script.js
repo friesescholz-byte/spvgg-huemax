@@ -278,7 +278,7 @@ document.addEventListener('DOMContentLoaded', () => {
             overlay.innerHTML = `
                 <div class="news-modal-window">
                     <button class="news-modal-close" aria-label="Schließen"><i class="fas fa-times"></i></button>
-                    <div class="news-modal-hero">
+                    <div class="news-modal-hero" id="news-modal-hero-container">
                         <img id="news-modal-bg" class="news-modal-hero-bg" src="" alt="">
                         <img id="news-modal-img" class="news-modal-fg" src="" alt="">
                     </div>
@@ -305,25 +305,82 @@ document.addEventListener('DOMContentLoaded', () => {
         }
 
         // Fill contents
-        const modalBg = overlay.querySelector('#news-modal-bg');
-        const modalImg = overlay.querySelector('#news-modal-img');
+        const heroContainer = overlay.querySelector('#news-modal-hero-container');
         
-        modalBg.src = art.image;
-        modalBg.alt = art.title;
-        modalImg.src = art.image;
-        modalImg.alt = art.title;
+        // Check if there are multiple images for a slider
+        if (art.images && Array.isArray(art.images) && art.images.length > 1) {
+            heroContainer.innerHTML = `
+                <div class="news-modal-slider" style="position: relative; width: 100%; height: 100%; overflow: hidden; background-color: #0d0f14;">
+                    <img id="news-slider-img" class="news-modal-fg" src="${art.images[0]}" alt="${art.title}" style="width: 100%; height: 100%; object-fit: contain; transition: opacity 0.25s ease;">
+                    
+                    <!-- Subtle navigation arrows -->
+                    <button class="slider-btn prev-btn" aria-label="Vorheriges Bild" style="position: absolute; left: 1rem; top: 50%; transform: translateY(-50%); background: rgba(0,0,0,0.5); border: none; width: 44px; height: 44px; border-radius: 50%; color: #ffffff; display: flex; align-items: center; justify-content: center; cursor: pointer; transition: all 0.25s; opacity: 0.8; z-index: 10; font-size: 1.1rem;"><i class="fas fa-chevron-left"></i></button>
+                    <button class="slider-btn next-btn" aria-label="Nächstes Bild" style="position: absolute; right: 1rem; top: 50%; transform: translateY(-50%); background: rgba(0,0,0,0.5); border: none; width: 44px; height: 44px; border-radius: 50%; color: #ffffff; display: flex; align-items: center; justify-content: center; cursor: pointer; transition: all 0.25s; opacity: 0.8; z-index: 10; font-size: 1.1rem;"><i class="fas fa-chevron-right"></i></button>
+                    
+                    <!-- Slide indicators / dots -->
+                    <div class="slider-dots" style="position: absolute; bottom: 1rem; left: 50%; transform: translateX(-50%); display: flex; gap: 0.5rem; z-index: 10;">
+                        ${art.images.map((_, idx) => `
+                            <span class="slider-dot ${idx === 0 ? 'active' : ''}" data-index="${idx}" style="width: 8px; height: 8px; border-radius: 50%; background-color: ${idx === 0 ? 'var(--accent-color)' : 'rgba(255,255,255,0.4)'}; cursor: pointer; transition: background-color 0.2s;"></span>
+                        `).join('')}
+                    </div>
+                </div>
+            `;
 
-        // Logos look better with a flat gray background instead of blurred bg
-        const isLogo = art.image.includes('id=1000054') || art.image.includes('id=1000037') || art.image.includes('logo') || art.category.toLowerCase().includes('sponsoring') || art.category.toLowerCase().includes('webdesign') || art.image.startsWith('data:image/svg+xml') || (art.image.startsWith('data:image/') && art.image.length < 50000);
-        
-        if (isLogo) {
-            modalBg.style.display = 'none';
-            modalImg.style.padding = '2rem';
-            modalImg.style.backgroundColor = '#f8f9fa';
+            let activeSlideIndex = 0;
+            const sliderImg = heroContainer.querySelector('#news-slider-img');
+            const dots = heroContainer.querySelectorAll('.slider-dot');
+            
+            const updateSlide = (newIndex) => {
+                activeSlideIndex = (newIndex + art.images.length) % art.images.length;
+                sliderImg.style.opacity = 0;
+                setTimeout(() => {
+                    sliderImg.src = art.images[activeSlideIndex];
+                    sliderImg.style.opacity = 1;
+                }, 120);
+                
+                dots.forEach((dot, idx) => {
+                    dot.style.backgroundColor = idx === activeSlideIndex ? 'var(--accent-color)' : 'rgba(255,255,255,0.4)';
+                });
+            };
+
+            heroContainer.querySelector('.prev-btn').addEventListener('click', (e) => {
+                e.stopPropagation();
+                updateSlide(activeSlideIndex - 1);
+            });
+
+            heroContainer.querySelector('.next-btn').addEventListener('click', (e) => {
+                e.stopPropagation();
+                updateSlide(activeSlideIndex + 1);
+            });
+
+            dots.forEach(dot => {
+                dot.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    const idx = parseInt(dot.getAttribute('data-index'));
+                    updateSlide(idx);
+                });
+            });
+
         } else {
-            modalBg.style.display = 'block';
-            modalImg.style.padding = '0';
-            modalImg.style.backgroundColor = 'transparent';
+            // Static single image layout fallback
+            heroContainer.innerHTML = `
+                <img id="news-modal-bg" class="news-modal-hero-bg" src="${art.image}" alt="${art.title}">
+                <img id="news-modal-img" class="news-modal-fg" src="${art.image}" alt="${art.title}">
+            `;
+
+            const modalBg = heroContainer.querySelector('#news-modal-bg');
+            const modalImg = heroContainer.querySelector('#news-modal-img');
+            const isLogo = art.image.includes('id=1000054') || art.image.includes('id=1000037') || art.image.includes('logo') || art.category.toLowerCase().includes('sponsoring') || art.category.toLowerCase().includes('webdesign') || art.image.startsWith('data:image/svg+xml') || (art.image.startsWith('data:image/') && art.image.length < 50000);
+            
+            if (isLogo) {
+                modalBg.style.display = 'none';
+                modalImg.style.padding = '2rem';
+                modalImg.style.backgroundColor = '#f8f9fa';
+            } else {
+                modalBg.style.display = 'block';
+                modalImg.style.padding = '0';
+                modalImg.style.backgroundColor = 'transparent';
+            }
         }
 
         const parseMarkdown = (text) => {

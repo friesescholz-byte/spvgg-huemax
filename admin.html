@@ -299,14 +299,16 @@
                         </div>
 
                         <div class="admin-form-group">
-                            <label>Beitragsbild hochladen (JPEG/PNG/WebP)</label>
+                            <label>Beitragsbilder hochladen (Das erste Bild ist das Titelbild; JPEG/PNG/WebP)</label>
                             <div class="file-upload-wrapper">
-                                <i class="fas fa-cloud-upload-alt"></i>
-                                <p style="margin: 0; font-weight: 600;">Bild hierher ziehen oder klicken zum Auswählen</p>
-                                <p style="margin: 0.25rem 0 0 0; font-size: 0.8rem; color: var(--text-muted);">Maximalgröße: 4 MB</p>
-                                <input type="file" id="article-image" accept="image/*">
+                                <i class="fas fa-images"></i>
+                                <p style="margin: 0; font-weight: 600;">Bilder hierher ziehen oder klicken zum Auswählen</p>
+                                <p style="margin: 0.25rem 0 0 0; font-size: 0.8rem; color: var(--text-muted);">Mehrere Bilder gleichzeitig auswählbar. Maximalgröße pro Bild: 4 MB</p>
+                                <input type="file" id="article-image" accept="image/*" multiple>
                             </div>
-                            <img id="image-preview" class="preview-thumbnail" alt="Image Preview">
+                            <div id="images-preview-container" style="display: flex; gap: 0.75rem; flex-wrap: wrap; margin-top: 1rem;">
+                                <!-- Dynamically populated thumbnails -->
+                            </div>
                         </div>
 
                         <!-- Documents / Attachments section -->
@@ -319,7 +321,7 @@
                             </div>
                             
                             <div style="display: flex; gap: 0.75rem; align-items: center; background-color: var(--bg-light); padding: 1rem; border-radius: var(--radius-sm); border: 1px solid var(--border-color);">
-                                <input type="file" id="attachment-file" accept=".pdf,.doc,.docx,.xls,.xlsx,.png,.jpg,.jpeg" style="display: none;">
+                                <input type="file" id="attachment-file" accept=".pdf,.doc,.docx,.xls,.xlsx,.png,.jpg,.jpeg" style="display: none;" multiple>
                                 <button type="button" id="btn-select-attachment" class="btn btn-secondary" style="padding: 0.6rem 1rem; font-size: 0.85rem; flex-shrink: 0;"><i class="fas fa-file-upload"></i> Datei wählen</button>
                                 <input type="text" id="attachment-name" class="admin-input" placeholder="Anzeigename (z. B. Info-Flyer (PDF))" style="padding: 0.6rem 1rem; font-size: 0.9rem;">
                                 <button type="button" id="btn-add-attachment" class="btn btn-primary" style="padding: 0.6rem 1rem; font-size: 0.85rem; flex-shrink: 0;"><i class="fas fa-plus"></i> Hinzufügen</button>
@@ -561,6 +563,7 @@
             let editMode = false;
             let editArticleId = null;
             let currentAttachments = [];
+            let currentImages = [];
 
             // Tab navigation elements
             const tabNewsBtn = document.getElementById('tab-news-btn');
@@ -713,9 +716,13 @@
                             document.getElementById('article-category').value = targetArt.category;
                             document.getElementById('article-excerpt').value = targetArt.excerpt;
                             
-                            imagePreview.src = targetArt.image;
-                            imagePreview.style.display = 'block';
-                            base64Image = ''; // Keep old image if unchanged
+                            currentImages = [];
+                            if (targetArt.images && Array.isArray(targetArt.images)) {
+                                currentImages = [...targetArt.images];
+                            } else if (targetArt.image) {
+                                currentImages = [targetArt.image];
+                            }
+                            renderImagesPreview();
                             currentAttachments = targetArt.files || [];
                             renderAttachmentsList();
 
@@ -758,10 +765,11 @@
             const resetForm = () => {
                 addNewsForm.reset();
                 base64Image = '';
-                imagePreview.style.display = 'none';
                 fileInput.value = '';
                 currentAttachments = [];
                 renderAttachmentsList();
+                currentImages = [];
+                renderImagesPreview();
                 
                 formTitle.innerHTML = '<i class="fas fa-pen-fancy" style="color: var(--accent-color); margin-right: 0.5rem;"></i> Neuen Beitrag verfassen';
                 submitBtn.innerHTML = '<i class="fas fa-paper-plane"></i> Beitrag veröffentlichen';
@@ -793,7 +801,8 @@
                                 title: title,
                                 category: category,
                                 excerpt: excerpt,
-                                image: base64Image || art.image,
+                                image: currentImages[0] || 'https://pub-b33108412309406a9a941ddc51e9a5b9.r2.dev/spvgg-huemax/logo.png',
+                                images: currentImages,
                                 files: currentAttachments
                             };
                         }
@@ -826,7 +835,8 @@
                         category: category,
                         title: title,
                         excerpt: excerpt,
-                        image: base64Image || 'https://huemax1920.clubdesk.com/clubdesk/fileservlet?type=image&id=1000062&s=djEtlVxHATGykdztWmOZUr7Ot92BO7UHuAy6BJhQYdIxKs8=',
+                        image: currentImages[0] || 'https://pub-b33108412309406a9a941ddc51e9a5b9.r2.dev/spvgg-huemax/logo.png',
+                        images: currentImages,
                         link: 'aktuelles.html',
                         files: currentAttachments
                     };
@@ -874,14 +884,31 @@
             });
 
             attachmentFileInput.addEventListener('change', (e) => {
-                const file = e.target.files[0];
-                if (file) {
-                    let cleanName = file.name.replace(/\.[^/.]+$/, ""); // strip extension
-                    if (file.name.toLowerCase().endsWith('.pdf')) {
-                        cleanName += ' (PDF)';
-                    }
-                    attachmentNameInput.value = cleanName;
-                }
+                const files = Array.from(e.target.files);
+                if (files.length === 0) return;
+
+                let loadedCount = 0;
+                files.forEach(file => {
+                    const reader = new FileReader();
+                    reader.onload = function(event) {
+                        let cleanName = file.name.replace(/\.[^/.]+$/, ""); // strip extension
+                        if (file.name.toLowerCase().endsWith('.pdf')) {
+                            cleanName += ' (PDF)';
+                        }
+                        currentAttachments.push({
+                            name: cleanName,
+                            data: event.target.result
+                        });
+                        loadedCount++;
+                        if (loadedCount === files.length) {
+                            renderAttachmentsList();
+                        }
+                    };
+                    reader.readAsDataURL(file);
+                });
+                
+                // Clear input
+                attachmentFileInput.value = '';
             });
 
             addAttachmentBtn.addEventListener('click', () => {
