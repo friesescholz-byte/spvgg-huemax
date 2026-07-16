@@ -309,6 +309,23 @@
                             <img id="image-preview" class="preview-thumbnail" alt="Image Preview">
                         </div>
 
+                        <!-- Documents / Attachments section -->
+                        <div class="admin-form-group" style="margin-top: 2rem; border-top: 1px solid var(--border-color); padding-top: 1.5rem;">
+                            <label style="font-weight: 700; color: var(--primary-dark);"><i class="fas fa-paperclip" style="color: var(--accent-color); margin-right: 0.4rem;"></i> Dokumente / Anhänge (optional)</label>
+                            
+                            <!-- Container to list already added files -->
+                            <div id="attachments-list" style="display: flex; flex-direction: column; gap: 0.5rem; margin-top: 0.75rem; margin-bottom: 1rem;">
+                                <!-- Dynamically populated list of attachments -->
+                            </div>
+                            
+                            <div style="display: flex; gap: 0.75rem; align-items: center; background-color: var(--bg-light); padding: 1rem; border-radius: var(--radius-sm); border: 1px solid var(--border-color);">
+                                <input type="file" id="attachment-file" accept=".pdf,.doc,.docx,.xls,.xlsx,.png,.jpg,.jpeg" style="display: none;">
+                                <button type="button" id="btn-select-attachment" class="btn btn-secondary" style="padding: 0.6rem 1rem; font-size: 0.85rem; flex-shrink: 0;"><i class="fas fa-file-upload"></i> Datei wählen</button>
+                                <input type="text" id="attachment-name" class="admin-input" placeholder="Anzeigename (z. B. Info-Flyer (PDF))" style="padding: 0.6rem 1rem; font-size: 0.9rem;">
+                                <button type="button" id="btn-add-attachment" class="btn btn-primary" style="padding: 0.6rem 1rem; font-size: 0.85rem; flex-shrink: 0;"><i class="fas fa-plus"></i> Hinzufügen</button>
+                            </div>
+                        </div>
+
                         <div style="display: flex; gap: 1rem; align-items: center;">
                             <button type="submit" id="submit-btn" class="btn btn-primary" style="flex-grow: 1;"><i class="fas fa-paper-plane"></i> Beitrag veröffentlichen</button>
                             <button type="button" id="cancel-edit-btn" class="btn btn-outline-red" style="display: none; padding: 0.85rem 1.5rem; background-color: transparent; border: 1px solid #dc3545; color: #dc3545; border-radius: var(--radius-sm); font-weight: 700; cursor: pointer; transition: var(--transition-fast);"><i class="fas fa-times"></i> Abbrechen</button>
@@ -543,6 +560,7 @@
             // Edit Mode States
             let editMode = false;
             let editArticleId = null;
+            let currentAttachments = [];
 
             // Tab navigation elements
             const tabNewsBtn = document.getElementById('tab-news-btn');
@@ -673,7 +691,7 @@
                     const item = document.createElement('div');
                     item.className = 'admin-list-item';
                     item.innerHTML = `
-                        <img src="${art.image}" class="admin-list-img" alt="">
+                        <img src="${art.image}" class="admin-list-img" alt="" loading="lazy">
                         <div class="admin-list-info">
                             <div class="admin-list-title">${art.title}</div>
                             <div class="admin-list-meta">
@@ -698,6 +716,8 @@
                             imagePreview.src = targetArt.image;
                             imagePreview.style.display = 'block';
                             base64Image = ''; // Keep old image if unchanged
+                            currentAttachments = targetArt.files || [];
+                            renderAttachmentsList();
 
                             formTitle.innerHTML = '<i class="fas fa-edit" style="color: var(--accent-color); margin-right: 0.5rem;"></i> Beitrag bearbeiten';
                             submitBtn.innerHTML = '<i class="fas fa-save"></i> Änderungen speichern';
@@ -740,6 +760,8 @@
                 base64Image = '';
                 imagePreview.style.display = 'none';
                 fileInput.value = '';
+                currentAttachments = [];
+                renderAttachmentsList();
                 
                 formTitle.innerHTML = '<i class="fas fa-pen-fancy" style="color: var(--accent-color); margin-right: 0.5rem;"></i> Neuen Beitrag verfassen';
                 submitBtn.innerHTML = '<i class="fas fa-paper-plane"></i> Beitrag veröffentlichen';
@@ -771,7 +793,8 @@
                                 title: title,
                                 category: category,
                                 excerpt: excerpt,
-                                image: base64Image || art.image
+                                image: base64Image || art.image,
+                                files: currentAttachments
                             };
                         }
                         return art;
@@ -804,7 +827,8 @@
                         title: title,
                         excerpt: excerpt,
                         image: base64Image || 'https://huemax1920.clubdesk.com/clubdesk/fileservlet?type=image&id=1000062&s=djEtlVxHATGykdztWmOZUr7Ot92BO7UHuAy6BJhQYdIxKs8=',
-                        link: 'aktuelles.html'
+                        link: 'aktuelles.html',
+                        files: currentAttachments
                     };
 
                     articles.unshift(newArticle);
@@ -819,6 +843,81 @@
                             articles = oldArticles; // revert
                             alert(err.message || err);
                         });
+                }
+            });
+
+            // --- ATTACHMENTS MANAGEMENT LOGIC ---
+            const selectAttachmentBtn = document.getElementById('btn-select-attachment');
+            const attachmentFileInput = document.getElementById('attachment-file');
+            const attachmentNameInput = document.getElementById('attachment-name');
+            const addAttachmentBtn = document.getElementById('btn-add-attachment');
+            const attachmentsListEl = document.getElementById('attachments-list');
+
+            const renderAttachmentsList = () => {
+                attachmentsListEl.innerHTML = '';
+                currentAttachments.forEach((file, index) => {
+                    const div = document.createElement('div');
+                    div.style = 'display: flex; align-items: center; justify-content: space-between; background: var(--bg-light); padding: 0.5rem 0.75rem; border-radius: var(--radius-sm); border: 1px solid var(--border-color); font-size: 0.9rem; margin-bottom: 0.25rem;';
+                    div.innerHTML = `
+                        <div style="display: flex; align-items: center; gap: 0.5rem; color: var(--text-main); font-weight: 500;">
+                            <i class="far fa-file-pdf" style="color: #dc3545;"></i>
+                            <span>${file.name}</span>
+                        </div>
+                        <button type="button" class="btn-remove-attachment" data-index="${index}" style="background: none; border: none; color: #dc3545; cursor: pointer; font-size: 0.95rem; padding: 0.2rem;"><i class="fas fa-trash-alt"></i></button>
+                    `;
+                    attachmentsListEl.appendChild(div);
+                });
+            };
+
+            selectAttachmentBtn.addEventListener('click', () => {
+                attachmentFileInput.click();
+            });
+
+            attachmentFileInput.addEventListener('change', (e) => {
+                const file = e.target.files[0];
+                if (file) {
+                    let cleanName = file.name.replace(/\.[^/.]+$/, ""); // strip extension
+                    if (file.name.toLowerCase().endsWith('.pdf')) {
+                        cleanName += ' (PDF)';
+                    }
+                    attachmentNameInput.value = cleanName;
+                }
+            });
+
+            addAttachmentBtn.addEventListener('click', () => {
+                const file = attachmentFileInput.files[0];
+                const name = attachmentNameInput.value.trim();
+
+                if (!file) {
+                    alert('Bitte wählen Sie zuerst eine Datei aus.');
+                    return;
+                }
+                if (!name) {
+                    alert('Bitte geben Sie einen Anzeigenamen ein.');
+                    return;
+                }
+
+                const reader = new FileReader();
+                reader.onload = function(event) {
+                    currentAttachments.push({
+                        name: name,
+                        data: event.target.result
+                    });
+                    renderAttachmentsList();
+                    
+                    // Reset attachment inputs
+                    attachmentFileInput.value = '';
+                    attachmentNameInput.value = '';
+                };
+                reader.readAsDataURL(file);
+            });
+
+            attachmentsListEl.addEventListener('click', (e) => {
+                const btn = e.target.closest('.btn-remove-attachment');
+                if (btn) {
+                    const index = parseInt(btn.getAttribute('data-index'));
+                    currentAttachments.splice(index, 1);
+                    renderAttachmentsList();
                 }
             });
 

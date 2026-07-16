@@ -345,7 +345,24 @@ document.addEventListener('DOMContentLoaded', () => {
         overlay.querySelector('#news-modal-date').textContent = art.date;
         overlay.querySelector('#news-modal-category').textContent = art.category;
         overlay.querySelector('#news-modal-title').textContent = art.title;
-        overlay.querySelector('#news-modal-text').innerHTML = parseMarkdown(art.excerpt);
+        
+        let filesHtml = '';
+        if (art.files && Array.isArray(art.files) && art.files.length > 0) {
+            filesHtml = `
+                <div class="news-modal-attachments" style="margin-top: 2rem; border-top: 1px solid var(--border-color); padding-top: 1.5rem;">
+                    <h4 style="color: var(--primary-dark); font-weight: 800; font-size: 1.15rem; margin-bottom: 0.75rem; display: flex; align-items: center; gap: 0.5rem;"><i class="fas fa-paperclip" style="color: var(--accent-color);"></i> Dokumente & Anhänge:</h4>
+                    <ul style="list-style: none; padding-left: 0; display: flex; flex-direction: column; gap: 0.6rem;">
+                        ${art.files.map(file => `
+                            <li style="display: flex; align-items: center; gap: 0.6rem;">
+                                <i class="far fa-file-pdf" style="color: #dc3545; font-size: 1.25rem;"></i>
+                                <a href="${file.data}" download="${file.name}" style="color: var(--primary-color); font-weight: 700; text-decoration: underline; font-size: 0.95rem; transition: var(--transition-fast);">${file.name}</a>
+                            </li>
+                        `).join('')}
+                    </ul>
+                </div>
+            `;
+        }
+        overlay.querySelector('#news-modal-text').innerHTML = parseMarkdown(art.excerpt) + filesHtml;
 
         // Open modal
         overlay.classList.add('active');
@@ -376,7 +393,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 date: 'März 2023',
                 category: 'Flutlicht',
                 title: 'März 2023 - 2026 Projekt Flutlichtanlage',
-                excerpt: 'Wir haben uns dazu entschlossen unsere Flutlichtanlage auf LED Technik umzustellen. Bitte nutzt die folgenden Links und Downloads um euch über den aktuellen Projektstatus zu informieren:\n\n• [Projekt Flutlichtanlage aktueller Status (PDF)](https://huemax1920.clubdesk.com/clubdesk/fileservlet?type=file&id=1000056&s=djEt7EpRhspoMpUlEkgJXbxCITNeZ73FCwgP7FEm4xTtXTI=)\n• [Projekt Flutlichtanlage NKI Schild (PDF)](https://huemax1920.clubdesk.com/clubdesk/fileservlet?type=file&id=1000054&s=djEt6hGBX_pxkorB9RSzUGVfdLD4QPCHoiQNj6tAuGolO1c=)\n• [Projekt Flutlichtanlage Förderung durch ZUG (PDF)](https://huemax1920.clubdesk.com/clubdesk/fileservlet?type=file&id=1000055&s=djEthPIkTxhuTc1ZqIwkljVMRzuI2QNHUmxVNSQ6AIOySKo=)',
+                excerpt: 'Wir haben uns dazu entschlossen unsere Flutlichtanlage auf LED Technik umzustellen. Bitte nutzt die folgenden Links und Downloads um euch über den aktuellen Projektstatus zu informieren:\n\n• [Projekt Flutlichtanlage aktueller Status (PDF)](pdf/projekt-flutlicht-aktueller-status.pdf)\n• [Projekt Flutlichtanlage NKI Schild (PDF)](pdf/projekt-flutlicht-nki-schild.pdf)\n• [Projekt Flutlichtanlage Förderung durch ZUG (PDF)](pdf/projekt-flutlicht-foerderung-durch-zug.pdf)',
                 image: 'https://huemax1920.clubdesk.com/clubdesk/fileservlet?type=image&id=1000091&s=djEtIZJ1p3ijwoMJ0sjYmH8I4AQ7x6ElTlxHJmrQyNjXzm4=&imageFormat=_2048x2048'
             },
             {
@@ -475,7 +492,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 date: 'März 2023',
                 category: 'Flutlicht',
                 title: 'März 2023 - 2026 Projekt Flutlichtanlage',
-                excerpt: 'Wir haben uns dazu entschlossen unsere Flutlichtanlage auf LED Technik umzustellen. Bitte nutzt die folgenden Links und Downloads um euch über den aktuellen Projektstatus zu informieren:\n\n• [Projekt Flutlichtanlage aktueller Status (PDF)](https://huemax1920.clubdesk.com/clubdesk/fileservlet?type=file&id=1000056&s=djEt7EpRhspoMpUlEkgJXbxCITNeZ73FCwgP7FEm4xTtXTI=)\n• [Projekt Flutlichtanlage NKI Schild (PDF)](https://huemax1920.clubdesk.com/clubdesk/fileservlet?type=file&id=1000054&s=djEt6hGBX_pxkorB9RSzUGVfdLD4QPCHoiQNj6tAuGolO1c=)\n• [Projekt Flutlichtanlage Förderung durch ZUG (PDF)](https://huemax1920.clubdesk.com/clubdesk/fileservlet?type=file&id=1000055&s=djEthPIkTxhuTc1ZqIwkljVMRzuI2QNHUmxVNSQ6AIOySKo=)',
+                excerpt: 'Wir haben uns dazu entschlossen unsere Flutlichtanlage auf LED Technik umzustellen. Bitte nutzt die folgenden Links und Downloads um euch über den aktuellen Projektstatus zu informieren:\n\n• [Projekt Flutlichtanlage aktueller Status (PDF)](pdf/projekt-flutlicht-aktueller-status.pdf)\n• [Projekt Flutlichtanlage NKI Schild (PDF)](pdf/projekt-flutlicht-nki-schild.pdf)\n• [Projekt Flutlichtanlage Förderung durch ZUG (PDF)](pdf/projekt-flutlicht-foerderung-durch-zug.pdf)',
                 image: 'https://huemax1920.clubdesk.com/clubdesk/fileservlet?type=image&id=1000091&s=djEtIZJ1p3ijwoMJ0sjYmH8I4AQ7x6ElTlxHJmrQyNjXzm4=&imageFormat=_2048x2048'
             },
             {
