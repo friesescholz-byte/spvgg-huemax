@@ -251,6 +251,11 @@ document.addEventListener('DOMContentLoaded', () => {
             renderBirthdays();
         });
 
+        const calendarSearchInput = document.getElementById('calendar-search');
+        if (calendarSearchInput) {
+            calendarSearchInput.addEventListener('input', renderBirthdays);
+        }
+
         // Render default birthday list immediately on load (instant load)
         renderBirthdays();
 
@@ -435,7 +440,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 category: 'Vereinsprojekt',
                 title: 'August 2025: Anschaffung Materialcontainer',
                 excerpt: 'weitere Infos folgen...',
-                image: 'https://huemax1920.clubdesk.com/clubdesk/fileservlet?type=image&id=1000093&s=djEtJMjOhkf_dPdsnWTH7xjjZ5_MeF4OIn5mCqinItl5dOg=&imageFormat=_2048x2048'
+                image: 'news-materialcontainer.jpg'
             },
             {
                 id: 2,
@@ -443,7 +448,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 category: 'Vereinsnews',
                 title: 'Februar 2025: Braunkohlwanderung der Spielvereinigung',
                 excerpt: '60 Teilnehmer haben viel Spaß bei der Braunkohlwanderung.',
-                image: 'https://huemax1920.clubdesk.com/clubdesk/fileservlet?type=image&id=1000092&s=djEt3tUqRxlOVwgiVaQpxlQZaJBjTvUE1FFr2Q3zR0XYVF8=&imageFormat=_2048x2048'
+                image: 'news-braunkohl.jpg'
             },
             {
                 id: 3,
@@ -451,7 +456,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 category: 'Flutlicht',
                 title: 'März 2023 - 2026 Projekt Flutlichtanlage',
                 excerpt: 'Wir haben uns dazu entschlossen unsere Flutlichtanlage auf LED Technik umzustellen. Bitte nutzt die folgenden Links und Downloads um euch über den aktuellen Projektstatus zu informieren:\n\n• [Projekt Flutlichtanlage aktueller Status (PDF)](pdf/projekt-flutlicht-aktueller-status.pdf)\n• [Projekt Flutlichtanlage NKI Schild (PDF)](pdf/projekt-flutlicht-nki-schild.pdf)\n• [Projekt Flutlichtanlage Förderung durch ZUG (PDF)](pdf/projekt-flutlicht-foerderung-durch-zug.pdf)',
-                image: 'https://huemax1920.clubdesk.com/clubdesk/fileservlet?type=image&id=1000091&s=djEtIZJ1p3ijwoMJ0sjYmH8I4AQ7x6ElTlxHJmrQyNjXzm4=&imageFormat=_2048x2048'
+                image: 'news-flutlicht.jpg'
             },
             {
                 id: 4,
@@ -459,7 +464,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 category: 'Ausflug',
                 title: 'Januar 2023: Stadionbesuch in Hannover',
                 excerpt: 'Mit rund 40 Teilnehmern haben wir das Zweitligaspiel zwischen Hannover 96 und dem 1. FC Kaiserslautern besucht.',
-                image: 'https://huemax1920.clubdesk.com/clubdesk/fileservlet?type=image&id=1000090&s=djEtX6_8ycx7Go0cCrEK4_M9mt5s9fak9o_SKhqB830SaK0=&imageFormat=_2048x2048'
+                image: 'news-hannover.jpg'
             }
         ];
 
@@ -534,7 +539,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 category: 'Vereinsprojekt',
                 title: 'August 2025: Anschaffung Materialcontainer',
                 excerpt: 'weitere Infos folgen...',
-                image: 'https://huemax1920.clubdesk.com/clubdesk/fileservlet?type=image&id=1000093&s=djEtJMjOhkf_dPdsnWTH7xjjZ5_MeF4OIn5mCqinItl5dOg=&imageFormat=_2048x2048'
+                image: 'news-materialcontainer.jpg'
             },
             {
                 id: 2,
@@ -542,7 +547,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 category: 'Vereinsnews',
                 title: 'Februar 2025: Braunkohlwanderung der Spielvereinigung',
                 excerpt: '60 Teilnehmer haben viel Spaß bei der Braunkohlwanderung.',
-                image: 'https://huemax1920.clubdesk.com/clubdesk/fileservlet?type=image&id=1000092&s=djEt3tUqRxlOVwgiVaQpxlQZaJBjTvUE1FFr2Q3zR0XYVF8=&imageFormat=_2048x2048'
+                image: 'news-braunkohl.jpg'
             },
             {
                 id: 3,
@@ -550,7 +555,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 category: 'Flutlicht',
                 title: 'März 2023 - 2026 Projekt Flutlichtanlage',
                 excerpt: 'Wir haben uns dazu entschlossen unsere Flutlichtanlage auf LED Technik umzustellen. Bitte nutzt die folgenden Links und Downloads um euch über den aktuellen Projektstatus zu informieren:\n\n• [Projekt Flutlichtanlage aktueller Status (PDF)](pdf/projekt-flutlicht-aktueller-status.pdf)\n• [Projekt Flutlichtanlage NKI Schild (PDF)](pdf/projekt-flutlicht-nki-schild.pdf)\n• [Projekt Flutlichtanlage Förderung durch ZUG (PDF)](pdf/projekt-flutlicht-foerderung-durch-zug.pdf)',
-                image: 'https://huemax1920.clubdesk.com/clubdesk/fileservlet?type=image&id=1000091&s=djEtIZJ1p3ijwoMJ0sjYmH8I4AQ7x6ElTlxHJmrQyNjXzm4=&imageFormat=_2048x2048'
+                image: 'news-flutlicht.jpg'
             },
             {
                 id: 4,
@@ -558,7 +563,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 category: 'Ausflug',
                 title: 'Januar 2023: Stadionbesuch in Hannover',
                 excerpt: 'Mit rund 40 Teilnehmern haben wir das Zweitligaspiel zwischen Hannover 96 und dem 1. FC Kaiserslautern besucht.',
-                image: 'https://huemax1920.clubdesk.com/clubdesk/fileservlet?type=image&id=1000090&s=djEtX6_8ycx7Go0cCrEK4_M9mt5s9fak9o_SKhqB830SaK0=&imageFormat=_2048x2048'
+                image: 'news-hannover.jpg'
             }
         ];
 

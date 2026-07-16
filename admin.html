@@ -249,7 +249,7 @@
     </header>
 
     <!-- Subpage Hero Header -->
-    <section class="subpage-hero" style="background-image: linear-gradient(rgba(12, 32, 4, 0.85), rgba(12, 32, 4, 0.95)), url('https://huemax1920.clubdesk.com/clubdesk/fileservlet?type=image&id=1000062&s=djEtlVxHATGykdztWmOZUr7Ot92BO7UHuAy6BJhQYdIxKs8=');">
+    <section class="subpage-hero" style="background-image: linear-gradient(rgba(12, 32, 4, 0.85), rgba(12, 32, 4, 0.95)), url('news-fallback.jpg');">
         <div class="container">
             <h1 class="subpage-title reveal-item">Admin-Panel</h1>
             <div class="breadcrumbs reveal-item">
@@ -424,6 +424,11 @@
                     <div class="card" style="padding: 2.5rem;">
                         <h3 style="color: var(--primary-dark); font-weight: 800; font-size: 1.5rem; margin-bottom: 1.5rem; border-bottom: 2px solid var(--accent-color); padding-bottom: 8px;"><i class="fas fa-list-ul" style="color: var(--accent-color); margin-right: 0.5rem;"></i> Kalender-Einträge verwalten</h3>
                         
+                        <div class="search-wrapper" style="position: relative; margin-bottom: 1.25rem;">
+                            <i class="fas fa-search" style="position: absolute; left: 1rem; top: 50%; transform: translateY(-50%); color: var(--text-muted); font-size: 0.9rem;"></i>
+                            <input type="text" id="admin-birthdays-search" class="admin-input" placeholder="Nach Mitgliedern suchen..." style="width: 100%; padding: 0.65rem 1rem 0.65rem 2.5rem; font-size: 0.9rem;">
+                        </div>
+                        
                         <div id="admin-birthdays-list" style="max-height: 450px; overflow-y: auto; padding-right: 0.5rem;">
                             <!-- Dynamically populated -->
                         </div>
@@ -516,7 +521,7 @@
                     category: 'Vereinsnews',
                     title: 'Saisonvorbereitung und Termine für die neue Spielzeit stehen fest',
                     excerpt: 'Unsere Herrenteams haben nach einer verdienten Pause das Training wieder aufgenommen. Erfahre hier alles zu den anstehenden Testspielen und dem Vorbereitungsplan für die Kreisliga und 2. Kreisklasse.',
-                    image: 'https://huemax1920.clubdesk.com/clubdesk/fileservlet?type=image&id=1000062&s=djEtlVxHATGykdztWmOZUr7Ot92BO7UHuAy6BJhQYdIxKs8=',
+                    image: 'news-fallback.jpg',
                     link: 'ersteherren.html'
                 },
                 {
@@ -525,7 +530,7 @@
                     category: 'Webdesign',
                     title: 'Neuer Look für unsere Website: SpVgg HüMax erstrahlt im neuen Glanz',
                     excerpt: 'Im Zuge unserer Modernisierungsmaßnahmen haben wir in Partnerschaft mit Scholz & Friese Webdesign unsere Vereinshomepage komplett neu gestaltet. Das Ergebnis ist vollkommen mobiloptimiert und bietet einen modernen Überblick über unsere Teams.',
-                    image: 'https://huemax1920.clubdesk.com/clubdesk/fileservlet?type=image&id=1000054&s=djEtFE9siFauzFlbm1OWerUl5lXy_Q1yUHXhtc0aLjlwx6E=&imageFormat=_2048x2048',
+                    image: 'foerder-nki.jpg',
                     link: 'verein.html'
                 },
                 {
@@ -534,7 +539,7 @@
                     category: 'Sponsoring',
                     title: 'Sponsoring-Möglichkeiten zur kommenden Saison 2026/2027',
                     excerpt: 'Möchten Sie mit Ihrem Unternehmen die SpVgg HüMax unterstützen? Ob Bandenwerbung, Trikotsponsoring oder digitale Anzeigen – wir bieten flexible Partnerschaftsmodelle an. Kontaktieren Sie uns noch heute.',
-                    image: 'https://huemax1920.clubdesk.com/clubdesk/fileservlet?type=image&id=1000037&s=djEtwerEx2BgPITE9F8OLbdLweAoSnmTEQ2zt71IGe3NyVo=',
+                    image: 'sponsor-logo1.jpg',
                     link: 'sponsoren.html'
                 }
             ];
@@ -1016,6 +1021,11 @@
             const exportBirthdaysArea = document.getElementById('export-birthdays-area');
             const exportBirthdaysCodeBox = document.getElementById('export-birthdays-code-box');
 
+            const adminBirthdaysSearch = document.getElementById('admin-birthdays-search');
+            if (adminBirthdaysSearch) {
+                adminBirthdaysSearch.addEventListener('input', renderAdminBirthdaysList);
+            }
+
             // Fetch live birthdays from Worker
             function fetchBirthdays() {
                 fetch(birthdayApiUrl)
@@ -1061,13 +1071,22 @@
 
             const renderAdminBirthdaysList = () => {
                 adminBirthdaysList.innerHTML = '';
-                if (birthdays.length === 0) {
+                
+                const searchEl = document.getElementById('admin-birthdays-search');
+                const query = searchEl ? searchEl.value.toLowerCase().trim() : '';
+
+                let filtered = [...birthdays];
+                if (query !== '') {
+                    filtered = filtered.filter(b => b.label.toLowerCase().includes(query));
+                }
+
+                if (filtered.length === 0) {
                     adminBirthdaysList.innerHTML = '<p style="text-align: center; color: var(--text-muted); padding: 1.5rem 0;">Keine Kalendereinträge vorhanden.</p>';
                     return;
                 }
                 
                 // Sort by month and day
-                const sorted = [...birthdays].sort((a, b) => {
+                const sorted = filtered.sort((a, b) => {
                     if (a.month !== b.month) return a.month - b.month;
                     return a.day - b.day;
                 });
