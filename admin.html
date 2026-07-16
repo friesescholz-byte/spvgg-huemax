@@ -402,14 +402,14 @@
                             </select>
                         </div>
 
-                        <div class="admin-form-group" id="group-member-since">
+                        <div class="admin-form-group" id="group-member-since" style="display: none;">
                             <label for="birthday-member-since">Vereinsmitglied seit (Jahr) (optional)</label>
                             <input type="number" id="birthday-member-since" class="admin-input" placeholder="z. B. 2016..." min="1920" max="2026">
                         </div>
 
-                        <div class="admin-form-group" id="group-age">
-                            <label for="birthday-age-label">Alter (z. B. "Wurde 22" oder leeres Feld für keine Anzeige)</label>
-                            <input type="text" id="birthday-age-label" class="admin-input" placeholder="z. B. Wurde 22...">
+                        <div class="admin-form-group" id="group-birth-year">
+                            <label for="birthday-birth-year">Geburtsjahr (optional, z. B. 1947 - berechnet das Alter automatisch)</label>
+                            <input type="number" id="birthday-birth-year" class="admin-input" placeholder="z. B. 1947..." min="1900" max="2026">
                         </div>
 
                         <div style="display: flex; gap: 1rem; align-items: center; margin-top: 2rem;">
@@ -1039,6 +1039,26 @@
                 adminBirthdaysSearch.addEventListener('input', renderAdminBirthdaysList);
             }
 
+            // --- BIRTHDAYS FORM FIELDS DYNAMIC TOGGLE ---
+            const birthdayTypeSelect = document.getElementById('birthday-type');
+            const groupMemberSince = document.getElementById('group-member-since');
+            const groupBirthYear = document.getElementById('group-birth-year');
+
+            const toggleBirthdayFormFields = () => {
+                if (birthdayTypeSelect.value === 'jubilee') {
+                    groupMemberSince.style.display = 'block';
+                    groupBirthYear.style.display = 'none';
+                } else {
+                    groupMemberSince.style.display = 'none';
+                    groupBirthYear.style.display = 'block';
+                }
+            };
+
+            if (birthdayTypeSelect) {
+                birthdayTypeSelect.addEventListener('change', toggleBirthdayFormFields);
+                toggleBirthdayFormFields(); // Init on page load
+            }
+
             // Fetch live birthdays from Worker with visual loading state and error reporting
             function fetchBirthdays() {
                 adminBirthdaysList.innerHTML = '<p style="text-align: center; color: var(--text-muted); padding: 1.5rem 0;"><i class="fas fa-spinner fa-spin"></i> Lade Einträge aus der Datenbank...</p>';
@@ -1148,14 +1168,11 @@
                             document.getElementById('birthday-month').value = target.month;
                             
                             const hasSince = target.memberSince !== undefined && target.memberSince !== null;
+                            const hasBirthYear = target.birthYear !== undefined && target.birthYear !== null;
                             document.getElementById('birthday-type').value = hasSince ? 'jubilee' : 'birthday';
                             document.getElementById('birthday-member-since').value = hasSince ? target.memberSince : '';
-                            
-                            if (hasSince) {
-                                document.getElementById('birthday-age-label').value = '';
-                            } else {
-                                document.getElementById('birthday-age-label').value = target.detail;
-                            }
+                            document.getElementById('birthday-birth-year').value = hasBirthYear ? target.birthYear : '';
+                            toggleBirthdayFormFields();
 
                             birthdayFormTitle.innerHTML = '<i class="fas fa-edit" style="color: var(--accent-color); margin-right: 0.5rem;"></i> Eintrag bearbeiten';
                             submitBirthdayBtn.innerHTML = '<i class="fas fa-save"></i> Änderungen speichern';
@@ -1200,6 +1217,7 @@
                 
                 birthdayEditMode = false;
                 editBirthdayId = null;
+                toggleBirthdayFormFields();
             };
 
             cancelBirthdayEditBtn.addEventListener('click', resetBirthdayForm);
@@ -1213,10 +1231,11 @@
                 const month = parseInt(document.getElementById('birthday-month').value);
                 const type = document.getElementById('birthday-type').value;
                 const memberSinceVal = document.getElementById('birthday-member-since').value.trim();
-                const ageLabel = document.getElementById('birthday-age-label').value.trim();
+                const birthYearVal = document.getElementById('birthday-birth-year').value.trim();
 
                 let detail = '';
                 let memberSince = null;
+                let birthYear = null;
 
                 if (type === 'jubilee') {
                     if (memberSinceVal) {
@@ -1227,7 +1246,13 @@
                         detail = 'Vereinsjubiläum';
                     }
                 } else {
-                    detail = ageLabel || 'Geburtstag';
+                    if (birthYearVal) {
+                        birthYear = parseInt(birthYearVal);
+                        const age = 2026 - birthYear;
+                        detail = `Wurde ${age}`;
+                    } else {
+                        detail = 'Geburtstag';
+                    }
                 }
 
                 const oldBirthdays = [...birthdays];
@@ -1241,7 +1266,8 @@
                                 month: month,
                                 label: name,
                                 detail: detail,
-                                memberSince: memberSince
+                                memberSince: memberSince,
+                                birthYear: birthYear
                             };
                         }
                         return b;
