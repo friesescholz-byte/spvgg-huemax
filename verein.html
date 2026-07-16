@@ -117,18 +117,18 @@
             
             <div class="birthday-calendar-wrapper reveal-item" style="max-width: 800px; margin: 0 auto;">
                 <div class="birthday-card">
-                    <!-- Search bar for members birthdays -->
-                    <div style="padding: 1.25rem 1.5rem 0.25rem 1.5rem;">
-                        <div class="search-wrapper" style="position: relative;">
-                            <i class="fas fa-search" style="position: absolute; left: 1rem; top: 50%; transform: translateY(-50%); color: var(--text-muted); font-size: 0.9rem;"></i>
-                            <input type="text" id="calendar-search" placeholder="Mitglieder nach Namen suchen (ganzes Jahr)..." style="width: 100%; padding: 0.65rem 1rem 0.65rem 2.5rem; border: 1px solid var(--border-color); border-radius: var(--radius-sm); font-size: 0.9rem; background-color: var(--bg-light); color: var(--text-main); font-family: inherit; transition: var(--transition-fast);">
-                        </div>
-                    </div>
-
                     <div class="birthday-header">
                         <button class="calendar-btn" id="prev-month-btn" aria-label="Vorheriger Monat"><i class="fas fa-chevron-left"></i></button>
                         <div class="birthday-current-month" id="month-year-label">Juli 2026</div>
                         <button class="calendar-btn" id="next-month-btn" aria-label="Nächster Monat"><i class="fas fa-chevron-right"></i></button>
+                    </div>
+                    
+                    <!-- Search bar for members birthdays -->
+                    <div style="padding: 1.25rem 2rem 0.5rem 2rem; background-color: #ffffff; border-bottom: 1px solid var(--border-color);">
+                        <div class="search-wrapper" style="position: relative;">
+                            <i class="fas fa-search" style="position: absolute; left: 1rem; top: 50%; transform: translateY(-50%); color: var(--text-muted); font-size: 0.95rem;"></i>
+                            <input type="text" id="calendar-search" placeholder="Mitglieder nach Namen suchen (ganzes Jahr)..." style="width: 100%; padding: 0.75rem 1rem 0.75rem 2.5rem; border: 1px solid var(--border-color); border-radius: var(--radius-sm); font-size: 0.95rem; background-color: #f8f9fa; color: var(--text-main); font-family: inherit; transition: var(--transition-fast); outline: none;">
+                        </div>
                     </div>
                     
                     <ul class="birthday-list" id="monthly-events-container">

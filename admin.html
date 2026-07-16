@@ -1077,7 +1077,7 @@
 
                 let filtered = [...birthdays];
                 if (query !== '') {
-                    filtered = filtered.filter(b => b.label.toLowerCase().includes(query));
+                    filtered = filtered.filter(b => (b.label || '').toLowerCase().includes(query));
                 }
 
                 if (filtered.length === 0) {
@@ -1097,7 +1097,7 @@
                     const item = document.createElement('div');
                     item.className = 'admin-list-item';
                     
-                    const isJubilaeum = entry.detail.toLowerCase().includes('jubiläum');
+                    const isJubilaeum = (entry.detail || '').toLowerCase().includes('jubiläum');
                     const iconClass = isJubilaeum ? 'fas fa-award' : 'fas fa-gift';
 
                     item.innerHTML = `
