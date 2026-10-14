@@ -200,16 +200,17 @@
 
         .ticker-board-main {
             display: grid;
-            grid-template-columns: 1fr auto 1fr;
+            grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
             align-items: center;
-            gap: 2rem;
-            padding: 2.25rem 0;
+            gap: 1.5rem;
+            padding: 2rem 0;
         }
 
         .ticker-team-col {
             display: flex;
             flex-direction: column;
             gap: 0.4rem;
+            min-width: 0;
         }
 
         .ticker-team-home {
@@ -225,7 +226,9 @@
         .ticker-team-info {
             display: flex;
             align-items: center;
-            gap: 1rem;
+            gap: 0.85rem;
+            min-width: 0;
+            max-width: 100%;
         }
 
         .ticker-team-home .ticker-team-info {
@@ -233,13 +236,13 @@
         }
 
         .ticker-team-crest {
-            width: 58px;
-            height: 58px;
+            width: 54px;
+            height: 54px;
             border-radius: 50%;
             background: #ffffff;
             border: 1px solid rgba(21, 62, 2, 0.12);
             box-shadow: 0 4px 14px rgba(0, 0, 0, 0.07);
-            padding: 6px;
+            padding: 5px;
             display: flex;
             align-items: center;
             justify-content: center;
@@ -254,12 +257,14 @@
 
         .ticker-team-title {
             font-family: 'Outfit', sans-serif;
-            font-size: clamp(1.4rem, 2.8vw, 2.15rem);
+            font-size: clamp(1.15rem, 1.8vw, 1.55rem);
             font-weight: 800;
             color: #0a1c01;
             margin: 0;
-            line-height: 1.15;
+            line-height: 1.2;
             letter-spacing: -0.015em;
+            overflow-wrap: break-word;
+            word-break: normal;
         }
 
         .ticker-team-label {
@@ -275,8 +280,8 @@
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            min-width: 170px;
-            padding: 0 1rem;
+            min-width: 140px;
+            padding: 0 0.5rem;
         }
 
         .ticker-score-wrap {
@@ -753,25 +758,33 @@
         }
 
         @media (max-width: 768px) {
-            .ticker-scoreboard-card { padding: 1.25rem; }
-            .ticker-board-header { flex-direction: column; align-items: flex-start; gap: 0.75rem; }
-            .ticker-bell-pill { width: 100%; justify-content: center; }
-            .ticker-board-main { grid-template-columns: 1fr; gap: 1.25rem; padding: 1.5rem 0; text-align: center; }
+            .ticker-scoreboard-card { padding: 1.15rem 1rem; margin-bottom: 1.5rem; }
+            .ticker-board-header { display: flex; justify-content: space-between; align-items: center; gap: 0.5rem; }
+            .ticker-bell-pill { padding: 0.38rem 0.8rem; font-size: 0.76rem; border-radius: 999px; }
+            .ticker-board-main { grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr); gap: 0.5rem; padding: 1.15rem 0; align-items: center; }
+            .ticker-team-col { align-items: center; text-align: center; min-width: 0; }
             .ticker-team-home, .ticker-team-away { align-items: center; text-align: center; }
-            .ticker-team-home .ticker-team-info, .ticker-team-away .ticker-team-info { justify-content: center; flex-direction: column; }
-            .ticker-center-col { padding: 0.5rem 0; }
-            .ticker-board-footer { flex-direction: column; align-items: flex-start; gap: 0.65rem; }
+            .ticker-team-home .ticker-team-info, .ticker-team-away .ticker-team-info { flex-direction: column !important; align-items: center; justify-content: center; gap: 0.45rem; width: 100%; }
+            .ticker-team-crest { width: 44px; height: 44px; padding: 4px; }
+            .ticker-team-title { font-size: 0.88rem; line-height: 1.2; text-align: center; max-width: 105px; }
+            .ticker-team-label { display: none; }
+            .ticker-center-col { min-width: 80px; padding: 0 0.25rem; }
+            .ticker-score-wrap { font-size: 2.1rem; gap: 0.35rem; }
+            .ticker-status-pill { padding: 0.25rem 0.6rem; font-size: 0.72rem; margin-top: 0.35rem; gap: 0.35rem; }
+            .ticker-status-pulse { width: 5px; height: 5px; }
+            .ticker-board-footer { flex-direction: row; justify-content: space-between; align-items: center; gap: 0.5rem; padding-top: 0.85rem; font-size: 0.75rem; flex-wrap: wrap; }
+            .ticker-footer-item { font-size: 0.75rem; }
             .ticker-sync-item { margin-left: 0; }
-            .ticker-control-bar { flex-direction: column; align-items: stretch; }
+            .ticker-control-bar { flex-direction: column; align-items: stretch; gap: 0.85rem; margin-bottom: 1.5rem; }
             .ticker-filters { width: 100%; justify-content: center; }
             .ticker-pill { flex: 1; justify-content: center; padding: 0.45rem 0.6rem; font-size: 0.78rem; }
             .ticker-stream::before { left: 20px; }
             .ticker-item { grid-template-columns: 42px 1fr; gap: 0.85rem; }
             .ticker-item-node { width: 26px; height: 26px; font-size: 0.72rem; }
             .ticker-item-minute { font-size: 0.82rem; }
-            .ticker-item-card { padding: 1.1rem 1.15rem; }
-            .ticker-item-title { font-size: 1.05rem; }
-            .ticker-archive-summary { flex-direction: column; align-items: flex-start; }
+            .ticker-item-card { padding: 1rem 1.1rem; }
+            .ticker-item-title { font-size: 1.02rem; }
+            .ticker-archive-summary { flex-direction: column; align-items: flex-start; gap: 0.75rem; }
             .ticker-archive-toggle-btn { width: 100%; justify-content: center; }
         }
     </style>
@@ -911,7 +924,27 @@
                         <i class="fas fa-map-marker-alt"></i>
                         <span id="match-venue">Sportplatz Machtsum (Rasen)</span>
                     </div>
+                    <a href="admin.html#ticker" class="ticker-footer-item" style="color: var(--text-muted); text-decoration: none; font-size: 0.82rem; margin-left: auto; display: inline-flex; align-items: center; gap: 0.35rem;" title="Ticker-Admin">
+                        <i class="fas fa-lock" style="font-size: 0.75rem; color: #b8860b;"></i>
+                        <span>Ticker bearbeiten</span>
+                    </a>
                 </div>
+            </div>
+
+            <!-- Ausführlicher Abschlussbericht (Aufklappbar mit Teaser) -->
+            <div id="ticker-final-report-card" class="card reveal-item" style="display: none; padding: 2rem 2.25rem; margin-bottom: 2rem; background: #ffffff; border: 1px solid rgba(21, 62, 2, 0.12); border-left: 5px solid #e5b352; border-radius: 16px; box-shadow: 0 4px 20px rgba(10, 28, 1, 0.04);">
+                <div style="display: flex; align-items: center; justify-content: space-between; gap: 0.75rem; margin-bottom: 0.75rem; flex-wrap: wrap;">
+                    <span style="font-size: 0.8rem; font-weight: 800; text-transform: uppercase; letter-spacing: 0.06em; color: #153e02; background: rgba(21, 62, 2, 0.07); padding: 0.25rem 0.75rem; border-radius: 6px; display: inline-flex; align-items: center; gap: 0.45rem;">
+                        <i class="fas fa-newspaper" style="color: #b8860b;"></i> Ausführlicher Spielbericht
+                    </span>
+                    <span style="font-size: 0.85rem; color: #576553; font-weight: 600;" id="final-report-meta">SpVgg HüMax</span>
+                </div>
+                <h3 id="final-report-title" style="font-family: 'Outfit', sans-serif; font-size: 1.45rem; font-weight: 800; color: #0a1c01; margin: 0 0 1rem; line-height: 1.3;"></h3>
+                <div id="final-report-teaser" style="font-size: 1.02rem; color: #1f2a1b; line-height: 1.7; margin-bottom: 1rem;"></div>
+                <div id="final-report-full" style="display: none; font-size: 1.02rem; color: #1f2a1b; line-height: 1.75; margin-bottom: 1.25rem; border-top: 1px solid rgba(21, 62, 2, 0.08); padding-top: 1.25rem;"></div>
+                <button type="button" id="btn-toggle-final-report" class="btn btn-secondary" style="padding: 0.6rem 1.35rem; font-size: 0.9rem; font-weight: 800; border-radius: 999px; display: inline-flex; align-items: center; gap: 0.5rem; cursor: pointer;">
+                    <span id="btn-toggle-final-report-text">Gesamten Spielbericht lesen</span> <i class="fas fa-chevron-down" id="final-report-chevron" style="transition: transform 0.3s ease;"></i>
+                </button>
             </div>
 
             <!-- 2. Minimal Segmented Control Bar -->
@@ -1055,6 +1088,17 @@
             const awayCrestWrapper = document.getElementById('away-crest-wrapper');
             const awayCrestImg = document.getElementById('away-crest-img');
 
+            // Report elements
+            const finalReportCard = document.getElementById('ticker-final-report-card');
+            const finalReportTitle = document.getElementById('final-report-title');
+            const finalReportMeta = document.getElementById('final-report-meta');
+            const finalReportTeaser = document.getElementById('final-report-teaser');
+            const finalReportFull = document.getElementById('final-report-full');
+            const btnToggleFinalReport = document.getElementById('btn-toggle-final-report');
+            const btnToggleFinalReportText = document.getElementById('btn-toggle-final-report-text');
+            const finalReportChevron = document.getElementById('final-report-chevron');
+            let isFinalReportOpen = false;
+
             // Bell notification elements
             const btnNotification = document.getElementById('btn-toggle-notifications');
             const bellStatusHint = document.getElementById('bell-status-hint');
@@ -1071,68 +1115,48 @@
                 });
             }
 
-            // Default Realistic Archive of Past Matches
+            // Default Realistic Archive of Past Matches (Kreispokal gegen SG Schellerten)
             const defaultArchive = [
                 {
-                    id: "arch-1",
+                    id: "arch-schellerten",
                     match: {
                         homeTeam: "SpVgg HüMax",
-                        awayTeam: "TuS Hasede",
-                        homeScore: 3,
-                        awayScore: 1,
-                        competition: "Kreisliga Hildesheim",
-                        matchday: "7. Spieltag",
-                        matchDate: "Sonntag, 28.09.2026",
-                        location: "Sportplatz Machtsum (Rasen)"
-                    },
-                    events: [
-                        { minute: "89'", type: "goal", title: "3:1 TOOOOR für SpVgg HüMax!", player: "L. Becker", description: "Konter wie aus dem Lehrbuch: Steilpass in die Tiefe und eiskalt am Torwart vorbei ins Netz geschoben!", score: "3:1" },
-                        { minute: "76'", type: "yellow_card", title: "Gelbe Karte für TuS Hasede", player: "Taktisches Foul", description: "Verhindert den schnellen Gegenstoß von HüMax im Mittelfeld.", score: "2:1" },
-                        { minute: "54'", type: "goal", title: "2:1 Anschlusstreffer TuS Hasede", player: "F. Schmidt", description: "Abstauber nach einem Freistoß aus dem Halbfeld.", score: "2:1" },
-                        { minute: "38'", type: "goal", title: "2:0 TOOOOR für SpVgg HüMax!", player: "M. Henke (Kopfball)", description: "Wunderschöne Flanke von links, mustergültiger Kopfball gegen die Laufrichtung des Keepers!", score: "2:0" },
-                        { minute: "12'", type: "goal", title: "1:0 TOOOOR für SpVgg HüMax!", player: "J. Brinkmann", description: "Frühe Führung für HüMax! Schöner Distanzschuss aus 18 Metern schlägt unhaltbar im Winkel ein.", score: "1:0" },
-                        { minute: "1'", type: "whistle", title: "Anpfiff zur 1. Halbzeit", player: "", description: "Partie angepfiffen vor rund 150 Zuschauern auf dem Sportplatz Machtsum.", score: "0:0" }
-                    ]
-                },
-                {
-                    id: "arch-2",
-                    match: {
-                        homeTeam: "FSV Sarstedt",
-                        awayTeam: "SpVgg HüMax",
-                        homeScore: 0,
-                        awayScore: 2,
-                        competition: "Kreisliga Hildesheim",
-                        matchday: "6. Spieltag",
-                        matchDate: "Sonntag, 21.09.2026",
-                        location: "Sportpark Sarstedt (Auswärts)"
-                    },
-                    events: [
-                        { minute: "90'", type: "whistle", title: "Schlusspfiff - Auswärtssieg!", player: "", description: "Starke Mannschaftsleistung sichert verdiente drei Punkte auf fremdem Platz.", score: "0:2" },
-                        { minute: "78'", type: "goal", title: "0:2 TOOOOR für SpVgg HüMax!", player: "J. Brinkmann", description: "Die Entscheidung! Nach Ballgewinn im Mittelfeld zieht Brinkmann trocken ab.", score: "0:2" },
-                        { minute: "61'", type: "sub", title: "Wechsel bei HüMax", player: "Doppelwechsel zur Stabilisierung", description: "Trainer bringt frische Kräfte für die Schlussphase.", score: "0:1" },
-                        { minute: "24'", type: "goal", title: "0:1 TOOOOR für SpVgg HüMax!", player: "T. Meyer", description: "Führungstreffer für unsere 1. Herren nach einer einstudierten Eckballvariante.", score: "0:1" },
-                        { minute: "1'", type: "whistle", title: "Anpfiff in Sarstedt", player: "", description: "Beginn der Auswärtspartie bei regnerischem Herbstwetter.", score: "0:0" }
-                    ]
-                },
-                {
-                    id: "arch-3",
-                    match: {
-                        homeTeam: "SpVgg HüMax",
-                        awayTeam: "SV Einum II",
+                        awayTeam: "SG Schellerten/Oedelum/Ottbergen",
+                        homeLogo: "logo.png",
+                        awayLogo: "",
+                        competition: "Kreispokal",
+                        location: "Sportplatz Machtsum (Flutlicht & Rasen)",
+                        matchDate: "Flutlichtabend",
                         homeScore: 4,
-                        awayScore: 2,
-                        competition: "Kreisliga Hildesheim",
-                        matchday: "5. Spieltag",
-                        matchDate: "Sonntag, 14.09.2026",
-                        location: "Sportplatz Machtsum (Rasen)"
+                        awayScore: 3,
+                        status: "finished",
+                        statusText: "Schlusspfiff (4:3)",
+                        currentMinute: "90'",
+                        firstHalfStartedAt: null,
+                        secondHalfStartedAt: null,
+                        halfTimeReport: {
+                            title: "Halbzeit: SpVgg Hüddessum/Machtsum – SG Schellerten/Oedelum/Ottbergen",
+                            fullText: "Flutlicht, Kreispokal und von der ersten Minute an Vollgas! Die SpVgg Hüddessum/Machtsum erwischt im Duell mit der SG Schellerten/Oedelum/Ottbergen einen Start nach Maß und legt bereits in der ersten Halbzeit den Grundstein für einen erfolgreichen Pokalabend.\n\nDie Grün-Weißen sind sofort präsent und setzen die Gäste früh unter Druck. In der 5. Minute fällt bereits das 1:0! Arne Behrens nimmt den Ball auf, startet eine starke Einzelaktion und fasst sich aus rund 25 Metern ein Herz. Sein Abschluss ist perfekt getroffen und fliegt über SG-Keeper Nitschke hinweg in die Maschen. TOOOOOOR für Hü/Max! Ein Traumtor und gleichzeitig der perfekte Auftakt!\n\nNur zwei Minuten später bietet sich bereits die nächste Chance... HüMax kontrolliert das Geschehen im ersten Durchgang nach Belieben und baut die Führung durch Treffer von Leon Krause (18.) und Jannes Griebner (41.) verdient auf 3:0 aus!"
+                        },
+                        finalReport: {
+                            title: "Zweite Halbzeit & Schlusspfiff: Dramatischer Pokal-Krimi!",
+                            fullText: "Hü/Max kam auch nach dem Seitenwechsel zunächst schwungvoll aus der Kabine und suchte weiter den Weg nach vorne. In der 52. Minute bot sich die nächste gute Gelegenheit: Noah Uchenna Owo zog aus rund 14 Metern ab, doch SG-Keeper Nitschke war erneut hellwach und verhinderte mit einer starken Parade den nächsten Treffer.\n\nIn der 63. Minute war es dann aber soweit: TOOOOOOR für Hü/Max – 4:0! Noah Uchenna Owo antizipierte einen Pass der SG bereits in der Defensive, eroberte den Ball und startete anschließend eine beeindruckende Einzelaktion. Gleich zwei Gegenspieler ließ Owo wie Fahnenstangen stehen, bevor er auch noch Keeper Nitschke umkurvte und anschließend eiskalt zum 4:0 einschob. Eine herausragende Aktion von Owo, die den Spielstand eigentlich komfortabel erscheinen ließ.\n\nDoch nur drei Minuten später kam die SG Schellerten/Oedelum/Ottbergen zurück ins Spiel. In der 66. Minute wurde ein Pass in die Tiefe gespielt. Lasse Wippern zögerte zunächst einen Moment zu lange. Im anschließenden Zweikampf mit Johannes Sauer blieb ein aus Hü/Max-Sicht klares Foul ungeahndet. Die daraus entstandene Unordnung nutzte Hillebrand konsequent aus und traf aus rund 18 Metern zum 4:1.\n\nPlötzlich war die scheinbare Sicherheit dahin. Die SG witterte ihre Chance, erhöhte den Druck und drängte Hü/Max immer weiter zurück. In der 77. Minute fiel tatsächlich der nächste Treffer: Ein langer Ball entlang der Linie erreichte Hörner, der sich durchsetzte, in den Strafraum zog und den Ball souverän ins lange Eck schob – 4:2.\n\nJetzt wurde jede Aktion gefährlich. Hü/Max geriet zunehmend unter Druck und musste in der Defensive um jeden Ball kämpfen. In der 80. Minute hatte die SG sogar die nächste Möglichkeit, den Rückstand weiter zu verkürzen. Nach einer Flanke von Paul Koch kam Lasse Wippern aus sieben Metern zum Kopfball. Doch Manuel Duda war zur Stelle und verhinderte mit einer starken Reaktion den Anschlusstreffer.\n\nDie Entlastung blieb jedoch aus. Fünf Minuten später wurde es dann endgültig dramatisch. In der 85. Minute bekam die SG einen Freistoß aus rund 23 Metern zugesprochen. Hörner nahm Maß, setzte den Ball über die Mauer und direkt in die Maschen. Keine Chance für Duda – plötzlich stand es nur noch 4:3.\n\nAus einer komfortablen Führung war innerhalb weniger Minuten ein hauchdünner Vorsprung geworden. Die SG glaubte nun endgültig an die Wende, während Hü/Max um jeden Meter und jede Sekunde kämpfen musste. Jeder Angriff der SG ließ die Spannung weiter steigen, jeder geklärte Ball brachte nur kurzzeitig Erleichterung. Die Schlussminuten wurden zur echten Zitterpartie.\n\nNach einer über weite Strecken souveränen Vorstellung und einer zwischenzeitlichen 4:0-Führung musste Hü/Max nun noch einmal alles in die Waagschale werfen. Der Einzug in die nächste Runde war plötzlich wieder in Gefahr, und die Mannschaft musste dem immer größer werdenden Druck standhalten.\n\nDoch Hü/Max hielt dagegen, verteidigte die knappe Führung mit letzter Kraft und brachte sie schließlich über die Zeit.\n\nSchlusspfiff! Hü/Max gewinnt mit 4:3 gegen die SG Schellerten/Oedelum/Ottbergen und zieht in die nächste Runde des Kreispokals ein. Die Erleichterung war riesig. Ein Spiel mit zwei völlig unterschiedlichen Halbzeiten: Während Hü/Max lange souverän auftrat und die Partie scheinbar sicher im Griff hatte, sorgte die furiose Aufholjagd der SG in der Schlussphase noch einmal für Hochspannung bis zum letzten Moment."
+                        }
                     },
                     events: [
-                        { minute: "88'", type: "goal", title: "4:2 TOOOOR für SpVgg HüMax!", player: "L. Becker", description: "Deckel drauf! Toller Sololauf über 40 Meter und überlegter Abschluss.", score: "4:2" },
-                        { minute: "74'", type: "goal", title: "3:2 Tor für SV Einum II", player: "K. Weber", description: "Einum verkürzt nach einer Unachtsamkeit in der Hintermannschaft.", score: "3:2" },
-                        { minute: "62'", type: "goal", title: "3:1 TOOOOR für SpVgg HüMax!", player: "M. Henke", description: "Wieder Henke zur Stelle! Schnelle Drehung im Strafraum und drin ist das Ding.", score: "3:1" },
-                        { minute: "45'", type: "goal", title: "2:1 TOOOOR für SpVgg HüMax!", player: "J. Brinkmann", description: "Psychologisch wichtiger Treffer mit dem Pausenpfiff!", score: "2:1" },
-                        { minute: "22'", type: "goal", title: "1:1 Ausgleich SV Einum II", player: "Foulelfmeter", description: "Sicher verwandelt nach einem Zweikampf im Sechzehner.", score: "1:1" },
-                        { minute: "15'", type: "goal", title: "1:0 TOOOOR für SpVgg HüMax!", player: "T. Meyer", description: "Traumhafter Volleyschuss aus 20 Metern direkt unter die Latte.", score: "1:0" }
+                        { id: "evt-85", minute: "85'", type: "goal", team: "away", title: "Tor für die SG", player: "Enrico Hörner (Freistoß)", description: "Freistoß aus 23 m, Hörner über die Mauer und in die Maschen - 4:3. Dramatische Schlussphase!", score: "4:3", timestamp: "20:45" },
+                        { id: "evt-80", minute: "80'", type: "chance", team: "away", title: "Großchance SG", player: "Lasse Wippern / Manuel Duda", description: "Nach Flanke von Paul Koch köpft Lasse Wippern aus 7 m, aber Manuel Duda ist mit einer Glanzparade zur Stelle!", score: "", timestamp: "20:40" },
+                        { id: "evt-77", minute: "77'", type: "goal", team: "away", title: "Tor für die SG", player: "Enrico Hörner", description: "Ball lang an der Linie entlang, Hörner nimmt auf, zieht in den Strafraum und schiebt ins lange Eck - 4:2", score: "4:2", timestamp: "20:37" },
+                        { id: "evt-66", minute: "66'", type: "goal", team: "away", title: "Tor für die SG", player: "Jannis Hillebrand", description: "Pass in die Tiefe, Lasse Wippern verzögert im ersten Moment zu lange, spielt ein klares Foul gegen Johannes Sauer, was der Schiedsrichter nicht pfeift und Hillebrand nutzt die Unordnung und trifft aus 18 m - 1:4", score: "4:1", timestamp: "20:26" },
+                        { id: "evt-63", minute: "63'", type: "goal", team: "home", title: "TOOOOOOR für SpVgg HüMax!", player: "Noah Uchenna Owo", description: "Noah Uchenna Owo antizipiert einen Pass in der Defensive der SG, lässt zwei Abwehrspieler wie Fahnenstangen stehen, umkurvt Keeper Nitschke und schiebt ein 💚🤍", score: "4:0", timestamp: "20:23" },
+                        { id: "evt-52", minute: "52'", type: "chance", team: "home", title: "Chance Hü/Max", player: "Noah Uchenna Owo", description: "Noah Uchenna Owo zieht aus 14 Metern ab und Nitschke pariert stark.", score: "", timestamp: "20:12" },
+                        { id: "evt-45", minute: "45'", type: "whistle", team: "neutral", title: "Halbzeitpfiff auf dem Sportplatz Machtsum", player: "", description: "HüMax führt hochverdient mit 3:0 nach einer bärenstarken ersten Hälfte im Kreispokal!", score: "3:0", timestamp: "19:48" },
+                        { id: "evt-41", minute: "41'", type: "goal", team: "home", title: "TOOOOOOR für SpVgg HüMax!", player: "Jannes Griebner", description: "Perfekt vorgetragener Konter über Leon Krause, der setzt Jannes Griebner in Szene und der Youngster bleibt eiskalt im Abschluss!", score: "3:0", timestamp: "19:41" },
+                        { id: "evt-38", minute: "38'", type: "chance", team: "away", title: "Größte Chance für die SG Schellerten/Oedelum/Ottbergen", player: "Enrico Hörner", description: "Nach Fehlpass in der Defensive kommt der Ball zu Jannis Hildebrand und der legt quer am Sechzehner, aber Enrico Hörner verzieht aus 16 m.", score: "", timestamp: "19:38" },
+                        { id: "evt-26", minute: "26'", type: "info", team: "home", title: "Gefährliche Szene für HüMax", player: "Erik Wolligand", description: "Traumpass von Gerrit Höft auf Erik Wolligand, dessen Schuss im letzten Moment geblockt wird.", score: "", timestamp: "19:26" },
+                        { id: "evt-18", minute: "18'", type: "goal", team: "home", title: "TOOOOOOR für SpVgg HüMax!", player: "Leon Krause", description: "Starke Kombination zwischen Gerrit Höft, Erik Wolligand und Noah Uchenna Owo, der am Ende quer legt auf Leon Krause und der schiebt aus 8 m überlegt ein 💚🤍", score: "2:0", timestamp: "19:18" },
+                        { id: "evt-7", minute: "7'", type: "chance", team: "home", title: "Chance Hü/Max", player: "Noah Uchenna Owo", description: "Pass in die Tiefe von Erik Wolligand auf Noah Uchenna Owo, der Richtung Tor aufbricht, aber aus schwierigem Winkel knapp am langen Eck vorbei zieht. Knapp!", score: "", timestamp: "19:07" },
+                        { id: "evt-5", minute: "5'", type: "goal", team: "home", title: "TOOOOOOR für SpVgg HüMax!", player: "Arne Behrens", description: "Einzelaktion von Arne Behrens, Abschluss aus 25 Metern, über Keeper Nitschke hinweg in die Maschen! Was für ein Traumtor!", score: "1:0", timestamp: "19:05" }
                     ]
                 }
             ];
@@ -1261,13 +1285,13 @@
                 } else if (Notification.permission === 'granted') {
                     if (isNotificationMuted) {
                         btnNotification.className = 'ticker-bell-pill muted';
-                        btnNotification.innerHTML = '<i class="fas fa-bell-slash"></i> <span>Tor-Alarm AUS (Klick = An)</span>';
+                        btnNotification.innerHTML = '<i class="fas fa-bell-slash"></i> <span>Tor-Alarm AUS</span>';
                         if (bellStatusHint) {
-                            bellStatusHint.innerHTML = '<i class="fas fa-volume-mute" style="color: #8c9888;"></i> <span>Tor-Alarm ist pausiert. Klicke auf die Glocke, um Benachrichtigungen wieder zu aktivieren.</span>';
+                            bellStatusHint.innerHTML = '<i class="fas fa-volume-mute" style="color: #8c9888;"></i> <span>Tor-Alarm pausiert. Klicke auf die Glocke zum Reaktivieren.</span>';
                         }
                     } else {
                         btnNotification.className = 'ticker-bell-pill active';
-                        btnNotification.innerHTML = '<i class="fas fa-bell"></i> <span>Tor-Alarm ist AN (Klick = Aus)</span>';
+                        btnNotification.innerHTML = '<i class="fas fa-bell"></i> <span>Tor-Alarm AN</span>';
                         if (bellStatusHint) {
                             bellStatusHint.innerHTML = '<i class="fas fa-check-circle" style="color: #28a745;"></i> <span>Tor-Alarm aktiv: Du wirst bei Toren & Highlights live benachrichtigt.</span>';
                         }
@@ -1317,6 +1341,130 @@
 
             updateBellUI();
 
+            // Helper to format article text paragraphs cleanly
+            const formatParagraphs = (text) => {
+                if (!text) return '';
+                return text.split(/\n\n+/).filter(Boolean).map(p => `<p style="margin-bottom: 0.95rem; line-height: 1.75;">${p.replace(/\n/g, '<br>')}</p>`).join('');
+            };
+
+            // Render Final Match Report (Ausführlicher Abschlussbericht)
+            const renderFinalReport = (report) => {
+                if (!finalReportCard) return;
+                if (!report || !report.fullText || !report.fullText.trim()) {
+                    finalReportCard.style.display = 'none';
+                    return;
+                }
+
+                finalReportCard.style.display = 'block';
+                if (finalReportTitle) {
+                    finalReportTitle.textContent = report.title || "Ausführlicher Spielbericht";
+                }
+                if (finalReportMeta && currentData.match) {
+                    finalReportMeta.textContent = `${currentData.match.competition || "Kreispokal"} • Endstand ${currentData.match.homeScore ?? 0}:${currentData.match.awayScore ?? 0}`;
+                }
+
+                const fullText = report.fullText.trim();
+                let teaser = fullText;
+                if (teaser.length > 250) {
+                    const cut = teaser.indexOf('\n\n');
+                    if (cut > 50 && cut < 300) {
+                        teaser = teaser.substring(0, cut);
+                    } else {
+                        const period = teaser.indexOf('.', 180);
+                        if (period !== -1 && period < 320) {
+                            teaser = teaser.substring(0, period + 1);
+                        } else {
+                            teaser = teaser.substring(0, 240) + '...';
+                        }
+                    }
+                }
+
+                if (finalReportTeaser) {
+                    finalReportTeaser.innerHTML = `<p style="margin: 0; line-height: 1.7; color: #2d3829;">${teaser.replace(/\n/g, '<br>')}</p>`;
+                }
+
+                if (finalReportFull) {
+                    finalReportFull.innerHTML = formatParagraphs(fullText);
+                }
+            };
+
+            if (btnToggleFinalReport) {
+                btnToggleFinalReport.addEventListener('click', () => {
+                    isFinalReportOpen = !isFinalReportOpen;
+                    if (finalReportFull) {
+                        finalReportFull.style.display = isFinalReportOpen ? 'block' : 'none';
+                    }
+                    if (btnToggleFinalReportText) {
+                        btnToggleFinalReportText.textContent = isFinalReportOpen ? 'Weniger anzeigen' : 'Gesamten Spielbericht lesen';
+                    }
+                    if (finalReportChevron) {
+                        finalReportChevron.style.transform = isFinalReportOpen ? 'rotate(180deg)' : 'rotate(0deg)';
+                    }
+                });
+            }
+
+            // Create Halbzeitbericht item for the timeline stream
+            const createHalftimeItem = (htReport) => {
+                const item = document.createElement('div');
+                item.className = 'ticker-item event-whistle ticker-report-item';
+                
+                const fullText = htReport.fullText.trim();
+                let teaser = fullText;
+                if (teaser.length > 250) {
+                    const cut = teaser.indexOf('\n\n');
+                    if (cut > 50 && cut < 300) {
+                        teaser = teaser.substring(0, cut);
+                    } else {
+                        const period = teaser.indexOf('.', 180);
+                        if (period !== -1 && period < 300) {
+                            teaser = teaser.substring(0, period + 1);
+                        } else {
+                            teaser = teaser.substring(0, 220) + '...';
+                        }
+                    }
+                }
+
+                item.innerHTML = `
+                    <div class="ticker-item-meta">
+                        <span class="ticker-item-minute">45'</span>
+                        <div class="ticker-item-node" style="background: rgba(229, 179, 82, 0.15); color: #b8860b; border-color: rgba(229, 179, 82, 0.4);"><i class="fas fa-newspaper"></i></div>
+                    </div>
+                    <div class="ticker-item-card" style="border-left: 4px solid #e5b352; background: #fffdf8; box-shadow: 0 4px 16px rgba(10, 28, 1, 0.04);">
+                        <div class="ticker-item-header" style="flex-wrap: wrap; gap: 0.5rem;">
+                            <span style="font-size: 0.75rem; font-weight: 800; text-transform: uppercase; color: #153e02; background: rgba(21, 62, 2, 0.08); padding: 0.2rem 0.55rem; border-radius: 4px; letter-spacing: 0.05em;">Halbzeitbericht</span>
+                            <span class="ticker-pill-score" style="background: #153e02; color: #ffffff;">Pausenstand</span>
+                        </div>
+                        <h4 class="ticker-item-title" style="margin-top: 0.45rem; font-size: 1.15rem; color: #0a1c01; font-family: 'Outfit', sans-serif;">${htReport.title || 'Halbzeitbericht'}</h4>
+                        <div class="ht-report-teaser" style="font-size: 0.95rem; color: #2d3829; line-height: 1.65; margin-top: 0.4rem;">
+                            <p style="margin: 0;">${teaser.replace(/\n/g, '<br>')}</p>
+                        </div>
+                        <div class="ht-report-full" style="display: none; font-size: 0.95rem; color: #2d3829; line-height: 1.7; margin-top: 0.85rem; border-top: 1px dashed rgba(21, 62, 2, 0.18); padding-top: 0.85rem;">
+                            ${formatParagraphs(fullText)}
+                        </div>
+                        <button type="button" class="btn-toggle-ht-report" style="margin-top: 0.9rem; background: #ffffff; border: 1px solid rgba(21, 62, 2, 0.2); color: #153e02; padding: 0.4rem 0.95rem; border-radius: 999px; font-size: 0.82rem; font-weight: 800; cursor: pointer; display: inline-flex; align-items: center; gap: 0.4rem; transition: all 0.2s ease;">
+                            <span class="btn-toggle-ht-text">Halbzeitbericht lesen</span> <i class="fas fa-chevron-down btn-toggle-ht-chevron" style="transition: transform 0.25s ease;"></i>
+                        </button>
+                    </div>
+                `;
+
+                const btn = item.querySelector('.btn-toggle-ht-report');
+                const fullContainer = item.querySelector('.ht-report-full');
+                const btnText = item.querySelector('.btn-toggle-ht-text');
+                const chevron = item.querySelector('.btn-toggle-ht-chevron');
+                let isOpen = false;
+
+                if (btn) {
+                    btn.addEventListener('click', () => {
+                        isOpen = !isOpen;
+                        if (fullContainer) fullContainer.style.display = isOpen ? 'block' : 'none';
+                        if (btnText) btnText.textContent = isOpen ? 'Weniger anzeigen' : 'Halbzeitbericht lesen';
+                        if (chevron) chevron.style.transform = isOpen ? 'rotate(180deg)' : 'rotate(0deg)';
+                    });
+                }
+
+                return item;
+            };
+
             // Render Scoreboard
             const renderScoreboard = (match) => {
                 if (!match) return;
@@ -1358,6 +1506,9 @@
                     matchStatusBadge.className = 'ticker-status-pill';
                     matchStatusBadge.innerHTML = '<i class="far fa-clock" style="color: var(--text-muted); font-size: 0.8rem;"></i> <span>' + (match.statusText || 'Vorbericht') + '</span>';
                 }
+
+                // Ausführlicher Abschlussbericht
+                renderFinalReport(match.finalReport);
             };
 
             // Event icon mapper
@@ -1406,7 +1557,16 @@
                     return;
                 }
 
+                const shouldShowHalftime = (currentFilter === 'all' || currentFilter === 'highlights') && !!(currentData.match?.halfTimeReport?.fullText?.trim());
+                let halftimeInserted = false;
+
                 filtered.forEach(evt => {
+                    const minuteNum = parseInt((evt.minute || '').replace(/[^0-9]/g, '')) || 0;
+                    if (shouldShowHalftime && !halftimeInserted && minuteNum <= 45) {
+                        feedContainer.appendChild(createHalftimeItem(currentData.match.halfTimeReport));
+                        halftimeInserted = true;
+                    }
+
                     const item = document.createElement('div');
                     item.className = `ticker-item event-${evt.type}`;
                     
@@ -1441,6 +1601,10 @@
                     `;
                     feedContainer.appendChild(item);
                 });
+
+                if (shouldShowHalftime && !halftimeInserted) {
+                    feedContainer.appendChild(createHalftimeItem(currentData.match.halfTimeReport));
+                }
             };
 
             // Render Archive of Past Matches (Aufklappbar / Accordion)
@@ -1448,12 +1612,17 @@
                 if (!archiveListContainer) return;
                 archiveListContainer.innerHTML = '';
 
-                const matches = (archiveData && archiveData.length > 0) ? archiveData : defaultArchive;
+                const matches = Array.isArray(archiveData) ? archiveData : defaultArchive;
+
+                if (matches.length === 0) {
+                    archiveListContainer.innerHTML = '<p style="color: #576553; text-align: center; padding: 2rem 0; font-size: 0.95rem;">Keine archivierten Spiele vorhanden.</p>';
+                    return;
+                }
 
                 matches.forEach((item, index) => {
                     const card = document.createElement('div');
                     card.className = 'ticker-archive-card';
-                    if (index === 0) card.classList.add('open'); // Open latest finished match by default
+                    // Standardmäßig alle eingeklappt (closed by default)
 
                     const m = item.match;
                     const evts = item.events || [];
@@ -1572,7 +1741,7 @@
                 currentData = data;
                 renderScoreboard(data.match);
                 renderEvents(data.events);
-                renderArchive(data.archive || defaultArchive);
+                renderArchive(data.archive !== undefined ? data.archive : defaultArchive);
             };
 
             // Initial Render
@@ -1587,7 +1756,7 @@
             }
             renderScoreboard(currentData.match);
             renderEvents(currentData.events);
-            renderArchive(currentData.archive || defaultArchive);
+            renderArchive(currentData.archive !== undefined ? currentData.archive : defaultArchive);
 
             // Fetch immediately & poll every 15 seconds
             fetchTickerData();
