@@ -1194,13 +1194,6 @@
                 localStorage.setItem('huemax_admin_logged_in', 'true');
                 localStorage.setItem('huemax_admin_password', savedPw);
                 loginScreen.style.display = 'none';
-                if (window.location.hash === '#news') {
-                    switchTab('news');
-                } else if (window.location.hash === '#birthdays') {
-                    switchTab('birthdays');
-                } else {
-                    switchTab('ticker');
-                }
             }
 
             // Handle Login Form (Weymann SHA-256 Security Check)
@@ -2094,7 +2087,7 @@
             };
 
             // Calculate Running Match Minute Automatically
-            const calculateCurrentMinute = () => {
+            function calculateCurrentMinute() {
                 if (!tickerData || !tickerData.match) return "0'";
                 const m = tickerData.match;
                 const status = m.status || 'scheduled';
@@ -2124,10 +2117,10 @@
                 }
 
                 return m.currentMinute || "0'";
-            };
+            }
 
             // Update UI Game Clock & Single Big Phase Button
-            const updateClockUI = () => {
+            function updateClockUI() {
                 if (!tickerData || !tickerData.match) return;
                 const m = tickerData.match;
                 const status = m.status || 'scheduled';
@@ -2307,7 +2300,7 @@
             });
 
             // Instant Score Buttons (Große Touch-Knöpfe)
-            const updateScore = async (team, delta) => {
+            async function updateScore(team, delta) {
                 if (!tickerData.match) tickerData.match = {};
                 if (team === 'home') {
                     tickerData.match.homeScore = Math.max(0, (tickerData.match.homeScore ?? 0) + delta);
@@ -2319,7 +2312,7 @@
                 const scoreStr = `${tickerData.match.homeScore}:${tickerData.match.awayScore}`;
                 showToast(`⚡ Spielstand ${scoreStr} gespeichert!`);
                 await saveTickerData();
-            };
+            }
 
             btnScoreHomePlus.addEventListener('click', () => updateScore('home', 1));
             btnScoreHomeMinus.addEventListener('click', () => updateScore('home', -1));
@@ -2362,7 +2355,7 @@
                 }
             });
 
-            const updateCrestPreviews = () => {
+            function updateCrestPreviews() {
                 const logo = tickerData?.match?.awayLogo || '';
                 if (logo) {
                     adminAwayCrestImg.src = logo;
@@ -2374,10 +2367,10 @@
                     adminAwayCrestFallback.style.display = 'block';
                     btnRemoveAwayLogo.style.display = 'none';
                 }
-            };
+            }
 
             // Save Ticker Data directly to Cloudflare KV via Worker
-            const saveTickerData = async () => {
+            async function saveTickerData() {
                 const pw = sessionStorage.getItem('huemax_admin_password') || localStorage.getItem('huemax_admin_password') || '';
                 if (!pw) {
                     alert('⚠️ Authentifizierung abgelaufen. Bitte im Admin neu einloggen.');
@@ -2492,7 +2485,7 @@
             });
 
             // Render Events Feed in Admin (Mit Mülleimer zum einfachen Löschen)
-            const renderAdminEventsFeed = () => {
+            function renderAdminEventsFeed() {
                 adminEventsFeed.innerHTML = '';
                 const evts = tickerData.events || [];
                 adminEventsCount.textContent = `${evts.length}`;
@@ -2572,7 +2565,7 @@
             });
 
             // Match Settings Render & Fetch
-            const renderAdminMatchSettings = () => {
+            function renderAdminMatchSettings() {
                 const m = tickerData.match;
                 if (!m) return;
                 tickerAwayTeamInput.value = m.awayTeam || '';
@@ -2582,9 +2575,9 @@
                 updateCrestPreviews();
                 updateClockUI();
                 renderAdminReports();
-            };
+            }
 
-            const renderAdminReports = () => {
+            function renderAdminReports() {
                 const m = tickerData.match;
                 if (!m) {
                     if (reportHalftimeText) reportHalftimeText.value = '';
@@ -2609,10 +2602,10 @@
                     reportFinalTitle.value = '';
                     reportFinalText.value = '';
                 }
-            };
+            }
 
             // Render Archived Matches in Admin
-            const renderAdminArchive = () => {
+            function renderAdminArchive() {
                 if (!adminArchiveFeed) return;
                 adminArchiveFeed.innerHTML = '';
                 const archive = tickerData.archive || [];
@@ -2672,9 +2665,9 @@
 
                     adminArchiveFeed.appendChild(row);
                 });
-            };
+            }
 
-            const fetchTickerAdmin = async () => {
+            async function fetchTickerAdmin() {
                 try {
                     const res = await fetch(`${tickerApiUrl}?t=${Date.now()}`, {
                         cache: 'no-store',
@@ -2697,15 +2690,17 @@
                 renderAdminMatchSettings();
                 renderAdminEventsFeed();
                 renderAdminArchive();
-            };
+            }
 
             // Initial Tab Routing (Default to Ticker unless hash specified)
-            if (window.location.hash === '#news') {
-                switchTab('news');
-            } else if (window.location.hash === '#birthdays') {
-                switchTab('birthdays');
-            } else {
-                switchTab('ticker');
+            if (isAuth && savedPw) {
+                if (window.location.hash === '#news') {
+                    switchTab('news');
+                } else if (window.location.hash === '#birthdays') {
+                    switchTab('birthdays');
+                } else {
+                    switchTab('ticker');
+                }
             }
         });
     </script>
