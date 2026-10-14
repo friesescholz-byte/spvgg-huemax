@@ -1185,7 +1185,14 @@
             const ADMIN_HASH = '624e8dc041f8bfecadc70e8b6036523a2e47181a49d7b5e3fde657dc11c7943d';
 
             // Check if already authenticated
-            if (sessionStorage.getItem('huemax_admin_logged_in') === 'true') {
+            const isAuth = (sessionStorage.getItem('huemax_admin_logged_in') === 'true' || localStorage.getItem('huemax_admin_logged_in') === 'true');
+            const savedPw = sessionStorage.getItem('huemax_admin_password') || localStorage.getItem('huemax_admin_password') || '';
+
+            if (isAuth && savedPw) {
+                sessionStorage.setItem('huemax_admin_logged_in', 'true');
+                sessionStorage.setItem('huemax_admin_password', savedPw);
+                localStorage.setItem('huemax_admin_logged_in', 'true');
+                localStorage.setItem('huemax_admin_password', savedPw);
                 loginScreen.style.display = 'none';
                 if (window.location.hash === '#news') {
                     switchTab('news');
@@ -1204,6 +1211,8 @@
                 if (hash === ADMIN_HASH) {
                     sessionStorage.setItem('huemax_admin_logged_in', 'true');
                     sessionStorage.setItem('huemax_admin_password', pw);
+                    localStorage.setItem('huemax_admin_logged_in', 'true');
+                    localStorage.setItem('huemax_admin_password', pw);
                     loginScreen.style.opacity = '0';
                     setTimeout(() => {
                         loginScreen.style.display = 'none';
@@ -1294,7 +1303,7 @@
 
             // Save articles list to Cloudflare KV Namespace
             const saveArticles = () => {
-                const pw = sessionStorage.getItem('huemax_admin_password') || '';
+                const pw = sessionStorage.getItem('huemax_admin_password') || localStorage.getItem('huemax_admin_password') || '';
                 if (!pw) {
                     alert('Sitzung abgelaufen. Bitte laden Sie die Seite neu.');
                     return Promise.reject('No password');
@@ -1683,7 +1692,7 @@
 
             // Save birthdays to Worker
             const saveBirthdays = () => {
-                const pw = sessionStorage.getItem('huemax_admin_password') || '';
+                const pw = sessionStorage.getItem('huemax_admin_password') || localStorage.getItem('huemax_admin_password') || '';
                 if (!pw) {
                     alert('Sitzung abgelaufen. Bitte laden Sie die Seite neu.');
                     return Promise.reject('No password');
@@ -1980,19 +1989,23 @@
 
             let tickerData = {
                 match: {
-                    homeTeam: "SpVgg HüMax",
-                    awayTeam: "SV Bavenstedt II",
+                    homeTeam: "SpVgg Hüddessum/Machtsum",
+                    awayTeam: "",
                     homeLogo: "logo.png",
-                    awayLogo: "bavenstedt-logo.png",
+                    awayLogo: "",
                     competition: "Kreisliga Hildesheim",
                     matchDate: "Sonntag, 15:00 Uhr",
                     location: "Sportplatz Machtsum",
-                    homeScore: 2,
-                    awayScore: 1,
-                    currentMinute: "73'",
-                    status: "second_half",
-                    statusText: "73' • 2. Halbzeit",
-                    isLive: true
+                    homeScore: 0,
+                    awayScore: 0,
+                    currentMinute: "0'",
+                    status: "scheduled",
+                    statusText: "Vorbericht",
+                    isLive: false,
+                    firstHalfStartedAt: null,
+                    secondHalfStartedAt: null,
+                    halfTimeReport: null,
+                    finalReport: null
                 },
                 events: [],
                 archive: defaultArchive
@@ -2039,14 +2052,14 @@
 
             // Floating Toast Helper
             let toastTimer = null;
-            const showToast = (msg) => {
+            const showToast = (msg, duration = 2400) => {
                 if (!toastEl) return;
                 toastText.textContent = msg;
                 toastEl.style.display = 'inline-flex';
                 clearTimeout(toastTimer);
                 toastTimer = setTimeout(() => {
                     toastEl.style.display = 'none';
-                }, 2400);
+                }, duration);
             };
 
             // Image Compression Helper (Max 256x256 base64 PNG)
@@ -2363,9 +2376,18 @@
                 }
             };
 
-            // Save Ticker Data to Cloudflare Worker
+            // Save Ticker Data directly to Cloudflare KV via Worker
             const saveTickerData = async () => {
-                const pw = sessionStorage.getItem('huemax_admin_password') || '';
+                const pw = sessionStorage.getItem('huemax_admin_password') || localStorage.getItem('huemax_admin_password') || '';
+                if (!pw) {
+                    alert('⚠️ Authentifizierung abgelaufen. Bitte im Admin neu einloggen.');
+                    loginScreen.style.display = 'flex';
+                    loginScreen.style.opacity = '1';
+                    return false;
+                }
+
+                showToast('⏳ Speichere in Cloudflare Cloud...', 10000);
+
                 try {
                     const res = await fetch(tickerApiUrl, {
                         method: 'POST',
@@ -2375,16 +2397,24 @@
                         },
                         body: JSON.stringify(tickerData)
                     });
+
                     if (!res.ok) {
                         const err = await res.json().catch(() => ({}));
-                        throw new Error(err.error || 'Serverfehler beim Speichern');
+                        const errMsg = err.error || `HTTP ${res.status}`;
+                        alert(`❌ FEHLER: Konnte nicht in Cloudflare KV speichern!\nGrund: ${errMsg}\n\nBitte prüfen Sie das Admin-Passwort.`);
+                        showToast(`❌ Cloud-Fehler: ${errMsg}`, 5000);
+                        return false;
                     }
+
+                    // Cloud write confirmed!
                     localStorage.setItem('huemax_live_ticker_backup', JSON.stringify(tickerData));
+                    showToast('☁️ In Cloudflare gespeichert (weltweit live)!', 2400);
                     return true;
                 } catch(e) {
-                    localStorage.setItem('huemax_live_ticker_backup', JSON.stringify(tickerData));
-                    console.warn('Worker sync warning, saved to local backup:', e.message);
-                    return true;
+                    console.error('Cloudflare Save Error:', e);
+                    alert(`❌ NETZWERKFEHLER: Cloudflare Worker konnte nicht erreicht werden!\n${e.message}`);
+                    showToast(`❌ Netzwerkfehler`, 5000);
+                    return false;
                 }
             };
 
@@ -2646,7 +2676,10 @@
 
             const fetchTickerAdmin = async () => {
                 try {
-                    const res = await fetch(tickerApiUrl);
+                    const res = await fetch(`${tickerApiUrl}?t=${Date.now()}`, {
+                        cache: 'no-store',
+                        headers: { 'Accept': 'application/json' }
+                    });
                     if (res.ok) {
                         const data = await res.json();
                         if (data && data.match) {

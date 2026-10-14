@@ -1161,80 +1161,28 @@
                 }
             ];
 
-            // Default Initial State
+            // Default Initial State (clean fallback until Cloudflare KV data arrives)
             let currentData = {
                 match: {
-                    homeTeam: "SpVgg HüMax",
-                    awayTeam: "SV Bavenstedt II",
+                    homeTeam: "SpVgg Hüddessum/Machtsum",
+                    awayTeam: "",
                     homeLogo: "logo.png",
-                    awayLogo: "bavenstedt-logo.png",
+                    awayLogo: "",
                     competition: "Kreisliga Hildesheim",
                     matchDate: "Sonntag, 15:00 Uhr",
-                    location: "Sportplatz Machtsum (Rasen)",
-                    homeScore: 2,
-                    awayScore: 1,
-                    currentMinute: "73'",
-                    status: "second_half",
-                    statusText: "73' • 2. Halbzeit",
-                    isLive: true
+                    location: "Sportplatz Machtsum",
+                    homeScore: 0,
+                    awayScore: 0,
+                    currentMinute: "0'",
+                    status: "scheduled",
+                    statusText: "Vorbericht",
+                    isLive: false,
+                    firstHalfStartedAt: null,
+                    secondHalfStartedAt: null,
+                    halfTimeReport: null,
+                    finalReport: null
                 },
-                events: [
-                    {
-                        id: "evt-4",
-                        minute: "72'",
-                        type: "sub",
-                        team: "home",
-                        title: "Wechsel bei SpVgg HüMax",
-                        description: "Applaus von den Rängen auf dem Machtsumer Sportplatz: Frische Kräfte für die Schlussphase.",
-                        player: "T. Meyer für L. Becker",
-                        score: "2:1",
-                        timestamp: "16:28"
-                    },
-                    {
-                        id: "evt-3",
-                        minute: "64'",
-                        type: "goal",
-                        team: "home",
-                        title: "TOOOOR für SpVgg HüMax!",
-                        description: "Was für eine Bude! Nach einer maßgeschneiderten Ecke steigt der Angreifer am Fünfmeterraum am höchsten und köpft unhaltbar ins lange Eck ein!",
-                        player: "M. Henke (Kopfball)",
-                        score: "2:1",
-                        timestamp: "16:19"
-                    },
-                    {
-                        id: "evt-2",
-                        minute: "41'",
-                        type: "goal",
-                        team: "away",
-                        title: "Tor für SV Bavenstedt II",
-                        description: "Ausgleich kurz vor der Pause. Ein strammer Flachschuss aus 16 Metern schlägt im linken unteren Toreck ein.",
-                        player: "D. Krause",
-                        score: "1:1",
-                        timestamp: "15:42"
-                    },
-                    {
-                        id: "evt-1",
-                        minute: "18'",
-                        type: "goal",
-                        team: "home",
-                        title: "TOOOOR für SpVgg HüMax!",
-                        description: "Traumstart für die Hausherren! Ballgewinn im Mittelfeld, schnelles Umschaltspiel und eiskalt vollstreckt.",
-                        player: "J. Brinkmann",
-                        score: "1:0",
-                        timestamp: "15:19"
-                    },
-                    {
-                        id: "evt-0",
-                        minute: "1'",
-                        type: "whistle",
-                        team: "neutral",
-                        title: "Anpfiff zur 1. Halbzeit",
-                        description: "Schiedsrichter pfeift die Partie bei bestem Fußballwetter auf dem Sportplatz Machtsum an.",
-                        player: "",
-                        score: "0:0",
-                        timestamp: "15:00"
-                    }
-                ],
+                events: [],
                 archive: defaultArchive
             };
 
@@ -1699,7 +1647,10 @@
             // Fetch Live Ticker Data
             const fetchTickerData = async () => {
                 try {
-                    const res = await fetch(API_URL);
+                    const res = await fetch(`${API_URL}?t=${Date.now()}`, {
+                        cache: 'no-store',
+                        headers: { 'Accept': 'application/json' }
+                    });
                     if (res.ok) {
                         const data = await res.json();
                         if (data && data.match) {
@@ -1742,6 +1693,16 @@
                 renderScoreboard(data.match);
                 renderEvents(data.events);
                 renderArchive(data.archive !== undefined ? data.archive : defaultArchive);
+
+                // Update nav link live indicator dynamically
+                const isLive = !!(data.match && data.match.isLive === true);
+                document.querySelectorAll('.nav-link-ticker').forEach(link => {
+                    if (isLive) {
+                        link.classList.add('is-live');
+                    } else {
+                        link.classList.remove('is-live');
+                    }
+                });
             };
 
             // Initial Render
@@ -1758,9 +1719,9 @@
             renderEvents(currentData.events);
             renderArchive(currentData.archive !== undefined ? currentData.archive : defaultArchive);
 
-            // Fetch immediately & poll every 15 seconds
+            // Fetch immediately & poll every 10 seconds for real-time live sync
             fetchTickerData();
-            setInterval(fetchTickerData, 15000);
+            setInterval(fetchTickerData, 10000);
         })();
     </script>
 </body>

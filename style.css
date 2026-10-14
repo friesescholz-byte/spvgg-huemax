@@ -446,6 +446,15 @@ a {
         justify-content: space-between;
     }
     
+    .nav-link.nav-link-ticker {
+        display: flex !important;
+        align-items: center !important;
+        justify-content: flex-start !important;
+        gap: 0.65rem !important;
+        width: 100% !important;
+        text-align: left !important;
+    }
+    
     .dropdown-menu {
         position: static;
         width: 100%;
@@ -3236,22 +3245,51 @@ textarea.form-control {
 /* Nav Live Indicator */
 .nav-link-ticker {
     display: inline-flex !important;
-    align-items: center;
-    gap: 0.45rem;
+    align-items: center !important;
+    justify-content: flex-start !important;
+    gap: 0.55rem !important;
     font-weight: 700;
 }
 
 .ticker-live-dot {
+    display: none !important;
     width: 8px;
     height: 8px;
     background-color: #28a745;
     border-radius: 50%;
-    display: inline-block;
+    flex-shrink: 0;
+    box-shadow: 0 0 0 0 rgba(40, 167, 69, 0.7);
+    animation: livePulseDot 1.8s infinite ease-in-out;
+}
+
+.nav-link-ticker.is-live .ticker-live-dot {
+    display: inline-block !important;
+}
+
+.nav-link-ticker.is-live {
+    color: #28a745 !important;
+    font-weight: 800 !important;
+}
+
+.burger-menu {
+    position: relative;
+}
+
+.burger-menu.has-live-match::after {
+    content: '';
+    position: absolute;
+    top: 2px;
+    right: 2px;
+    width: 9px;
+    height: 9px;
+    background-color: #28a745;
+    border-radius: 50%;
+    box-shadow: 0 0 0 2px #ffffff;
     animation: livePulseDot 1.8s infinite ease-in-out;
 }
 
 @keyframes livePulseDot {
-    0% { transform: scale(0.9); opacity: 0.8; box-shadow: 0 0 0 0 rgba(40, 167, 69, 0.6); }
+    0% { transform: scale(0.9); opacity: 0.8; box-shadow: 0 0 0 0 rgba(40, 167, 69, 0.7); }
     70% { transform: scale(1.15); opacity: 1; box-shadow: 0 0 0 6px rgba(40, 167, 69, 0); }
     100% { transform: scale(0.9); opacity: 0.8; box-shadow: 0 0 0 0 rgba(40, 167, 69, 0); }
 }

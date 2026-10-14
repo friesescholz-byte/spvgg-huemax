@@ -895,4 +895,48 @@ document.addEventListener('DOMContentLoaded', () => {
             }, 1200);
         });
     }
+
+    // =========================================================================
+    // Global Live-Ticker Status Detection (Syncs Navbar Dot Across All Pages)
+    // =========================================================================
+    const initLiveTickerNav = () => {
+        const tickerLinks = document.querySelectorAll('.nav-link-ticker');
+        const burgerMenu = document.querySelector('.burger-menu');
+        if (!tickerLinks.length && !burgerMenu) return;
+
+        const checkLiveStatus = async () => {
+            try {
+                const res = await fetch('https://huemax-news-api.friese-scholz.workers.dev/api/ticker?t=' + Date.now(), {
+                    cache: 'no-store',
+                    headers: { 'Accept': 'application/json' }
+                });
+                if (res.ok) {
+                    const data = await res.json();
+                    const isLive = !!(data && data.match && data.match.isLive === true);
+                    tickerLinks.forEach(link => {
+                        if (isLive) {
+                            link.classList.add('is-live');
+                        } else {
+                            link.classList.remove('is-live');
+                        }
+                    });
+                    if (burgerMenu) {
+                        if (isLive) {
+                            burgerMenu.classList.add('has-live-match');
+                        } else {
+                            burgerMenu.classList.remove('has-live-match');
+                        }
+                    }
+                }
+            } catch(e) {
+                // Graceful failover: silent
+            }
+        };
+
+        checkLiveStatus();
+        // Poll every 30 seconds globally
+        setInterval(checkLiveStatus, 30000);
+    };
+
+    initLiveTickerNav();
 });
