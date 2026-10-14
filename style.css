@@ -3262,7 +3262,8 @@ textarea.form-control {
     animation: livePulseDot 1.8s infinite ease-in-out;
 }
 
-.nav-link-ticker.is-live .ticker-live-dot {
+.nav-link-ticker.is-live .ticker-live-dot,
+.ticker-board-header.is-live .ticker-live-dot {
     display: inline-block !important;
 }
 
@@ -3405,7 +3406,87 @@ textarea.form-control {
     background: #fdf2f2;
     border-color: rgba(220, 53, 69, 0.3);
     color: #c82333;
-    cursor: not-allowed;
+}
+
+/* In-Page Live Goal Alert Banner */
+.ticker-goal-overlay {
+    position: fixed;
+    top: 1.5rem;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 999999;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    width: 90%;
+    max-width: 480px;
+    animation: slideDownBounce 0.5s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}
+
+.ticker-goal-popup {
+    background: #153e02;
+    color: #ffffff;
+    border-radius: 16px;
+    padding: 1.15rem 1.4rem;
+    box-shadow: 0 16px 40px rgba(10, 28, 1, 0.35), 0 0 0 2px rgba(229, 179, 82, 0.4);
+    position: relative;
+    width: 100%;
+    text-align: center;
+}
+
+.goal-popup-badge {
+    display: inline-block;
+    background: #e5b352;
+    color: #153e02;
+    font-size: 0.8rem;
+    font-weight: 900;
+    letter-spacing: 0.08em;
+    padding: 0.2rem 0.65rem;
+    border-radius: 6px;
+    margin-bottom: 0.45rem;
+}
+
+.goal-popup-title {
+    font-size: 1.15rem;
+    font-weight: 800;
+    font-family: var(--font-heading, 'Outfit', sans-serif);
+    margin-bottom: 0.25rem;
+}
+
+.goal-popup-desc {
+    font-size: 0.9rem;
+    opacity: 0.9;
+    line-height: 1.4;
+}
+
+.goal-popup-score {
+    font-size: 1.35rem;
+    font-weight: 900;
+    color: #e5b352;
+    margin-top: 0.45rem;
+    letter-spacing: 0.05em;
+}
+
+.goal-popup-close {
+    position: absolute;
+    top: 8px;
+    right: 12px;
+    background: transparent;
+    border: none;
+    color: #ffffff;
+    font-size: 1.5rem;
+    cursor: pointer;
+    opacity: 0.7;
+    line-height: 1;
+}
+
+.goal-popup-close:hover {
+    opacity: 1;
+}
+
+@keyframes slideDownBounce {
+    0% { opacity: 0; transform: translate(-50%, -20px); }
+    100% { opacity: 1; transform: translate(-50%, 0); }
 }
 
 /* Scoreboard Core Grid */

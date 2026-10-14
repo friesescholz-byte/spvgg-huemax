@@ -1190,100 +1190,134 @@
             let seenEventIds = new Set(currentData.events.map(e => e.id));
             let currentFilter = 'all';
 
-            // Audio Notification Chime
-            const playGoalChime = () => {
+            // Audio & Universal Goal Alarm Engine (iOS, Android & Desktop)
+            let sharedAudioCtx = null;
+            const unlockAudio = () => {
                 try {
-                    const ctx = new (window.AudioContext || window.webkitAudioContext)();
-                    const now = ctx.currentTime;
-                    const osc = ctx.createOscillator();
-                    const gain = ctx.createGain();
-                    osc.type = 'triangle';
-                    osc.connect(gain);
-                    gain.connect(ctx.destination);
-                    
-                    osc.frequency.setValueAtTime(523.25, now);
-                    osc.frequency.setValueAtTime(659.25, now + 0.12);
-                    osc.frequency.setValueAtTime(783.99, now + 0.24);
-                    osc.frequency.setValueAtTime(1046.50, now + 0.36);
-
-                    gain.gain.setValueAtTime(0.2, now);
-                    gain.gain.exponentialRampToValueAtTime(0.01, now + 0.7);
-
-                    osc.start(now);
-                    osc.stop(now + 0.7);
+                    const AudioCtx = window.AudioContext || window.webkitAudioContext;
+                    if (AudioCtx) {
+                        if (!sharedAudioCtx) sharedAudioCtx = new AudioCtx();
+                        if (sharedAudioCtx.state === 'suspended') sharedAudioCtx.resume();
+                    }
                 } catch(e) {}
             };
 
-            // User Toggle Preference for Live Push Notifications
-            let isNotificationMuted = localStorage.getItem('huemax_notifications_muted') === 'true';
+            const playGoalChime = () => {
+                try {
+                    unlockAudio();
+                    if (!sharedAudioCtx) return;
+                    const now = sharedAudioCtx.currentTime;
+                    const osc = sharedAudioCtx.createOscillator();
+                    const gain = sharedAudioCtx.createGain();
 
-            // Notification Bell UI Update (Toggleable On/Off with distinct visibility)
-            const updateBellUI = () => {
-                if (!("Notification" in window)) {
-                    btnNotification.style.display = 'none';
-                    if (bellStatusHint) bellStatusHint.style.display = 'none';
-                    return;
+                    osc.type = 'triangle';
+                    osc.connect(gain);
+                    gain.connect(sharedAudioCtx.destination);
+
+                    // Happy stadium melody (C5 -> E5 -> G5 -> C6)
+                    osc.frequency.setValueAtTime(523.25, now);
+                    osc.frequency.setValueAtTime(659.25, now + 0.11);
+                    osc.frequency.setValueAtTime(783.99, now + 0.22);
+                    osc.frequency.setValueAtTime(1046.50, now + 0.33);
+
+                    gain.gain.setValueAtTime(0.28, now);
+                    gain.gain.exponentialRampToValueAtTime(0.001, now + 0.75);
+
+                    osc.start(now);
+                    osc.stop(now + 0.75);
+                } catch(e) {}
+            };
+
+            // In-Page Goal Alert Modal / Banner
+            let goalBannerTimer = null;
+            const showGoalBanner = (title, desc, score) => {
+                let banner = document.getElementById('ticker-goal-banner-overlay');
+                if (!banner) {
+                    banner = document.createElement('div');
+                    banner.id = 'ticker-goal-banner-overlay';
+                    banner.className = 'ticker-goal-overlay';
+                    document.body.appendChild(banner);
                 }
-                if (Notification.permission === 'denied') {
-                    btnNotification.className = 'ticker-bell-pill denied';
-                    btnNotification.innerHTML = '<i class="fas fa-bell-slash"></i> <span>Blockiert</span>';
+                banner.innerHTML = `
+                    <div class="ticker-goal-popup">
+                        <div class="goal-popup-badge">⚽ TOOOOOOR!</div>
+                        <div class="goal-popup-title">${title || 'Tor für SpVgg HüMax!'}</div>
+                        <div class="goal-popup-desc">${desc || ''}</div>
+                        ${score ? `<div class="goal-popup-score">${score}</div>` : ''}
+                        <button type="button" class="goal-popup-close" aria-label="Schließen" onclick="document.getElementById('ticker-goal-banner-overlay').style.display='none'">&times;</button>
+                    </div>
+                `;
+                banner.style.display = 'flex';
+                clearTimeout(goalBannerTimer);
+                goalBannerTimer = setTimeout(() => {
+                    if (banner) banner.style.display = 'none';
+                }, 8000);
+            };
+
+            // Goal Alarm State: Defaults to true if user enabled it, or false
+            let isAlarmActive = localStorage.getItem('huemax_goal_alarm_active') === 'true';
+
+            // Universal Bell UI Update (Never hides on mobile!)
+            const updateBellUI = () => {
+                if (!btnNotification) return;
+                btnNotification.style.display = 'inline-flex';
+
+                if (isAlarmActive) {
+                    btnNotification.className = 'ticker-bell-pill active';
+                    btnNotification.innerHTML = '<i class="fas fa-bell"></i> <span>Tor-Alarm AN</span>';
                     if (bellStatusHint) {
-                        bellStatusHint.innerHTML = '<i class="fas fa-exclamation-circle" style="color: #dc3545;"></i> <span>Push-Meldungen im Browser blockiert (in Einstellungen freigeben).</span>';
-                    }
-                } else if (Notification.permission === 'granted') {
-                    if (isNotificationMuted) {
-                        btnNotification.className = 'ticker-bell-pill muted';
-                        btnNotification.innerHTML = '<i class="fas fa-bell-slash"></i> <span>Tor-Alarm AUS</span>';
-                        if (bellStatusHint) {
-                            bellStatusHint.innerHTML = '<i class="fas fa-volume-mute" style="color: #8c9888;"></i> <span>Tor-Alarm pausiert. Klicke auf die Glocke zum Reaktivieren.</span>';
-                        }
-                    } else {
-                        btnNotification.className = 'ticker-bell-pill active';
-                        btnNotification.innerHTML = '<i class="fas fa-bell"></i> <span>Tor-Alarm AN</span>';
-                        if (bellStatusHint) {
-                            bellStatusHint.innerHTML = '<i class="fas fa-check-circle" style="color: #28a745;"></i> <span>Tor-Alarm aktiv: Du wirst bei Toren & Highlights live benachrichtigt.</span>';
-                        }
+                        bellStatusHint.innerHTML = '<i class="fas fa-check-circle" style="color: #28a745;"></i> <span>Tor-Alarm aktiv: Sound-Signal & Live-Meldung bei jedem Tor!</span>';
                     }
                 } else {
                     btnNotification.className = 'ticker-bell-pill';
-                    btnNotification.innerHTML = '<i class="fas fa-bell"></i> <span>Tor-Alarm aktivieren</span>';
+                    btnNotification.innerHTML = '<i class="far fa-bell"></i> <span>Tor-Alarm aktivieren</span>';
                     if (bellStatusHint) {
-                        bellStatusHint.innerHTML = '<i class="fas fa-bell"></i> <span>Tipp: Klicke oben auf „Tor-Alarm aktivieren“, um Push-Meldungen zu empfangen</span>';
+                        bellStatusHint.innerHTML = '<i class="fas fa-bell" style="color: #153e02;"></i> <span>Tipp: Klicke auf „Tor-Alarm aktivieren“, um bei Toren ein Sound-Signal zu hören.</span>';
                     }
                 }
             };
 
-            btnNotification.addEventListener('click', async () => {
-                if (!("Notification" in window)) {
-                    alert("Dein Browser unterstützt leider keine Web-Benachrichtigungen.");
-                    return;
-                }
-                if (Notification.permission === 'denied') {
-                    alert("Benachrichtigungen wurden in deinem Browser blockiert. Du kannst sie in den Seiteneinstellungen deines Browsers freigeben.");
-                    return;
-                }
-                if (Notification.permission === 'granted') {
-                    // Toggle on/off
-                    isNotificationMuted = !isNotificationMuted;
-                    localStorage.setItem('huemax_notifications_muted', isNotificationMuted ? 'true' : 'false');
-                    updateBellUI();
-                    if (!isNotificationMuted) {
-                        playGoalChime();
-                    }
-                    return;
-                }
-                const perm = await Notification.requestPermission();
-                if (perm === 'granted') {
-                    isNotificationMuted = false;
-                    localStorage.setItem('huemax_notifications_muted', 'false');
-                    updateBellUI();
-                    new Notification("⚽ SpVgg HüMax Tor-Alarm aktiviert!", {
-                        body: "Du wirst ab sofort live über alle Tore und Highlights der 1. Herren informiert.",
-                        icon: "logo.png"
-                    });
+            // Single Universal Toggle Button Handler (Works on 100% of devices)
+            btnNotification.addEventListener('click', () => {
+                // 1. Immediately unlock audio on user gesture
+                unlockAudio();
+
+                // 2. Toggle Alarm state
+                isAlarmActive = !isAlarmActive;
+                localStorage.setItem('huemax_goal_alarm_active', isAlarmActive ? 'true' : 'false');
+                updateBellUI();
+
+                if (isAlarmActive) {
+                    // Play test confirmation chime immediately
                     playGoalChime();
-                } else {
-                    updateBellUI();
+                    if (navigator.vibrate) {
+                        try { navigator.vibrate(100); } catch(e) {}
+                    }
+
+                    // Background Web Notification permission request if supported
+                    if ("Notification" in window) {
+                        if (Notification.permission === 'default') {
+                            try {
+                                Notification.requestPermission().then(perm => {
+                                    if (perm === 'granted') {
+                                        try {
+                                            new Notification("⚽ SpVgg HüMax Tor-Alarm", {
+                                                body: "Push-Meldungen erfolgreich aktiviert!",
+                                                icon: "logo.png"
+                                            });
+                                        } catch(e) {}
+                                    }
+                                });
+                            } catch(e) {}
+                        } else if (Notification.permission === 'granted') {
+                            try {
+                                new Notification("⚽ SpVgg HüMax Tor-Alarm aktiv", {
+                                    body: "Du wirst bei allen Toren benachrichtigt.",
+                                    icon: "logo.png"
+                                });
+                            } catch(e) {}
+                        }
+                    }
                 }
             });
 
@@ -1441,6 +1475,13 @@
                 } else {
                     homeCrestWrapper.style.display = 'none';
                     awayCrestWrapper.style.display = 'none';
+                }
+
+                // Header live indicator
+                const boardHeader = document.querySelector('.ticker-board-header');
+                if (boardHeader) {
+                    if (match.isLive) boardHeader.classList.add('is-live');
+                    else boardHeader.classList.remove('is-live');
                 }
 
                 // Status Badge
@@ -1678,12 +1719,31 @@
                     data.events.forEach(evt => {
                         if (!seenEventIds.has(evt.id)) {
                             seenEventIds.add(evt.id);
-                            if ("Notification" in window && Notification.permission === 'granted' && !isNotificationMuted) {
-                                new Notification(`⚽ SpVgg HüMax (${evt.minute || 'Live'}): ${evt.title}`, {
-                                    body: evt.description || `${data.match.homeTeam} ${data.match.homeScore}:${data.match.awayScore} ${data.match.awayTeam}`,
-                                    icon: "logo.png"
-                                });
-                                playGoalChime();
+                            
+                            // Trigger Alarm if enabled
+                            if (isAlarmActive) {
+                                if (evt.type === 'goal') {
+                                    playGoalChime();
+                                    if (navigator.vibrate) {
+                                        try { navigator.vibrate([200, 100, 200, 100, 400]); } catch(e) {}
+                                    }
+                                    showGoalBanner(evt.title, evt.description, evt.score || `${data.match.homeScore}:${data.match.awayScore}`);
+                                } else if (evt.type === 'red_card' || evt.type === 'yellow_red_card') {
+                                    playGoalChime();
+                                    if (navigator.vibrate) {
+                                        try { navigator.vibrate([150, 100, 150]); } catch(e) {}
+                                    }
+                                    showGoalBanner(`🟥 ${evt.title}`, evt.description, '');
+                                }
+
+                                if ("Notification" in window && Notification.permission === 'granted') {
+                                    try {
+                                        new Notification(`⚽ SpVgg HüMax (${evt.minute || 'Live'}): ${evt.title}`, {
+                                            body: evt.description || `${data.match.homeTeam} ${data.match.homeScore}:${data.match.awayScore} ${data.match.awayTeam}`,
+                                            icon: "logo.png"
+                                        });
+                                    } catch(e) {}
+                                }
                             }
                         }
                     });
