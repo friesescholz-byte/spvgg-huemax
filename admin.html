@@ -32,7 +32,7 @@
 
     
 
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="style.css?v=20261014-5">
     <!-- FontAwesome for icons -->
     <!-- Performance Preconnects -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -202,6 +202,251 @@
             from { opacity: 0; transform: translateY(10px); }
             to { opacity: 1; transform: translateY(0); }
         }
+
+        /* --- Mobile-First Live Ticker Admin UI --- */
+        .ticker-admin-layout {
+            display: grid;
+            grid-template-columns: 1.15fr 0.85fr;
+            gap: 1.75rem;
+            align-items: start;
+        }
+
+        .ticker-live-control-card {
+            background: #ffffff;
+            border-radius: var(--radius-md);
+            border: 1px solid var(--border-color);
+            padding: 1.5rem 2rem;
+            margin-bottom: 1.5rem;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.04);
+            border-top: 4px solid var(--primary-color);
+        }
+
+        .ticker-scoreboard-mobile {
+            display: flex;
+            align-items: center;
+            justify-content: space-around;
+            gap: 1.5rem;
+            background: var(--bg-light);
+            padding: 1.25rem 1rem;
+            border-radius: var(--radius-sm);
+            border: 1px solid var(--border-color);
+            margin: 1rem 0;
+            flex-wrap: wrap;
+        }
+
+        .ticker-team-score-block {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0.35rem;
+        }
+
+        .ticker-team-score-name {
+            font-size: 0.95rem;
+            font-weight: 800;
+            color: var(--primary-dark);
+            max-width: 140px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            text-align: center;
+        }
+
+        .ticker-score-controls {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .btn-score-touch {
+            width: 44px;
+            height: 44px;
+            font-size: 1.35rem;
+            font-weight: 800;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 8px;
+            border: 1px solid var(--border-color);
+            background: #ffffff;
+            color: var(--primary-dark);
+            cursor: pointer;
+            touch-action: manipulation;
+            user-select: none;
+            transition: all 0.15s ease;
+        }
+
+        .btn-score-touch:active {
+            transform: scale(0.92);
+            background: var(--primary-color);
+            color: #ffffff;
+        }
+
+        .ticker-score-num {
+            width: 60px;
+            text-align: center;
+            font-size: 1.85rem;
+            font-weight: 900;
+            font-family: var(--font-heading);
+            color: var(--primary-dark);
+            border: 2px solid var(--primary-color);
+            border-radius: 8px;
+            padding: 0.2rem;
+            background: #ffffff;
+        }
+
+        .ticker-score-divider {
+            font-size: 2.2rem;
+            font-weight: 900;
+            color: var(--accent-color);
+            font-family: var(--font-heading);
+        }
+
+        .ticker-minute-quickbar {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+            margin: 0.75rem 0 1rem;
+        }
+
+        .btn-minute-quick {
+            padding: 0.5rem 0.9rem;
+            font-size: 0.85rem;
+            font-weight: 700;
+            border-radius: 20px;
+            border: 1px solid var(--border-color);
+            background: #ffffff;
+            color: var(--primary-dark);
+            cursor: pointer;
+            touch-action: manipulation;
+            user-select: none;
+            transition: all 0.15s ease;
+        }
+
+        .btn-minute-quick:active, .btn-minute-quick:hover {
+            border-color: var(--accent-color);
+            background: rgba(229, 179, 82, 0.18);
+        }
+
+        /* Large touch-friendly event pills */
+        .ticker-type-selector-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
+            gap: 0.6rem;
+            margin-bottom: 1.25rem;
+        }
+
+        .btn-event-pill {
+            padding: 0.75rem 0.85rem;
+            font-size: 0.88rem;
+            font-weight: 700;
+            border-radius: 10px;
+            border: 1.5px solid var(--border-color);
+            background: #ffffff;
+            color: var(--text-main);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            cursor: pointer;
+            touch-action: manipulation;
+            user-select: none;
+            transition: all 0.15s ease;
+            text-align: left;
+        }
+
+        .btn-event-pill i {
+            font-size: 1rem;
+            flex-shrink: 0;
+        }
+
+        .btn-event-pill.active {
+            border-color: var(--primary-color);
+            background: var(--primary-color);
+            color: #ffffff;
+            box-shadow: 0 4px 12px rgba(21, 62, 2, 0.2);
+        }
+
+        .btn-event-pill.pill-goal-home.active {
+            border-color: #d97706;
+            background: #e5b352;
+            color: #0a1c01;
+        }
+
+        .btn-event-pill.pill-goal-away.active {
+            border-color: #4b5563;
+            background: #374151;
+            color: #ffffff;
+        }
+
+        .btn-event-pill.pill-penalty.active {
+            border-color: #d9480f;
+            background: #f08c00;
+            color: #ffffff;
+        }
+
+        .btn-event-pill.pill-yellow.active {
+            border-color: #e59900;
+            background: #ffd43b;
+            color: #000000;
+        }
+
+        .btn-event-pill.pill-yellow-red.active {
+            border-color: #c92a2a;
+            background: #ff6b6b;
+            color: #ffffff;
+        }
+
+        .btn-event-pill.pill-red.active {
+            border-color: #c92a2a;
+            background: #e03131;
+            color: #ffffff;
+        }
+
+        .ticker-collapsible-trigger {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0.75rem 1rem;
+            background: var(--bg-light);
+            border-radius: var(--radius-sm);
+            border: 1px solid var(--border-color);
+            cursor: pointer;
+            font-weight: 700;
+            color: var(--primary-dark);
+            margin-top: 1rem;
+            user-select: none;
+        }
+
+        .ticker-collapsible-trigger i.chevron {
+            transition: transform 0.25s ease;
+        }
+
+        .ticker-collapsible-content {
+            display: none;
+            padding-top: 1.25rem;
+            animation: fadeIn 0.3s ease;
+        }
+
+        @media (max-width: 768px) {
+            .ticker-admin-layout {
+                grid-template-columns: 1fr !important;
+                gap: 1.25rem;
+            }
+            .ticker-type-selector-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+            .ticker-live-control-card {
+                padding: 1.25rem 1rem !important;
+            }
+            .card {
+                padding: 1.25rem 1rem !important;
+            }
+            .admin-input, .admin-select, .admin-textarea {
+                font-size: 16px !important; /* Prevents auto-zoom on iOS */
+            }
+        }
     </style>
     <!-- Scholz & Friese Cookie Banner & SEO Opt -->
     <script src="https://autumn-flower-76fa.friese-scholz.workers.dev/embed.js" data-tenant-id="spvgg-h-ddessum-machtsum-e-v-von-1920-09e9ce7d" defer></script>
@@ -283,12 +528,15 @@
         <div class="container">
             
             <!-- Tab Navigation -->
-            <div class="tabs-container" style="display: flex; gap: 1rem; margin-bottom: 2.5rem; border-bottom: 2px solid var(--border-color); padding-bottom: 12px; margin-top: -1rem;">
+            <div class="tabs-container" style="display: flex; gap: 1rem; margin-bottom: 2.5rem; border-bottom: 2px solid var(--border-color); padding-bottom: 12px; margin-top: -1rem; flex-wrap: wrap;">
                 <button class="tab-btn active" id="tab-news-btn" style="background: transparent; border: none; font-family: var(--font-heading); font-size: 1.15rem; font-weight: 800; color: var(--primary-color); cursor: pointer; padding-bottom: 8px; border-bottom: 3px solid var(--primary-color); transition: var(--transition-fast);">
                     <i class="fas fa-newspaper" style="margin-right: 0.4rem;"></i> Beiträge verwalten
                 </button>
                 <button class="tab-btn" id="tab-birthdays-btn" style="background: transparent; border: none; font-family: var(--font-heading); font-size: 1.15rem; font-weight: 800; color: var(--text-muted); cursor: pointer; padding-bottom: 8px; border-bottom: 3px solid transparent; transition: var(--transition-fast);">
                     <i class="fas fa-gift" style="margin-right: 0.4rem;"></i> Geburtstage & Jubiläen
+                </button>
+                <button class="tab-btn" id="tab-ticker-btn" style="background: transparent; border: none; font-family: var(--font-heading); font-size: 1.15rem; font-weight: 800; color: var(--text-muted); cursor: pointer; padding-bottom: 8px; border-bottom: 3px solid transparent; transition: var(--transition-fast);">
+                    <i class="fas fa-futbol" style="margin-right: 0.4rem; color: #28a745;"></i> 1. Herren Live-Ticker
                 </button>
             </div>
 
@@ -460,8 +708,297 @@
                     </div>
                 </div>
             </div>
-            
-        </div>
+
+            <!-- TAB 3: 1. Herren Live-Ticker (Mobile-First High-Speed Dashboard) -->
+            <div id="tab-ticker-content" style="display: none;">
+                
+                <!-- 1. LIVE CONTROL COMMAND CENTER (Oben für sofortigen Zugriff am Handy) -->
+                <div class="ticker-live-control-card">
+                    <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 0.75rem; border-bottom: 1px solid var(--border-color); padding-bottom: 0.85rem; margin-bottom: 1rem;">
+                        <div>
+                            <span style="font-size: 0.8rem; font-weight: 800; text-transform: uppercase; color: #b8860b; letter-spacing: 0.05em;" id="admin-match-competition-display">Kreisliga Hildesheim</span>
+                            <h2 style="font-size: 1.3rem; font-weight: 800; color: var(--primary-dark); margin: 0.15rem 0 0;" id="admin-match-title-display">SpVgg HüMax vs. SV Bavenstedt II</h2>
+                        </div>
+                        <div style="display: flex; align-items: center; gap: 0.5rem;">
+                            <label for="ticker-status-select" style="font-size: 0.85rem; font-weight: 700; color: var(--primary-dark); margin: 0; display: none;">Status:</label>
+                            <select id="ticker-status-select" class="admin-select" style="padding: 0.45rem 0.85rem; font-weight: 700; font-size: 0.9rem; border-radius: 20px; width: auto;" required>
+                                <option value="scheduled">⚪ Vorbericht (Geplant)</option>
+                                <option value="first_half">🟢 1. Halbzeit (Live)</option>
+                                <option value="half_time">⏸️ Halbzeitpause</option>
+                                <option value="second_half">🟢 2. Halbzeit (Live)</option>
+                                <option value="finished">🔴 Abpfiff (Beendet)</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <!-- Grosses Touch-Scoreboard mit Daumen-Buttons -->
+                    <div class="ticker-scoreboard-mobile">
+                        <!-- Heim -->
+                        <div class="ticker-team-score-block">
+                            <span class="ticker-team-score-name" id="display-team-home">SpVgg HüMax</span>
+                            <div class="ticker-score-controls">
+                                <button type="button" id="btn-score-home-minus" class="btn-score-touch" aria-label="Minus 1">-</button>
+                                <input type="number" id="ticker-score-home" value="2" min="0" class="ticker-score-num">
+                                <button type="button" id="btn-score-home-plus" class="btn-score-touch" style="background: var(--primary-color); color: #fff;" aria-label="Plus 1">+</button>
+                            </div>
+                        </div>
+
+                        <span class="ticker-score-divider">:</span>
+
+                        <!-- Gast -->
+                        <div class="ticker-team-score-block">
+                            <span class="ticker-team-score-name" id="display-team-away">SV Bavenstedt II</span>
+                            <div class="ticker-score-controls">
+                                <button type="button" id="btn-score-away-minus" class="btn-score-touch" aria-label="Minus 1">-</button>
+                                <input type="number" id="ticker-score-away" value="1" min="0" class="ticker-score-num">
+                                <button type="button" id="btn-score-away-plus" class="btn-score-touch" style="background: var(--primary-color); color: #fff;" aria-label="Plus 1">+</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Schnelle Minuten-Schnellauswahl für Daumen -->
+                    <div style="text-align: center; margin-top: 0.5rem;">
+                        <span style="font-size: 0.8rem; font-weight: 700; color: var(--text-muted); display: block; margin-bottom: 0.25rem;">Spielminute anpassen:</span>
+                        <div class="ticker-minute-quickbar">
+                            <button type="button" class="btn-minute-quick btn-quick-min" data-add="-1">-1'</button>
+                            <input type="text" id="ticker-minute-input" class="admin-input" style="width: 75px; text-align: center; font-weight: 800; font-size: 1.05rem; padding: 0.4rem 0.5rem; display: inline-block;" value="73'">
+                            <button type="button" class="btn-minute-quick btn-quick-min" data-add="1">+1'</button>
+                            <button type="button" class="btn-minute-quick btn-quick-min" data-add="2" style="background: rgba(229,179,82,0.2); border-color: var(--accent-color);">+2' (Tipp)</button>
+                            <button type="button" class="btn-minute-quick btn-quick-min" data-add="5">+5'</button>
+                            <button type="button" class="btn-minute-quick" id="btn-min-ht">Halbzeit</button>
+                            <button type="button" class="btn-minute-quick" id="btn-min-90">90'</button>
+                        </div>
+                    </div>
+
+                    <!-- Speicher- & Archiv-Aktionen -->
+                    <div style="display: flex; gap: 0.75rem; align-items: center; justify-content: space-between; flex-wrap: wrap; margin-top: 1rem; padding-top: 1rem; border-top: 1px solid var(--border-color);">
+                        <button type="button" id="btn-save-match-settings" class="btn btn-primary" style="flex: 1; min-width: 170px; padding: 0.8rem 1.25rem; font-weight: 800;">
+                            <i class="fas fa-save"></i> Spielstand speichern
+                        </button>
+                        <button type="button" id="btn-archive-match" class="btn" style="padding: 0.8rem 1.25rem; background: #153e02; border: 1px solid #153e02; color: #ffffff; border-radius: var(--radius-sm); font-weight: 700; cursor: pointer; display: inline-flex; align-items: center; gap: 0.45rem;">
+                            <i class="fas fa-archive"></i> Spiel beenden & archivieren
+                        </button>
+                        <button type="button" id="btn-reset-match" class="btn btn-outline-red" style="padding: 0.8rem 1rem; background: transparent; border: 1px solid #dc3545; color: #dc3545; border-radius: var(--radius-sm); font-weight: 700; cursor: pointer;">
+                            <i class="fas fa-redo"></i> Reset
+                        </button>
+                    </div>
+
+                    <!-- Akkordeon für Spiel-Details (Gegner, Ort, Logos), damit es das Handy nicht vollstopft -->
+                    <div class="ticker-collapsible-trigger" id="toggle-match-details-accordion">
+                        <span><i class="fas fa-sliders-h" style="color: var(--accent-color); margin-right: 0.5rem;"></i> Spiel-Details einstellen (Gegner, Ort, Logos)</span>
+                        <i class="fas fa-chevron-down chevron" id="accordion-chevron"></i>
+                    </div>
+                    <div class="ticker-collapsible-content" id="match-details-accordion-body">
+                        <form id="match-settings-form">
+                            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+                                <div class="admin-form-group">
+                                    <label for="ticker-home-team">Heimmannschaft</label>
+                                    <input type="text" id="ticker-home-team" class="admin-input" value="SpVgg HüMax" required>
+                                </div>
+                                <div class="admin-form-group">
+                                    <label for="ticker-away-team">Gastmannschaft</label>
+                                    <input type="text" id="ticker-away-team" class="admin-input" list="opponents-list" placeholder="Gegner wählen oder eingeben..." value="SV Bavenstedt II" required>
+                                    <datalist id="opponents-list">
+                                        <option value="SV Bavenstedt II">
+                                        <option value="TuS Hasede">
+                                        <option value="VfB Peine">
+                                        <option value="SV Newroz Hildesheim II">
+                                        <option value="SC Harsum II">
+                                        <option value="TuS Lühnde">
+                                        <option value="TSV Giesen">
+                                        <option value="SV Einum II">
+                                        <option value="SSV Förste">
+                                        <option value="FSV Sarstedt">
+                                        <option value="DJK Blau-Weiß Hildesheim">
+                                        <option value="TuS GW Himmelsthür">
+                                        <option value="VfL Nordstemmen">
+                                    </datalist>
+                                </div>
+                            </div>
+
+                            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+                                <div class="admin-form-group">
+                                    <label for="ticker-competition">Wettbewerb</label>
+                                    <input type="text" id="ticker-competition" class="admin-input" value="Kreisliga Hildesheim" required>
+                                </div>
+                                <div class="admin-form-group">
+                                    <label for="ticker-venue">Spielort & Anstoß</label>
+                                    <input type="text" id="ticker-venue" class="admin-input" value="Sportplatz Machtsum &bull; Sonntag 15:00" required>
+                                </div>
+                            </div>
+
+                            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+                                <div class="admin-form-group">
+                                    <label for="ticker-home-logo">Heim-Wappen URL (optional)</label>
+                                    <input type="text" id="ticker-home-logo" class="admin-input" placeholder="Standard: logo.png" value="logo.png">
+                                </div>
+                                <div class="admin-form-group">
+                                    <label for="ticker-away-logo">Gegner-Wappen URL (optional)</label>
+                                    <input type="text" id="ticker-away-logo" class="admin-input" placeholder="z. B. bavenstedt-logo.png" value="bavenstedt-logo.png">
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+
+                <!-- 2. HAUPTBEREICH: SCHNELL-EINGABE & LIVE-MELDUNGEN STREAM -->
+                <div class="ticker-admin-layout">
+                    
+                    <!-- Formular-Karte: Sofort-Eingabe für Ticker-Meldungen -->
+                    <div class="card" style="padding: 1.75rem 2rem;">
+                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.25rem; border-bottom: 2px solid var(--accent-color); padding-bottom: 8px;">
+                            <h3 style="color: var(--primary-dark); font-weight: 800; font-size: 1.35rem; margin: 0;">
+                                <i class="fas fa-bolt" style="color: var(--accent-color); margin-right: 0.5rem;"></i> Neuer Ticker-Eintrag
+                            </h3>
+                            <span id="fast-mode-badge" style="font-size: 0.8rem; font-weight: 800; background: rgba(21,62,2,0.08); color: var(--primary-color); padding: 0.25rem 0.75rem; border-radius: 20px;">💬 Spielszene</span>
+                        </div>
+
+                        <!-- Touch-freundliche Schnellauswahl (Meldung / Szene ist DEFAULT!) -->
+                        <label style="display: block; font-weight: 700; color: var(--primary-dark); margin-bottom: 0.5rem; font-size: 0.95rem;">
+                            Ereignis-Typ wählen:
+                        </label>
+                        <div class="ticker-type-selector-grid" id="quick-event-types">
+                            <!-- 1. Normal Commentary: Der Standard für alle 2-3 Min! -->
+                            <button type="button" class="btn-event-pill active" data-type="info" data-team="neutral" data-title="Spielszene">
+                                <i class="fas fa-comment-dots" style="color: var(--primary-color);"></i> <span>💬 Spielszene</span>
+                            </button>
+
+                            <!-- 2. Tor HüMax -->
+                            <button type="button" class="btn-event-pill pill-goal-home" data-type="goal" data-team="home" data-title="TOOOOR für SpVgg HüMax!">
+                                <i class="fas fa-futbol" style="color: #d97706;"></i> <span>⚽ Tor HüMax</span>
+                            </button>
+
+                            <!-- 3. Tor Gegner -->
+                            <button type="button" class="btn-event-pill pill-goal-away" data-type="goal" data-team="away" data-title="Tor für Gegner">
+                                <i class="fas fa-futbol" style="color: #6b7280;"></i> <span>⚽ Tor Gegner</span>
+                            </button>
+
+                            <!-- 4. Elfmeter (Sonderauswahl) -->
+                            <button type="button" class="btn-event-pill pill-penalty" data-type="penalty" data-team="home" data-title="Elfmeter für SpVgg HüMax">
+                                <i class="fas fa-crosshairs" style="color: #f59f00;"></i> <span>🥅 Elfmeter</span>
+                            </button>
+
+                            <!-- 5. Gelbe Karte -->
+                            <button type="button" class="btn-event-pill pill-yellow" data-type="yellow_card" data-team="home" data-title="Gelbe Karte">
+                                <i class="fas fa-square" style="color: #f59f00;"></i> <span>🟨 Gelbe Karte</span>
+                            </button>
+
+                            <!-- 6. Gelb-Rote Karte -->
+                            <button type="button" class="btn-event-pill pill-yellow-red" data-type="yellow_red_card" data-team="home" data-title="Gelb-Rote Karte">
+                                <i class="fas fa-clone" style="color: #fa5252;"></i> <span>🟨🟥 Gelb-Rot</span>
+                            </button>
+
+                            <!-- 7. Rote Karte -->
+                            <button type="button" class="btn-event-pill pill-red" data-type="red_card" data-team="home" data-title="Rote Karte">
+                                <i class="fas fa-square" style="color: #dc3545;"></i> <span>🟥 Rote Karte</span>
+                            </button>
+
+                            <!-- 8. Wechsel -->
+                            <button type="button" class="btn-event-pill pill-sub" data-type="sub" data-team="home" data-title="Auswechslung">
+                                <i class="fas fa-exchange-alt" style="color: #17a2b8;"></i> <span>🔄 Wechsel</span>
+                            </button>
+
+                            <!-- 9. Großchance -->
+                            <button type="button" class="btn-event-pill" data-type="chance" data-team="home" data-title="Großchance für HüMax">
+                                <i class="fas fa-bullseye" style="color: #fd7e14;"></i> <span>🎯 Großchance</span>
+                            </button>
+                        </div>
+
+                        <!-- Formular für das Event -->
+                        <form id="add-event-form">
+                            <input type="hidden" id="event-type" value="info">
+                            <input type="hidden" id="event-team" value="neutral">
+                            <input type="hidden" id="penalty-status" value="scored">
+                            
+                            <div style="display: grid; grid-template-columns: 110px 1fr; gap: 0.75rem; margin-bottom: 1rem;">
+                                <div>
+                                    <label for="event-minute" style="font-size: 0.85rem; font-weight: 700; color: var(--primary-dark); display: block; margin-bottom: 0.35rem;">Minute</label>
+                                    <input type="text" id="event-minute" class="admin-input" style="font-weight: 800; text-align: center; font-size: 1.15rem; padding: 0.65rem;" value="73'" required>
+                                </div>
+                                <div>
+                                    <label for="event-title" style="font-size: 0.85rem; font-weight: 700; color: var(--primary-dark); display: block; margin-bottom: 0.35rem;">Überschrift / Typ</label>
+                                    <input type="text" id="event-title" class="admin-input" style="padding: 0.65rem; font-weight: 700;" value="Spielszene">
+                                </div>
+                            </div>
+
+                            <!-- SONDER-OPTIONEN (Wird automatisch eingeblendet bei Elfmeter, Karte, Tor, Wechsel) -->
+                            <div id="special-options-box" style="display: none; background: #fffcf0; border: 1.5px solid rgba(229,179,82,0.4); border-radius: var(--radius-sm); padding: 1rem; margin-bottom: 1.25rem;">
+                                <!-- Team-Auswahl (HüMax vs. Gegner) -->
+                                <div id="special-team-row" style="display: flex; gap: 1rem; align-items: center; margin-bottom: 0.75rem; flex-wrap: wrap;">
+                                    <span style="font-size: 0.9rem; font-weight: 800; color: var(--primary-dark);">Betrifft:</span>
+                                    <label style="display: inline-flex; align-items: center; gap: 0.35rem; font-size: 0.9rem; font-weight: 700; cursor: pointer;">
+                                        <input type="radio" name="special-team-radio" value="home" checked> 🟢 SpVgg HüMax
+                                    </label>
+                                    <label style="display: inline-flex; align-items: center; gap: 0.35rem; font-size: 0.9rem; font-weight: 700; cursor: pointer;">
+                                        <input type="radio" name="special-team-radio" value="away"> ⚪ Gegner
+                                    </label>
+                                </div>
+
+                                <!-- Elfmeter Status-Buttons (Verwandelt, Verschossen, Gepfiffen) -->
+                                <div id="penalty-options-row" style="display: none; margin-bottom: 0.75rem;">
+                                    <label style="font-size: 0.85rem; font-weight: 800; color: var(--primary-dark); display: block; margin-bottom: 0.35rem;">Elfmeter-Ausgang:</label>
+                                    <div style="display: flex; gap: 0.5rem; flex-wrap: wrap;">
+                                        <button type="button" class="btn-minute-quick active" id="btn-pen-scored" style="background: #153e02; color: #fff; border-color: #153e02;">⚽ Verwandelt (+1 Tor)</button>
+                                        <button type="button" class="btn-minute-quick" id="btn-pen-missed">❌ Verschossen / Gehalten</button>
+                                        <button type="button" class="btn-minute-quick" id="btn-pen-awarded">⚠️ Nur Pfiff (Warten)</button>
+                                    </div>
+                                </div>
+
+                                <!-- Spieler / Schütze -->
+                                <div id="special-player-wrap">
+                                    <label for="event-player" id="special-player-label" style="font-size: 0.85rem; font-weight: 700; color: var(--primary-dark); display: block; margin-bottom: 0.35rem;">Spieler / Torschütze (optional)</label>
+                                    <input type="text" id="event-player" class="admin-input" placeholder="z. B. M. Henke (Kopfball) oder Nr. 8" style="padding: 0.65rem;">
+                                </div>
+                            </div>
+
+                            <!-- Haupttext: Was ist passiert? (Das EINZIGE Pflichtfeld bei 90% der Ticker-Einträge!) -->
+                            <div class="admin-form-group" style="margin-bottom: 1.25rem;">
+                                <label for="event-desc" style="font-weight: 800; color: var(--primary-dark); display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.4rem;">
+                                    <span>Was ist passiert? <span style="font-weight: normal; color: var(--text-muted); font-size: 0.85rem;">(Spielbericht)</span></span>
+                                    <span style="font-size: 0.78rem; font-weight: 700; color: #28a745;"><i class="fas fa-wifi"></i> Direkt live</span>
+                                </label>
+                                <textarea id="event-desc" class="admin-textarea" rows="3" placeholder="Schildere kurz was auf dem Platz passiert ist (z. B. Flanke in den Strafraum, geklärt zur Ecke...)" style="padding: 0.85rem; font-size: 1rem; line-height: 1.5;" required></textarea>
+                            </div>
+
+                            <!-- RIESIGER DAUMEN-BUTTON ZUM ABSENDEN -->
+                            <button type="submit" id="btn-submit-event" class="btn btn-primary" style="width: 100%; padding: 1.15rem; font-size: 1.15rem; font-weight: 900; letter-spacing: 0.02em; border-radius: var(--radius-sm); box-shadow: 0 4px 15px rgba(21,62,2,0.25); display: flex; align-items: center; justify-content: center; gap: 0.65rem; cursor: pointer;">
+                                <i class="fas fa-paper-plane"></i> <span>Meldung jetzt live schalten</span>
+                            </button>
+                        </form>
+                    </div>
+
+                    <!-- Rechte Spalte: Live-Stream der aktuellen Ticker-Meldungen -->
+                    <div class="card" style="padding: 1.75rem 2rem;">
+                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.25rem; border-bottom: 2px solid var(--accent-color); padding-bottom: 8px;">
+                            <h3 style="color: var(--primary-dark); font-weight: 800; font-size: 1.35rem; margin: 0;">
+                                <i class="fas fa-stream" style="color: var(--accent-color); margin-right: 0.5rem;"></i> Live-Meldungen
+                            </h3>
+                            <span id="admin-events-count" style="font-size: 0.85rem; font-weight: 800; background: var(--bg-light); padding: 0.25rem 0.75rem; border-radius: 12px; color: var(--primary-color);">0 Einträge</span>
+                        </div>
+
+                        <div id="admin-events-feed" style="max-height: 680px; overflow-y: auto; display: flex; flex-direction: column; gap: 0.85rem; padding-right: 0.25rem;">
+                            <!-- Generated via JS -->
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 3. ARCHIVIERTE SPIELE (Unten, aufgeräumt) -->
+                <div class="card" style="padding: 2rem; margin-top: 1.5rem;">
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.25rem; border-bottom: 2px solid var(--accent-color); padding-bottom: 8px;">
+                        <h3 style="color: var(--primary-dark); font-weight: 800; font-size: 1.35rem; margin: 0;">
+                            <i class="fas fa-history" style="color: var(--accent-color); margin-right: 0.5rem;"></i> Archivierte Spiele verwalten
+                        </h3>
+                        <span id="admin-archive-count" style="font-size: 0.85rem; font-weight: 800; background: var(--bg-light); padding: 0.25rem 0.75rem; border-radius: 12px; color: var(--primary-color);">0 Spiele im Archiv</span>
+                    </div>
+                    <p style="color: var(--text-muted); font-size: 0.95rem; margin-top: -0.5rem; margin-bottom: 1.25rem;">
+                        Hier siehst du alle bisherigen Spiele, die im Live-Ticker archiviert wurden. Besucher können diese auf der Live-Ticker-Seite aufklappen und nachlesen.
+                    </p>
+                    <div id="admin-archive-feed" style="display: flex; flex-direction: column; gap: 0.85rem;">
+                        <!-- Generated via JS -->
+                    </div>
+                </div>
+
+            </div>
     </section>
 
     <!-- Footer -->
@@ -518,6 +1055,7 @@
                 <div class="footer-legal-links">
                     <a href="impressum.html">Impressum</a>
                     <a href="datenschutz.html">Datenschutz</a>
+                    <a href="barrierefreiheit.html">Barrierefreiheit</a>
                     <a href="admin.html" style="color: var(--accent-color); font-weight: bold;"><i class="fas fa-user-shield"></i> Admin</a>
                 </div>
             </div>
@@ -602,31 +1140,49 @@
             // Tab navigation elements
             const tabNewsBtn = document.getElementById('tab-news-btn');
             const tabBirthdaysBtn = document.getElementById('tab-birthdays-btn');
+            const tabTickerBtn = document.getElementById('tab-ticker-btn');
             const tabNewsContent = document.getElementById('tab-news-content');
             const tabBirthdaysContent = document.getElementById('tab-birthdays-content');
+            const tabTickerContent = document.getElementById('tab-ticker-content');
 
             // --- TAB SWITCHING LOGIC ---
-            tabNewsBtn.addEventListener('click', () => {
-                tabNewsBtn.style.color = 'var(--primary-color)';
-                tabNewsBtn.style.borderBottomColor = 'var(--primary-color)';
-                tabBirthdaysBtn.style.color = 'var(--text-muted)';
-                tabBirthdaysBtn.style.borderBottomColor = 'transparent';
-                
-                tabNewsContent.style.display = 'grid';
-                tabBirthdaysContent.style.display = 'none';
-            });
+            const switchTab = (activeTab) => {
+                [tabNewsBtn, tabBirthdaysBtn, tabTickerBtn].forEach(b => {
+                    b.style.color = 'var(--text-muted)';
+                    b.style.borderBottomColor = 'transparent';
+                });
+                [tabNewsContent, tabBirthdaysContent, tabTickerContent].forEach(c => {
+                    c.style.display = 'none';
+                });
 
-            tabBirthdaysBtn.addEventListener('click', () => {
-                tabBirthdaysBtn.style.color = 'var(--primary-color)';
-                tabBirthdaysBtn.style.borderBottomColor = 'var(--primary-color)';
-                tabNewsBtn.style.color = 'var(--text-muted)';
-                tabNewsBtn.style.borderBottomColor = 'transparent';
-                
-                tabBirthdaysContent.style.display = 'grid';
-                tabNewsContent.style.display = 'none';
-                
-                fetchBirthdays();
-            });
+                if (activeTab === 'news') {
+                    tabNewsBtn.style.color = 'var(--primary-color)';
+                    tabNewsBtn.style.borderBottomColor = 'var(--primary-color)';
+                    tabNewsContent.style.display = 'grid';
+                } else if (activeTab === 'birthdays') {
+                    tabBirthdaysBtn.style.color = 'var(--primary-color)';
+                    tabBirthdaysBtn.style.borderBottomColor = 'var(--primary-color)';
+                    tabBirthdaysContent.style.display = 'grid';
+                    fetchBirthdays();
+                } else if (activeTab === 'ticker') {
+                    tabTickerBtn.style.color = 'var(--primary-color)';
+                    tabTickerBtn.style.borderBottomColor = 'var(--primary-color)';
+                    tabTickerContent.style.display = 'grid';
+                    fetchTickerAdmin();
+                }
+            };
+
+            tabNewsBtn.addEventListener('click', () => switchTab('news'));
+            tabBirthdaysBtn.addEventListener('click', () => switchTab('birthdays'));
+            tabTickerBtn.addEventListener('click', () => switchTab('ticker'));
+
+            // Weymann Compliant SHA-256 Auth
+            const sha256 = async (str) => {
+                const buf = new TextEncoder().encode(str);
+                const hash = await crypto.subtle.digest('SHA-256', buf);
+                return Array.from(new Uint8Array(hash)).map(b => b.toString(16).padStart(2, '0')).join('');
+            };
+            const ADMIN_HASH = '624e8dc041f8bfecadc70e8b6036523a2e47181a49d7b5e3fde657dc11c7943d';
 
             // Check if already authenticated
             if (sessionStorage.getItem('huemax_admin_logged_in') === 'true') {
@@ -634,11 +1190,12 @@
                 fetchArticles();
             }
 
-            // Handle Login Form
-            loginForm.addEventListener('submit', (e) => {
+            // Handle Login Form (Weymann SHA-256 Security Check)
+            loginForm.addEventListener('submit', async (e) => {
                 e.preventDefault();
                 const pw = loginPasswordInput.value.trim();
-                if (pw === 'Addi2026!!') {
+                const hash = await sha256(pw);
+                if (hash === ADMIN_HASH) {
                     sessionStorage.setItem('huemax_admin_logged_in', 'true');
                     sessionStorage.setItem('huemax_admin_password', pw);
                     loginScreen.style.opacity = '0';
@@ -1355,6 +1912,755 @@
                 exportBirthdaysCodeBox.value = `const defaultBirthdays = ${exportedArrayString};`;
                 exportBirthdaysArea.style.display = 'block';
                 exportBirthdaysCodeBox.select();
+            });
+
+            // =========================================================================
+            // TAB 3: 1. HERREN LIVE-TICKER ADMIN LOGIC
+            // =========================================================================
+            const tickerApiUrl = 'https://huemax-news-api.friese-scholz.workers.dev/api/ticker';
+            
+            // Standard-Archiv vergangener Spiele als Fallback & Vorlage
+            const defaultArchive = [
+                {
+                    id: "arch-1",
+                    match: {
+                        homeTeam: "SpVgg HüMax",
+                        awayTeam: "TuS Hasede",
+                        homeScore: 3,
+                        awayScore: 1,
+                        competition: "Kreisliga Hildesheim",
+                        matchday: "7. Spieltag",
+                        matchDate: "Sonntag, 28.09.2026",
+                        location: "Sportplatz Machtsum (Rasen)"
+                    },
+                    events: [
+                        { minute: "89'", type: "goal", title: "3:1 TOOOOR für SpVgg HüMax!", player: "L. Becker", description: "Konter wie aus dem Lehrbuch: Steilpass in die Tiefe und eiskalt am Torwart vorbei ins Netz geschoben!", score: "3:1" },
+                        { minute: "76'", type: "yellow_card", title: "Gelbe Karte für TuS Hasede", player: "Taktisches Foul", description: "Verhindert den schnellen Gegenstoß von HüMax im Mittelfeld.", score: "2:1" },
+                        { minute: "54'", type: "goal", title: "2:1 Anschlusstreffer TuS Hasede", player: "F. Schmidt", description: "Abstauber nach einem Freistoß aus dem Halbfeld.", score: "2:1" },
+                        { minute: "38'", type: "goal", title: "2:0 TOOOOR für SpVgg HüMax!", player: "M. Henke (Kopfball)", description: "Wunderschöne Flanke von links, mustergültiger Kopfball gegen die Laufrichtung des Keepers!", score: "2:0" },
+                        { minute: "12'", type: "goal", title: "1:0 TOOOOR für SpVgg HüMax!", player: "J. Brinkmann", description: "Frühe Führung für HüMax! Schöner Distanzschuss aus 18 Metern schlägt unhaltbar im Winkel ein.", score: "1:0" },
+                        { minute: "1'", type: "whistle", title: "Anpfiff zur 1. Halbzeit", player: "", description: "Partie angepfiffen vor rund 150 Zuschauern auf dem Sportplatz Machtsum.", score: "0:0" }
+                    ]
+                },
+                {
+                    id: "arch-2",
+                    match: {
+                        homeTeam: "FSV Sarstedt",
+                        awayTeam: "SpVgg HüMax",
+                        homeScore: 0,
+                        awayScore: 2,
+                        competition: "Kreisliga Hildesheim",
+                        matchday: "6. Spieltag",
+                        matchDate: "Sonntag, 21.09.2026",
+                        location: "Sportpark Sarstedt (Auswärts)"
+                    },
+                    events: [
+                        { minute: "90'", type: "whistle", title: "Schlusspfiff - Auswärtssieg!", player: "", description: "Starke Mannschaftsleistung sichert verdiente drei Punkte auf fremdem Platz.", score: "0:2" },
+                        { minute: "78'", type: "goal", title: "0:2 TOOOOR für SpVgg HüMax!", player: "J. Brinkmann", description: "Die Entscheidung! Nach Ballgewinn im Mittelfeld zieht Brinkmann trocken ab.", score: "0:2" },
+                        { minute: "61'", type: "sub", title: "Wechsel bei HüMax", player: "Doppelwechsel zur Stabilisierung", description: "Trainer bringt frische Kräfte für die Schlussphase.", score: "0:1" },
+                        { minute: "24'", type: "goal", title: "0:1 TOOOOR für SpVgg HüMax!", player: "T. Meyer", description: "Führungstreffer für unsere 1. Herren nach einer einstudierten Eckballvariante.", score: "0:1" },
+                        { minute: "1'", type: "whistle", title: "Anpfiff in Sarstedt", player: "", description: "Beginn der Auswärtspartie bei regnerischem Herbstwetter.", score: "0:0" }
+                    ]
+                },
+                {
+                    id: "arch-3",
+                    match: {
+                        homeTeam: "SpVgg HüMax",
+                        awayTeam: "SV Einum II",
+                        homeScore: 4,
+                        awayScore: 2,
+                        competition: "Kreisliga Hildesheim",
+                        matchday: "5. Spieltag",
+                        matchDate: "Sonntag, 14.09.2026",
+                        location: "Sportplatz Machtsum (Rasen)"
+                    },
+                    events: [
+                        { minute: "88'", type: "goal", title: "4:2 TOOOOR für SpVgg HüMax!", player: "L. Becker", description: "Deckel drauf! Toller Sololauf über 40 Meter und überlegter Abschluss.", score: "4:2" },
+                        { minute: "74'", type: "goal", title: "3:2 Tor für SV Einum II", player: "K. Weber", description: "Einum verkürzt nach einer Unachtsamkeit in der Hintermannschaft.", score: "3:2" },
+                        { minute: "62'", type: "goal", title: "3:1 TOOOOR für SpVgg HüMax!", player: "M. Henke", description: "Wieder Henke zur Stelle! Schnelle Drehung im Strafraum und drin ist das Ding.", score: "3:1" },
+                        { minute: "45'", type: "goal", title: "2:1 TOOOOR für SpVgg HüMax!", player: "J. Brinkmann", description: "Psychologisch wichtiger Treffer mit dem Pausenpfiff!", score: "2:1" },
+                        { minute: "22'", type: "goal", title: "1:1 Ausgleich SV Einum II", player: "Foulelfmeter", description: "Sicher verwandelt nach einem Zweikampf im Sechzehner.", score: "1:1" },
+                        { minute: "15'", type: "goal", title: "1:0 TOOOOR für SpVgg HüMax!", player: "T. Meyer", description: "Traumhafter Volleyschuss aus 20 Metern direkt unter die Latte.", score: "1:0" }
+                    ]
+                }
+            ];
+
+            let tickerData = {
+                match: {
+                    homeTeam: "SpVgg HüMax",
+                    awayTeam: "SV Bavenstedt II",
+                    homeLogo: "logo.png",
+                    awayLogo: "bavenstedt-logo.png",
+                    competition: "Kreisliga Hildesheim",
+                    matchDate: "Sonntag, 15:00 Uhr",
+                    location: "Sportplatz Machtsum",
+                    homeScore: 2,
+                    awayScore: 1,
+                    currentMinute: "73'",
+                    status: "second_half",
+                    statusText: "73' • 2. Halbzeit",
+                    isLive: true
+                },
+                events: [],
+                archive: defaultArchive
+            };
+
+            // DOM Elements Ticker
+            const tickerHomeTeamInput = document.getElementById('ticker-home-team');
+            const tickerAwayTeamInput = document.getElementById('ticker-away-team');
+            const tickerHomeLogoInput = document.getElementById('ticker-home-logo');
+            const tickerAwayLogoInput = document.getElementById('ticker-away-logo');
+            const tickerCompInput = document.getElementById('ticker-competition');
+            const tickerVenueInput = document.getElementById('ticker-venue');
+            const tickerScoreHomeInput = document.getElementById('ticker-score-home');
+            const tickerScoreAwayInput = document.getElementById('ticker-score-away');
+            const tickerStatusSelect = document.getElementById('ticker-status-select');
+            const tickerMinuteInput = document.getElementById('ticker-minute-input');
+            const btnSaveMatch = document.getElementById('btn-save-match-settings');
+            const btnArchiveMatch = document.getElementById('btn-archive-match');
+            const btnResetMatch = document.getElementById('btn-reset-match');
+            const adminArchiveFeed = document.getElementById('admin-archive-feed');
+            const adminArchiveCount = document.getElementById('admin-archive-count');
+
+            // Quick Score Buttons
+            document.getElementById('btn-score-home-plus').addEventListener('click', () => {
+                tickerScoreHomeInput.value = parseInt(tickerScoreHomeInput.value || 0) + 1;
+            });
+            document.getElementById('btn-score-home-minus').addEventListener('click', () => {
+                tickerScoreHomeInput.value = Math.max(0, parseInt(tickerScoreHomeInput.value || 0) - 1);
+            });
+            document.getElementById('btn-score-away-plus').addEventListener('click', () => {
+                tickerScoreAwayInput.value = parseInt(tickerScoreAwayInput.value || 0) + 1;
+            });
+            document.getElementById('btn-score-away-minus').addEventListener('click', () => {
+                tickerScoreAwayInput.value = Math.max(0, parseInt(tickerScoreAwayInput.value || 0) - 1);
+            });
+
+            // Mobile Command Center: Elements
+            const eventPills = document.querySelectorAll('#quick-event-types .btn-event-pill');
+            const eventTypeInput = document.getElementById('event-type');
+            const eventTeamInput = document.getElementById('event-team');
+            const eventTitleInput = document.getElementById('event-title');
+            const eventMinuteInput = document.getElementById('event-minute');
+            const eventPlayerInput = document.getElementById('event-player');
+            const eventDescInput = document.getElementById('event-desc');
+            const addEventForm = document.getElementById('add-event-form');
+            const adminEventsFeed = document.getElementById('admin-events-feed');
+            const adminEventsCount = document.getElementById('admin-events-count');
+
+            const specialOptionsBox = document.getElementById('special-options-box');
+            const penaltyOptionsRow = document.getElementById('penalty-options-row');
+            const specialPlayerLabel = document.getElementById('special-player-label');
+            const specialTeamRadios = document.querySelectorAll('input[name="special-team-radio"]');
+            const penaltyStatusInput = document.getElementById('penalty-status');
+            const fastModeBadge = document.getElementById('fast-mode-badge');
+
+            // Penalty Status Buttons
+            const penScoredBtn = document.getElementById('btn-pen-scored');
+            const penMissedBtn = document.getElementById('btn-pen-missed');
+            const penAwardedBtn = document.getElementById('btn-pen-awarded');
+
+            const updatePenaltyButtons = (status) => {
+                penaltyStatusInput.value = status;
+                [penScoredBtn, penMissedBtn, penAwardedBtn].forEach(btn => {
+                    if (!btn) return;
+                    btn.classList.remove('active');
+                    btn.style.background = '';
+                    btn.style.color = '';
+                    btn.style.borderColor = '';
+                });
+                const isHome = eventTeamInput.value === 'home';
+                const teamName = isHome ? 'SpVgg HüMax' : (tickerAwayTeamInput.value.trim() || 'Gegner');
+
+                if (status === 'scored' && penScoredBtn) {
+                    penScoredBtn.classList.add('active');
+                    penScoredBtn.style.background = '#153e02';
+                    penScoredBtn.style.color = '#ffffff';
+                    penScoredBtn.style.borderColor = '#153e02';
+                    eventTitleInput.value = isHome ? 'Elfmeter verwandelt von SpVgg HüMax!' : `Elfmeter verwandelt von ${teamName}!`;
+                } else if (status === 'missed' && penMissedBtn) {
+                    penMissedBtn.classList.add('active');
+                    penMissedBtn.style.background = '#dc3545';
+                    penMissedBtn.style.color = '#ffffff';
+                    penMissedBtn.style.borderColor = '#dc3545';
+                    eventTitleInput.value = isHome ? 'Elfmeter von HüMax gehalten / verschossen!' : `Elfmeter von ${teamName} gehalten / verschossen!`;
+                } else if (status === 'awarded' && penAwardedBtn) {
+                    penAwardedBtn.classList.add('active');
+                    penAwardedBtn.style.background = '#f59f00';
+                    penAwardedBtn.style.color = '#ffffff';
+                    penAwardedBtn.style.borderColor = '#f59f00';
+                    eventTitleInput.value = isHome ? 'Elfmeter für SpVgg HüMax gepfiffen!' : `Elfmeter für ${teamName} gepfiffen!`;
+                }
+            };
+
+            if (penScoredBtn) penScoredBtn.addEventListener('click', () => updatePenaltyButtons('scored'));
+            if (penMissedBtn) penMissedBtn.addEventListener('click', () => updatePenaltyButtons('missed'));
+            if (penAwardedBtn) penAwardedBtn.addEventListener('click', () => updatePenaltyButtons('awarded'));
+
+            // Team radio change listener (Heim vs. Gegner)
+            specialTeamRadios.forEach(radio => {
+                radio.addEventListener('change', () => {
+                    const selTeam = radio.value;
+                    eventTeamInput.value = selTeam;
+                    const curType = eventTypeInput.value;
+                    const awayName = tickerAwayTeamInput.value.trim() || 'Gegner';
+
+                    if (curType === 'goal') {
+                        eventTitleInput.value = selTeam === 'home' ? 'TOOOOR für SpVgg HüMax!' : `Tor für ${awayName}`;
+                    } else if (curType === 'penalty') {
+                        updatePenaltyButtons(penaltyStatusInput.value || 'scored');
+                    } else if (curType.includes('card')) {
+                        const cardName = curType === 'yellow_card' ? 'Gelbe Karte' : (curType === 'yellow_red_card' ? 'Gelb-Rote Karte' : 'Rote Karte');
+                        eventTitleInput.value = selTeam === 'home' ? `${cardName} für HüMax` : `${cardName} für ${awayName}`;
+                    } else if (curType === 'sub') {
+                        eventTitleInput.value = selTeam === 'home' ? 'Wechsel bei SpVgg HüMax' : `Wechsel bei ${awayName}`;
+                    }
+                });
+            });
+
+            // Fast Event Pills Selection
+            eventPills.forEach(pill => {
+                pill.addEventListener('click', () => {
+                    eventPills.forEach(p => p.classList.remove('active'));
+                    pill.classList.add('active');
+
+                    const type = pill.getAttribute('data-type');
+                    const team = pill.getAttribute('data-team') || 'neutral';
+                    const title = pill.getAttribute('data-title');
+
+                    eventTypeInput.value = type;
+                    eventTeamInput.value = team;
+                    eventTitleInput.value = title;
+
+                    // Sync team radios if team is home or away
+                    if (team === 'home' || team === 'away') {
+                        specialTeamRadios.forEach(r => {
+                            r.checked = (r.value === team);
+                        });
+                    }
+
+                    // Dynamic special options toggling
+                    if (type === 'info') {
+                        // Standard Spielbericht: All special clutter hidden!
+                        if (specialOptionsBox) specialOptionsBox.style.display = 'none';
+                        if (penaltyOptionsRow) penaltyOptionsRow.style.display = 'none';
+                        if (fastModeBadge) fastModeBadge.textContent = '💬 Spielszene (Schnell-Modus)';
+                    } else if (type === 'goal') {
+                        if (specialOptionsBox) specialOptionsBox.style.display = 'block';
+                        if (penaltyOptionsRow) penaltyOptionsRow.style.display = 'none';
+                        if (specialPlayerLabel) specialPlayerLabel.textContent = 'Torschütze (optional)';
+                        if (eventPlayerInput) eventPlayerInput.placeholder = 'z. B. M. Henke (Kopfball) oder Nr. 9';
+                        if (fastModeBadge) fastModeBadge.textContent = team === 'home' ? '⚽ Tor HüMax' : '⚽ Tor Gegner';
+                    } else if (type === 'penalty') {
+                        if (specialOptionsBox) specialOptionsBox.style.display = 'block';
+                        if (penaltyOptionsRow) penaltyOptionsRow.style.display = 'block';
+                        if (specialPlayerLabel) specialPlayerLabel.textContent = 'Elfmeterschütze / Gefoulter Spieler (optional)';
+                        if (eventPlayerInput) eventPlayerInput.placeholder = 'z. B. J. Brinkmann';
+                        if (fastModeBadge) fastModeBadge.textContent = '🥅 Elfmeter';
+                        updatePenaltyButtons('scored');
+                    } else if (type === 'yellow_card') {
+                        if (specialOptionsBox) specialOptionsBox.style.display = 'block';
+                        if (penaltyOptionsRow) penaltyOptionsRow.style.display = 'none';
+                        if (specialPlayerLabel) specialPlayerLabel.textContent = 'Verwarnter Spieler / Grund (optional)';
+                        if (eventPlayerInput) eventPlayerInput.placeholder = 'z. B. Taktisches Foul Nr. 6';
+                        if (fastModeBadge) fastModeBadge.textContent = '🟨 Gelbe Karte';
+                    } else if (type === 'yellow_red_card') {
+                        if (specialOptionsBox) specialOptionsBox.style.display = 'block';
+                        if (penaltyOptionsRow) penaltyOptionsRow.style.display = 'none';
+                        if (specialPlayerLabel) specialPlayerLabel.textContent = 'Spieler mit Ampelkarte (optional)';
+                        if (eventPlayerInput) eventPlayerInput.placeholder = 'z. B. Wiederholtes Foulspiel Nr. 4';
+                        if (fastModeBadge) fastModeBadge.textContent = '🟨🟥 Gelb-Rot';
+                    } else if (type === 'red_card') {
+                        if (specialOptionsBox) specialOptionsBox.style.display = 'block';
+                        if (penaltyOptionsRow) penaltyOptionsRow.style.display = 'none';
+                        if (specialPlayerLabel) specialPlayerLabel.textContent = 'Ausgeschlossener Spieler / Grund (optional)';
+                        if (eventPlayerInput) eventPlayerInput.placeholder = 'z. B. Notbremse / Tätlichkeit';
+                        if (fastModeBadge) fastModeBadge.textContent = '🟥 Rote Karte';
+                    } else if (type === 'sub') {
+                        if (specialOptionsBox) specialOptionsBox.style.display = 'block';
+                        if (penaltyOptionsRow) penaltyOptionsRow.style.display = 'none';
+                        if (specialPlayerLabel) specialPlayerLabel.textContent = 'Ein- & Auswechslung';
+                        if (eventPlayerInput) eventPlayerInput.placeholder = 'z. B. T. Meyer für L. Becker';
+                        if (fastModeBadge) fastModeBadge.textContent = '🔄 Wechsel';
+                    } else if (type === 'chance') {
+                        if (specialOptionsBox) specialOptionsBox.style.display = 'block';
+                        if (penaltyOptionsRow) penaltyOptionsRow.style.display = 'none';
+                        if (specialPlayerLabel) specialPlayerLabel.textContent = 'Beteiligte Spieler (optional)';
+                        if (eventPlayerInput) eventPlayerInput.placeholder = 'z. B. Lattentreffer Henke';
+                        if (fastModeBadge) fastModeBadge.textContent = '🎯 Großchance';
+                    }
+                });
+            });
+
+            // Quick Minute Adjustment Buttons
+            document.querySelectorAll('.btn-quick-min').forEach(btn => {
+                btn.addEventListener('click', () => {
+                    const add = parseInt(btn.getAttribute('data-add') || 0);
+                    let curMin = parseInt((tickerMinuteInput.value || '0').replace(/[^0-9]/g, '')) || 0;
+                    let newMin = Math.max(0, curMin + add);
+                    tickerMinuteInput.value = `${newMin}'`;
+                    eventMinuteInput.value = `${newMin}'`;
+                    if (tickerData && tickerData.match) {
+                        tickerData.match.currentMinute = `${newMin}'`;
+                    }
+                });
+            });
+
+            const btnMinHt = document.getElementById('btn-min-ht');
+            if (btnMinHt) {
+                btnMinHt.addEventListener('click', () => {
+                    tickerMinuteInput.value = '45+1\'';
+                    eventMinuteInput.value = '45+1\'';
+                    tickerStatusSelect.value = 'half_time';
+                    if (tickerData && tickerData.match) {
+                        tickerData.match.currentMinute = '45+1\'';
+                        tickerData.match.status = 'half_time';
+                    }
+                });
+            }
+
+            const btnMin90 = document.getElementById('btn-min-90');
+            if (btnMin90) {
+                btnMin90.addEventListener('click', () => {
+                    tickerMinuteInput.value = '90\'';
+                    eventMinuteInput.value = '90\'';
+                    if (tickerData && tickerData.match) {
+                        tickerData.match.currentMinute = '90\'';
+                    }
+                });
+            }
+
+            // Sync Minute Inputs bi-directionally
+            tickerMinuteInput.addEventListener('input', () => {
+                eventMinuteInput.value = tickerMinuteInput.value;
+            });
+            eventMinuteInput.addEventListener('input', () => {
+                tickerMinuteInput.value = eventMinuteInput.value;
+            });
+
+            // Accordion Toggle for Match Details (Opponent, Venue, Logos)
+            const toggleMatchDetails = document.getElementById('toggle-match-details-accordion');
+            const matchDetailsBody = document.getElementById('match-details-accordion-body');
+            const accordionChevron = document.getElementById('accordion-chevron');
+
+            if (toggleMatchDetails && matchDetailsBody) {
+                toggleMatchDetails.addEventListener('click', () => {
+                    const isOpen = matchDetailsBody.style.display === 'block';
+                    matchDetailsBody.style.display = isOpen ? 'none' : 'block';
+                    if (accordionChevron) {
+                        accordionChevron.style.transform = isOpen ? 'rotate(0deg)' : 'rotate(180deg)';
+                    }
+                });
+            }
+
+            // Live Header / Scoreboard Sync on typing
+            const syncHeaderDisplays = () => {
+                const home = tickerHomeTeamInput.value.trim() || 'SpVgg HüMax';
+                const away = tickerAwayTeamInput.value.trim() || 'Gast';
+                const comp = tickerCompInput.value.trim() || 'Kreisliga Hildesheim';
+                const dispHome = document.getElementById('display-team-home');
+                const dispAway = document.getElementById('display-team-away');
+                const dispTitle = document.getElementById('admin-match-title-display');
+                const dispComp = document.getElementById('admin-match-competition-display');
+
+                if (dispHome) dispHome.textContent = home;
+                if (dispAway) dispAway.textContent = away;
+                if (dispTitle) dispTitle.textContent = `${home} vs. ${away}`;
+                if (dispComp) dispComp.textContent = comp;
+            };
+
+            tickerHomeTeamInput.addEventListener('input', syncHeaderDisplays);
+            tickerAwayTeamInput.addEventListener('input', syncHeaderDisplays);
+            tickerCompInput.addEventListener('input', syncHeaderDisplays);
+
+            // Status label helper
+            const getStatusText = (status) => {
+                switch(status) {
+                    case 'first_half': return '1. Halbzeit';
+                    case 'half_time': return 'Halbzeitpause';
+                    case 'second_half': return '2. Halbzeit';
+                    case 'finished': return 'Abpfiff';
+                    default: return 'Vorbericht';
+                }
+            };
+
+            // Fetch Ticker Data in Admin
+            const fetchTickerAdmin = async () => {
+                try {
+                    const res = await fetch(tickerApiUrl);
+                    if (res.ok) {
+                        const data = await res.json();
+                        if (data && data.match) {
+                            tickerData = data;
+                            if (!tickerData.archive || !Array.isArray(tickerData.archive) || tickerData.archive.length === 0) {
+                                tickerData.archive = defaultArchive;
+                            }
+                            localStorage.setItem('huemax_live_ticker_backup', JSON.stringify(tickerData));
+                        }
+                    } else {
+                        const local = localStorage.getItem('huemax_live_ticker_backup');
+                        if (local) tickerData = JSON.parse(local);
+                    }
+                } catch(e) {
+                    const local = localStorage.getItem('huemax_live_ticker_backup');
+                    if (local) tickerData = JSON.parse(local);
+                }
+                if (!tickerData.archive || !Array.isArray(tickerData.archive)) {
+                    tickerData.archive = defaultArchive;
+                }
+                renderAdminMatchSettings();
+                renderAdminEventsFeed();
+                renderAdminArchiveFeed();
+            };
+
+            // Render Match Settings in Admin
+            const renderAdminMatchSettings = () => {
+                const m = tickerData.match;
+                if (!m) return;
+                tickerHomeTeamInput.value = m.homeTeam || 'SpVgg HüMax';
+                tickerAwayTeamInput.value = m.awayTeam || '';
+                tickerHomeLogoInput.value = m.homeLogo || 'logo.png';
+                tickerAwayLogoInput.value = m.awayLogo || '';
+                tickerCompInput.value = m.competition || 'Kreisliga Hildesheim';
+                tickerVenueInput.value = (m.location || '') + (m.matchDate ? ' • ' + m.matchDate : '');
+                tickerScoreHomeInput.value = m.homeScore ?? 0;
+                tickerScoreAwayInput.value = m.awayScore ?? 0;
+                tickerStatusSelect.value = m.status || 'scheduled';
+                tickerMinuteInput.value = m.currentMinute || "0'";
+                if (eventMinuteInput) eventMinuteInput.value = m.currentMinute || "0'";
+                syncHeaderDisplays();
+            };
+
+            // Save Ticker Data to Cloudflare Worker
+            const saveTickerData = async () => {
+                const pw = sessionStorage.getItem('huemax_admin_password') || '';
+                try {
+                    const res = await fetch(tickerApiUrl, {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'X-Admin-Token': pw
+                        },
+                        body: JSON.stringify(tickerData)
+                    });
+                    if (!res.ok) {
+                        const err = await res.json().catch(() => ({}));
+                        throw new Error(err.error || 'Serverfehler beim Speichern');
+                    }
+                    localStorage.setItem('huemax_live_ticker_backup', JSON.stringify(tickerData));
+                    return true;
+                } catch(e) {
+                    localStorage.setItem('huemax_live_ticker_backup', JSON.stringify(tickerData));
+                    console.warn('Worker sync warning, saved to local backup:', e.message);
+                    return true;
+                }
+            };
+
+            // Save Match Scoreboard Settings
+            btnSaveMatch.addEventListener('click', async () => {
+                const status = tickerStatusSelect.value;
+                tickerData.match = {
+                    homeTeam: tickerHomeTeamInput.value.trim() || 'SpVgg HüMax',
+                    awayTeam: tickerAwayTeamInput.value.trim() || 'Gast',
+                    homeLogo: tickerHomeLogoInput.value.trim() || 'logo.png',
+                    awayLogo: tickerAwayLogoInput.value.trim(),
+                    competition: tickerCompInput.value.trim() || 'Kreisliga Hildesheim',
+                    location: tickerVenueInput.value.trim(),
+                    matchDate: '',
+                    homeScore: parseInt(tickerScoreHomeInput.value || 0),
+                    awayScore: parseInt(tickerScoreAwayInput.value || 0),
+                    currentMinute: tickerMinuteInput.value.trim() || "0'",
+                    status: status,
+                    statusText: getStatusText(status),
+                    isLive: status === 'first_half' || status === 'second_half'
+                };
+
+                btnSaveMatch.disabled = true;
+                btnSaveMatch.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Speichere...';
+                await saveTickerData();
+                btnSaveMatch.disabled = false;
+                btnSaveMatch.innerHTML = '<i class="fas fa-check"></i> Gespeichert!';
+                setTimeout(() => {
+                    btnSaveMatch.innerHTML = '<i class="fas fa-save"></i> Spielstand speichern';
+                }, 2000);
+            });
+
+            // Archive Match Handler (Spiel beenden & ins Archiv verschieben)
+            if (btnArchiveMatch) {
+                btnArchiveMatch.addEventListener('click', async () => {
+                    const home = tickerHomeTeamInput.value.trim() || 'SpVgg HüMax';
+                    const away = tickerAwayTeamInput.value.trim() || 'Gast';
+                    const scoreHome = parseInt(tickerScoreHomeInput.value || 0);
+                    const scoreAway = parseInt(tickerScoreAwayInput.value || 0);
+
+                    if (!confirm(`Möchtest du das aktuelle Spiel (${home} vs. ${away}, Endstand ${scoreHome}:${scoreAway}) offiziell beenden, ins Archiv verschieben und den Live-Ticker für das nächste Spiel vorbereiten?`)) {
+                        return;
+                    }
+
+                    if (!tickerData.archive) tickerData.archive = [];
+
+                    const archivedEntry = {
+                        id: 'arch-' + Date.now(),
+                        match: {
+                            homeTeam: home,
+                            awayTeam: away,
+                            homeLogo: tickerHomeLogoInput.value.trim() || 'logo.png',
+                            awayLogo: tickerAwayLogoInput.value.trim() || '',
+                            competition: tickerCompInput.value.trim() || 'Kreisliga Hildesheim',
+                            matchday: 'Spieltag',
+                            matchDate: new Date().toLocaleDateString('de-DE', { weekday: 'long', day: '2-digit', month: '2-digit', year: 'numeric' }),
+                            location: tickerVenueInput.value.trim() || 'Sportplatz Machtsum',
+                            homeScore: scoreHome,
+                            awayScore: scoreAway,
+                            currentMinute: "90'",
+                            status: 'finished',
+                            statusText: 'Abpfiff',
+                            isLive: false
+                        },
+                        events: [...(tickerData.events || [])]
+                    };
+
+                    // In Archiv an erste Position einfügen
+                    tickerData.archive.unshift(archivedEntry);
+
+                    // Aktuelles Spiel zurücksetzen
+                    tickerData.match = {
+                        homeTeam: "SpVgg HüMax",
+                        awayTeam: "",
+                        homeLogo: "logo.png",
+                        awayLogo: "",
+                        competition: "Kreisliga Hildesheim",
+                        matchDate: "Sonntag, 15:00 Uhr",
+                        location: "Sportplatz Machtsum (Rasen)",
+                        homeScore: 0,
+                        awayScore: 0,
+                        currentMinute: "0'",
+                        status: "scheduled",
+                        statusText: "Vorbericht",
+                        isLive: false
+                    };
+                    tickerData.events = [];
+
+                    btnArchiveMatch.disabled = true;
+                    btnArchiveMatch.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Archiviere...';
+                    await saveTickerData();
+                    btnArchiveMatch.disabled = false;
+                    btnArchiveMatch.innerHTML = '<i class="fas fa-archive"></i> Spiel beenden & archivieren';
+
+                    renderAdminMatchSettings();
+                    renderAdminEventsFeed();
+                    renderAdminArchiveFeed();
+                    alert('Spiel wurde erfolgreich archiviert! Der Live-Ticker ist bereit für die nächste Begegnung.');
+                });
+            }
+
+            // Render Archive List in Admin
+            const renderAdminArchiveFeed = () => {
+                if (!adminArchiveFeed) return;
+                adminArchiveFeed.innerHTML = '';
+                const arch = tickerData.archive || [];
+                if (adminArchiveCount) adminArchiveCount.textContent = `${arch.length} Spiele im Archiv`;
+
+                if (arch.length === 0) {
+                    adminArchiveFeed.innerHTML = '<p style="color: var(--text-muted); text-align: center; margin: 1.5rem 0;">Noch keine archivierten Spiele vorhanden.</p>';
+                    return;
+                }
+
+                arch.forEach((entry, idx) => {
+                    const m = entry.match || {};
+                    const evts = entry.events || [];
+                    const div = document.createElement('div');
+                    div.style = 'border: 1px solid var(--border-color); border-radius: var(--radius-sm); padding: 1.25rem 1.5rem; background: #ffffff; display: flex; justify-content: space-between; align-items: center; gap: 1rem; flex-wrap: wrap; box-shadow: 0 2px 6px rgba(0,0,0,0.03);';
+                    
+                    div.innerHTML = `
+                        <div style="flex: 1; min-width: 250px;">
+                            <div style="font-size: 0.8rem; color: #b8860b; font-weight: 700; text-transform: uppercase; margin-bottom: 0.25rem;">
+                                ${m.matchday || 'Kreisliga'} &bull; ${m.matchDate || ''}
+                            </div>
+                            <div style="font-size: 1.15rem; font-weight: 800; color: var(--primary-dark); display: flex; align-items: center; gap: 0.75rem; margin-bottom: 0.35rem;">
+                                <span>${m.homeTeam || 'HüMax'}</span>
+                                <span style="background: var(--primary-dark); color: #fff; padding: 0.15rem 0.65rem; border-radius: 6px; font-size: 1rem;">${m.homeScore ?? 0} : ${m.awayScore ?? 0}</span>
+                                <span>${m.awayTeam || 'Gegner'}</span>
+                            </div>
+                            <div style="font-size: 0.85rem; color: var(--text-muted);">
+                                <i class="fas fa-map-marker-alt" style="margin-right: 0.3rem;"></i> ${m.location || 'Sportplatz Machtsum'} &bull; <i class="fas fa-list-ul" style="margin-left: 0.5rem; margin-right: 0.3rem;"></i> ${evts.length} protokollierte Meldungen
+                            </div>
+                        </div>
+                        <div style="display: flex; gap: 0.5rem; align-items: center;">
+                            <button type="button" class="btn-delete-archive" data-id="${entry.id || idx}" style="background: #fff; border: 1px solid #dc3545; color: #dc3545; padding: 0.5rem 0.9rem; border-radius: var(--radius-sm); font-size: 0.85rem; font-weight: 700; cursor: pointer; display: inline-flex; align-items: center; gap: 0.4rem; transition: background 0.2s ease;">
+                                <i class="fas fa-trash"></i> Aus Archiv löschen
+                            </button>
+                        </div>
+                    `;
+
+                    adminArchiveFeed.appendChild(div);
+                });
+
+                // Delete archive item handler
+                adminArchiveFeed.querySelectorAll('.btn-delete-archive').forEach(btn => {
+                    btn.addEventListener('click', async () => {
+                        const id = btn.getAttribute('data-id');
+                        if (confirm('Möchtest du dieses Spiel wirklich unwiderruflich aus dem Archiv löschen?')) {
+                            tickerData.archive = tickerData.archive.filter((a, index) => (a.id || index.toString()) !== id && index.toString() !== id);
+                            await saveTickerData();
+                            renderAdminArchiveFeed();
+                        }
+                    });
+                });
+            };
+
+            // Reset Match Confirmation
+            btnResetMatch.addEventListener('click', async () => {
+                if (confirm('Möchtest du wirklich ein neues Spiel anlegen und alle aktuellen Ticker-Meldungen löschen?')) {
+                    tickerData.match = {
+                        homeTeam: "SpVgg HüMax",
+                        awayTeam: "",
+                        homeLogo: "logo.png",
+                        awayLogo: "",
+                        competition: "Kreisliga Hildesheim",
+                        matchDate: "Sonntag, 15:00 Uhr",
+                        location: "Sportplatz Machtsum (Rasen)",
+                        homeScore: 0,
+                        awayScore: 0,
+                        currentMinute: "0'",
+                        status: "scheduled",
+                        statusText: "Vorbericht",
+                        isLive: false
+                    };
+                    tickerData.events = [];
+                    await saveTickerData();
+                    renderAdminMatchSettings();
+                    renderAdminEventsFeed();
+                    renderAdminArchiveFeed();
+                    alert('Neues Spiel wurde angelegt!');
+                }
+            });
+
+            // Render Events Feed in Admin
+            const renderAdminEventsFeed = () => {
+                adminEventsFeed.innerHTML = '';
+                const evts = tickerData.events || [];
+                adminEventsCount.textContent = `${evts.length} Einträge`;
+
+                if (evts.length === 0) {
+                    adminEventsFeed.innerHTML = '<p style="color: var(--text-muted); text-align: center; margin: 2rem 0;">Noch keine Ticker-Meldungen für dieses Spiel erfasst.</p>';
+                    return;
+                }
+
+                evts.forEach((evt) => {
+                    const div = document.createElement('div');
+                    div.style = 'border: 1px solid var(--border-color); border-radius: var(--radius-sm); padding: 1rem 1.25rem; background: #fff; position: relative;';
+                    div.innerHTML = `
+                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.35rem;">
+                            <strong style="color: var(--primary-dark); font-size: 1.05rem;">${evt.minute} - ${evt.title}</strong>
+                            <button type="button" class="btn-delete-event" data-id="${evt.id}" style="background: transparent; border: none; color: #dc3545; cursor: pointer; padding: 0.2rem 0.5rem; border-radius: 4px;" title="Ereignis löschen"><i class="fas fa-trash"></i></button>
+                        </div>
+                        ${evt.player ? `<span style="font-size: 0.85rem; color: #b8860b; font-weight: 700;">${evt.player}</span><br>` : ''}
+                        <p style="margin: 0.35rem 0 0; font-size: 0.9rem; color: var(--text-muted); line-height: 1.5;">${evt.description}</p>
+                    `;
+                    adminEventsFeed.appendChild(div);
+                });
+
+                // Attach delete handlers
+                adminEventsFeed.querySelectorAll('.btn-delete-event').forEach(btn => {
+                    btn.addEventListener('click', async () => {
+                        const id = btn.getAttribute('data-id');
+                        if (confirm('Diesen Ticker-Eintrag wirklich löschen?')) {
+                            tickerData.events = tickerData.events.filter(e => e.id !== id);
+                            await saveTickerData();
+                            renderAdminEventsFeed();
+                        }
+                    });
+                });
+            };
+
+            // Helper to reset fast input back to default commentary mode
+            const resetToCommentaryDefault = () => {
+                eventTypeInput.value = 'info';
+                eventTeamInput.value = 'neutral';
+                eventTitleInput.value = 'Spielszene';
+                if (specialOptionsBox) specialOptionsBox.style.display = 'none';
+                if (penaltyOptionsRow) penaltyOptionsRow.style.display = 'none';
+                if (fastModeBadge) fastModeBadge.textContent = '💬 Spielszene';
+                eventPills.forEach(p => {
+                    if (p.getAttribute('data-type') === 'info') {
+                        p.classList.add('active');
+                    } else {
+                        p.classList.remove('active');
+                    }
+                });
+            };
+
+            // Add Ticker Event Form Submit
+            addEventForm.addEventListener('submit', async (e) => {
+                e.preventDefault();
+                const minute = eventMinuteInput.value.trim() || tickerMinuteInput.value.trim() || "0'";
+                const title = eventTitleInput.value.trim() || 'Spielszene';
+                const player = eventPlayerInput.value.trim();
+                const desc = eventDescInput.value.trim();
+                const type = eventTypeInput.value || 'info';
+                const team = eventTeamInput.value || 'home';
+                const penaltyStatus = penaltyStatusInput ? penaltyStatusInput.value : 'scored';
+
+                const now = new Date();
+                const timeStr = now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+
+                // Auto Score Adjustment for Goals or Scored Penalties
+                let currentScoreStr = '';
+                const isGoal = (type === 'goal');
+                const isPenaltyScored = (type === 'penalty' && penaltyStatus === 'scored');
+
+                if (isGoal || isPenaltyScored) {
+                    if (team === 'home') {
+                        tickerScoreHomeInput.value = parseInt(tickerScoreHomeInput.value || 0) + 1;
+                    } else if (team === 'away') {
+                        tickerScoreAwayInput.value = parseInt(tickerScoreAwayInput.value || 0) + 1;
+                    }
+                    currentScoreStr = `${tickerScoreHomeInput.value}:${tickerScoreAwayInput.value}`;
+                    if (!tickerData.match) tickerData.match = {};
+                    tickerData.match.homeScore = parseInt(tickerScoreHomeInput.value);
+                    tickerData.match.awayScore = parseInt(tickerScoreAwayInput.value);
+                }
+
+                // Update current minute in match
+                tickerMinuteInput.value = minute;
+                if (!tickerData.match) tickerData.match = {};
+                tickerData.match.currentMinute = minute;
+
+                const newEvent = {
+                    id: 'evt-' + Date.now(),
+                    minute: minute,
+                    type: type,
+                    team: team,
+                    title: title,
+                    player: player,
+                    description: desc,
+                    score: currentScoreStr,
+                    timestamp: timeStr
+                };
+
+                // Add to beginning of events list (newest first)
+                if (!tickerData.events) tickerData.events = [];
+                tickerData.events.unshift(newEvent);
+
+                const btnSubmit = document.getElementById('btn-submit-event');
+                btnSubmit.disabled = true;
+                btnSubmit.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Sende...';
+                await saveTickerData();
+                btnSubmit.disabled = false;
+                btnSubmit.innerHTML = '<i class="fas fa-paper-plane"></i> <span>Meldung jetzt live schalten</span>';
+
+                // Clear input & reset to Spielszene so reporter can immediately type the next 2-3 min update
+                eventPlayerInput.value = '';
+                eventDescInput.value = '';
+                resetToCommentaryDefault();
+
+                renderAdminEventsFeed();
+
+                // Refocus description for ultra-fast mobile typing
+                setTimeout(() => {
+                    eventDescInput.focus();
+                }, 50);
             });
 
             // Load articles on start

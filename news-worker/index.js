@@ -85,6 +85,125 @@ export default {
         });
       }
 
+      // POST /api/verify-auth - Check if provided admin token is valid
+      if (request.method === "POST" && path === "/api/verify-auth") {
+        if (!checkAuth(request)) {
+          return new Response(JSON.stringify({ error: "Unauthorized" }), {
+            status: 401,
+            headers: { ...corsHeaders, "Content-Type": "application/json" }
+          });
+        }
+        return new Response(JSON.stringify({ success: true }), {
+          headers: { ...corsHeaders, "Content-Type": "application/json" }
+        });
+      }
+
+      // GET /api/ticker - Get current match and live ticker events
+      if (request.method === "GET" && path === "/api/ticker") {
+        const data = await env.NEWS_KV.get("ticker_data");
+        const defaultData = {
+          match: {
+            homeTeam: "SpVgg HüMax",
+            awayTeam: "SV Bavenstedt II",
+            homeLogo: "logo.png",
+            awayLogo: "bavenstedt-logo.png",
+            competition: "Kreisliga Hildesheim",
+            matchDate: "Sonntag, 15:00 Uhr",
+            location: "Sportplatz Machtsum (Rasen)",
+            homeScore: 2,
+            awayScore: 1,
+            currentMinute: "73'",
+            status: "second_half",
+            statusText: "73' • 2. Halbzeit",
+            isLive: true
+          },
+          events: [
+            {
+              id: "evt-4",
+              minute: "72'",
+              type: "sub",
+              team: "home",
+              title: "Wechsel bei SpVgg HüMax",
+              description: "Applaus von den Rängen auf dem Machtsumer Sportplatz: Frische Kräfte für die Schlussphase.",
+              player: "T. Meyer für L. Becker",
+              score: "2:1",
+              timestamp: "16:28"
+            },
+            {
+              id: "evt-3",
+              minute: "64'",
+              type: "goal",
+              team: "home",
+              title: "TOOOOR für SpVgg HüMax!",
+              description: "Was für eine Bude! Nach einer maßgeschneiderten Ecke steigt der Angreifer am Fünfmeterraum am höchsten und köpft unhaltbar ins lange Eck ein!",
+              player: "M. Henke (Kopfball)",
+              score: "2:1",
+              timestamp: "16:19"
+            },
+            {
+              id: "evt-2",
+              minute: "41'",
+              type: "goal",
+              team: "away",
+              title: "Tor für SV Bavenstedt II",
+              description: "Ausgleich kurz vor der Pause. Ein strammer Flachschuss aus 16 Metern schlägt im linken unteren Toreck ein.",
+              player: "D. Krause",
+              score: "1:1",
+              timestamp: "15:42"
+            },
+            {
+              id: "evt-1",
+              minute: "18'",
+              type: "goal",
+              team: "home",
+              title: "TOOOOR für SpVgg HüMax!",
+              description: "Traumstart für die Hausherren! Ballgewinn im Mittelfeld, schnelles Umschaltspiel und eiskalt vollstreckt.",
+              player: "J. Brinkmann",
+              score: "1:0",
+              timestamp: "15:19"
+            },
+            {
+              id: "evt-0",
+              minute: "1'",
+              type: "whistle",
+              team: "neutral",
+              title: "Anpfiff zur 1. Halbzeit",
+              description: "Schiedsrichter pfeift die Partie bei bestem Fußballwetter auf dem Sportplatz Machtsum an.",
+              player: "",
+              score: "0:0",
+              timestamp: "15:00"
+            }
+          ],
+          archive: []
+        };
+        return new Response(data || JSON.stringify(defaultData), {
+          headers: { ...corsHeaders, "Content-Type": "application/json" }
+        });
+      }
+
+      // POST /api/ticker - Update match or add/update ticker events
+      if (request.method === "POST" && path === "/api/ticker") {
+        if (!checkAuth(request)) {
+          return new Response(JSON.stringify({ error: "Unauthorized" }), {
+            status: 401,
+            headers: { ...corsHeaders, "Content-Type": "application/json" }
+          });
+        }
+
+        const body = await request.json();
+        if (!body || !body.match || !Array.isArray(body.events)) {
+          return new Response(JSON.stringify({ error: "Invalid ticker data structure" }), {
+            status: 400,
+            headers: { ...corsHeaders, "Content-Type": "application/json" }
+          });
+        }
+
+        await env.NEWS_KV.put("ticker_data", JSON.stringify(body));
+        return new Response(JSON.stringify({ success: true, message: "Ticker erfolgreich aktualisiert" }), {
+          headers: { ...corsHeaders, "Content-Type": "application/json" }
+        });
+      }
+
       // POST /api/contact - Contact form with Turnstile validation & Resend email
       if (request.method === "POST" && path === "/api/contact") {
         const body = await request.json();

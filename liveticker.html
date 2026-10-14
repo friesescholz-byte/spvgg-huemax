@@ -1,0 +1,1598 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>1. Herren Live-Ticker - SpVgg Hüddessum/Machtsum e.V.</title>
+    
+    <!-- Favicon -->
+    <link rel="icon" href="logo.png" type="image/png">
+    
+    <!-- SEO Meta Tags -->
+    <meta name="description" content="Der offizielle Live-Ticker der 1. Herren der SpVgg Hüddessum/Machtsum (SpVgg HüMax). Tore, Highlights, Karten und Push-Up-Benachrichtigungen in Echtzeit.">
+    <meta name="robots" content="index, follow">
+    <meta name="keywords" content="SpVgg HüMax Live-Ticker, 1. Herren Hüddessum Machtsum, Kreisliga Hildesheim Live, Toralarm Amateurfußball">
+    <meta name="author" content="Scholz & Friese">
+    
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://spvgg-huemax.pages.dev/liveticker.html">
+    <meta property="og:title" content="1. Herren Live-Ticker - SpVgg Hüddessum/Machtsum e.V.">
+    <meta property="og:description" content="Tore, Karten und Spielszenen unserer 1. Mannschaft live im Minutentakt verfolgen.">
+    <meta property="og:image" content="https://pub-b33108412309406a9a941ddc51e9a5b9.r2.dev/spvgg-huemax/logo.png">
+
+    <link rel="stylesheet" href="style.css?v=20261014-5">
+    
+    <!-- Performance Preconnects -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="preconnect" href="https://cdnjs.cloudflare.com">
+
+    <!-- Preload Critical Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+
+    <!-- FontAwesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" media="print" onload="this.media='all'">
+    <noscript><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css"></noscript>
+    
+    <!-- Dedicated Live-Ticker & Archive Styles (Inlined for 100% Cache Reliability) -->
+    <style id="ticker-editorial-css">
+        .ticker-page-section .reveal-item {
+            opacity: 1 !important;
+            transform: none !important;
+            visibility: visible !important;
+        }
+
+        .ticker-page-section {
+            background-color: #f8faf6;
+            padding-top: 2.5rem;
+            padding-bottom: 6rem;
+        }
+
+        .ticker-scoreboard-card {
+            background: #ffffff;
+            border-radius: 20px;
+            border: 1px solid rgba(21, 62, 2, 0.12);
+            box-shadow: 0 14px 40px -8px rgba(10, 28, 1, 0.08), 0 2px 6px -1px rgba(10, 28, 1, 0.02);
+            padding: 2rem 2.5rem;
+            margin-bottom: 2rem;
+            position: relative;
+            overflow: hidden;
+            border-top: 4px solid #153e02;
+        }
+
+        .ticker-board-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 1rem;
+            padding-bottom: 1.25rem;
+            border-bottom: 1px solid rgba(21, 62, 2, 0.08);
+        }
+
+        .ticker-competition-meta {
+            display: flex;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 0.6rem;
+        }
+
+        .ticker-comp-badge {
+            font-size: 0.8rem;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 0.06em;
+            color: #153e02;
+            background: rgba(21, 62, 2, 0.08);
+            padding: 0.3rem 0.75rem;
+            border-radius: 6px;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.45rem;
+        }
+
+        .ticker-live-dot {
+            width: 8px;
+            height: 8px;
+            background-color: #28a745;
+            border-radius: 50%;
+            display: inline-block;
+            animation: livePulseDot 1.8s infinite ease-in-out;
+        }
+
+        @keyframes livePulseDot {
+            0% { transform: scale(0.9); opacity: 0.8; box-shadow: 0 0 0 0 rgba(40, 167, 69, 0.6); }
+            70% { transform: scale(1.15); opacity: 1; box-shadow: 0 0 0 6px rgba(40, 167, 69, 0); }
+            100% { transform: scale(0.9); opacity: 0.8; box-shadow: 0 0 0 0 rgba(40, 167, 69, 0); }
+        }
+
+        .ticker-comp-divider {
+            color: rgba(21, 62, 2, 0.25);
+        }
+
+        .ticker-venue-inline {
+            font-size: 0.85rem;
+            color: #576553;
+            font-weight: 500;
+        }
+
+        .ticker-bell-pill {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.65rem;
+            padding: 0.6rem 1.35rem;
+            border-radius: 999px;
+            font-size: 0.92rem;
+            font-weight: 800;
+            font-family: 'Outfit', sans-serif;
+            border: 2px solid #e5b352;
+            background: #ffffff;
+            color: #0a1c01;
+            cursor: pointer;
+            transition: all 0.25s cubic-bezier(0.22, 1, 0.36, 1);
+            box-shadow: 0 4px 14px rgba(229, 179, 82, 0.22);
+        }
+
+        .ticker-bell-pill i {
+            color: #b8860b;
+            font-size: 1.05rem;
+            transition: transform 0.2s ease;
+        }
+
+        .ticker-bell-pill:hover {
+            background: #fffdf5;
+            border-color: #d49a2a;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 18px rgba(229, 179, 82, 0.32);
+        }
+
+        .ticker-bell-pill:hover i {
+            transform: rotate(18deg) scale(1.1);
+        }
+
+        .ticker-bell-pill.active {
+            background: #153e02;
+            border-color: #153e02;
+            color: #ffffff;
+            box-shadow: 0 4px 14px rgba(21, 62, 2, 0.3);
+        }
+
+        .ticker-bell-pill.active i {
+            color: #e5b352;
+            animation: bellRing 2.5s infinite ease-in-out;
+        }
+
+        .ticker-bell-pill.active:hover {
+            background: #1a4d03;
+            border-color: #1a4d03;
+            box-shadow: 0 6px 18px rgba(21, 62, 2, 0.4);
+        }
+
+        .ticker-bell-pill.muted {
+            background: #f4f5f7;
+            border-color: rgba(21, 62, 2, 0.2);
+            color: #576553;
+            box-shadow: none;
+        }
+
+        .ticker-bell-pill.muted i {
+            color: #8c9888;
+        }
+
+        .ticker-bell-pill.denied {
+            background: #fff5f5;
+            border-color: #e03131;
+            color: #c92a2a;
+            box-shadow: none;
+        }
+
+        .ticker-bell-pill.denied i {
+            color: #e03131;
+        }
+
+        @keyframes bellRing {
+            0%, 100% { transform: rotate(0); }
+            10%, 30% { transform: rotate(14deg); }
+            20%, 40% { transform: rotate(-14deg); }
+            50% { transform: rotate(0); }
+        }
+
+        .ticker-board-main {
+            display: grid;
+            grid-template-columns: 1fr auto 1fr;
+            align-items: center;
+            gap: 2rem;
+            padding: 2.25rem 0;
+        }
+
+        .ticker-team-col {
+            display: flex;
+            flex-direction: column;
+            gap: 0.4rem;
+        }
+
+        .ticker-team-home {
+            text-align: right;
+            align-items: flex-end;
+        }
+
+        .ticker-team-away {
+            text-align: left;
+            align-items: flex-start;
+        }
+
+        .ticker-team-info {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .ticker-team-home .ticker-team-info {
+            flex-direction: row-reverse;
+        }
+
+        .ticker-team-crest {
+            width: 58px;
+            height: 58px;
+            border-radius: 50%;
+            background: #ffffff;
+            border: 1px solid rgba(21, 62, 2, 0.12);
+            box-shadow: 0 4px 14px rgba(0, 0, 0, 0.07);
+            padding: 6px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+
+        .ticker-team-crest img {
+            max-width: 100%;
+            max-height: 100%;
+            object-fit: contain;
+        }
+
+        .ticker-team-title {
+            font-family: 'Outfit', sans-serif;
+            font-size: clamp(1.4rem, 2.8vw, 2.15rem);
+            font-weight: 800;
+            color: #0a1c01;
+            margin: 0;
+            line-height: 1.15;
+            letter-spacing: -0.015em;
+        }
+
+        .ticker-team-label {
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            color: #576553;
+            font-weight: 700;
+        }
+
+        .ticker-center-col {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-width: 170px;
+            padding: 0 1rem;
+        }
+
+        .ticker-score-wrap {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.75rem;
+            font-family: 'Outfit', sans-serif;
+            font-weight: 900;
+            font-size: clamp(3.2rem, 6.5vw, 4.6rem);
+            color: #0a1c01;
+            line-height: 1;
+            letter-spacing: -0.02em;
+            font-variant-numeric: tabular-nums;
+        }
+
+        .ticker-colon {
+            color: #e5b352;
+            font-weight: 300;
+            transform: translateY(-2px);
+        }
+
+        .ticker-status-pill {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.4rem 1.05rem;
+            border-radius: 999px;
+            font-size: 0.85rem;
+            font-weight: 800;
+            font-family: 'Outfit', sans-serif;
+            background: #f3f5ef;
+            color: #576553;
+            border: 1px solid rgba(21, 62, 2, 0.1);
+            margin-top: 0.85rem;
+        }
+
+        .ticker-status-pill.live {
+            background: #ecfdf5;
+            color: #065f46;
+            border-color: rgba(16, 185, 129, 0.35);
+        }
+
+        .ticker-status-pulse {
+            width: 7px;
+            height: 7px;
+            border-radius: 50%;
+            background-color: #10b981;
+            display: inline-block;
+            animation: livePulseDot 1.8s infinite ease-in-out;
+        }
+
+        .ticker-status-pill.finished {
+            background: #f3f4f6;
+            color: #4b5563;
+            border-color: #e5e7eb;
+        }
+
+        .ticker-board-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 1.25rem;
+            padding-top: 1.25rem;
+            border-top: 1px solid rgba(21, 62, 2, 0.08);
+            font-size: 0.88rem;
+            color: #576553;
+        }
+
+        .ticker-footer-item {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .ticker-footer-item i {
+            color: #e5b352;
+            font-size: 0.95rem;
+        }
+
+        .ticker-sync-item {
+            margin-left: auto;
+            font-size: 0.82rem;
+            color: #576553;
+        }
+
+        .ticker-live-dot-mini {
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background-color: #28a745;
+            display: inline-block;
+            animation: livePulseDot 1.8s infinite ease-in-out;
+        }
+
+        .ticker-control-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .ticker-filters {
+            display: inline-flex;
+            gap: 0.35rem;
+            background: #ffffff;
+            padding: 0.35rem;
+            border-radius: 999px;
+            border: 1px solid rgba(21, 62, 2, 0.1);
+            box-shadow: 0 4px 10px rgba(10, 28, 1, 0.03);
+        }
+
+        .ticker-pill {
+            background: transparent;
+            border: none;
+            padding: 0.5rem 1.15rem;
+            border-radius: 999px;
+            font-size: 0.85rem;
+            font-weight: 700;
+            font-family: 'Inter', sans-serif;
+            color: #576553;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.4rem;
+        }
+
+        .ticker-pill:hover {
+            color: #0a1c01;
+            background: #f3f5ef;
+        }
+
+        .ticker-pill.active {
+            background: #153e02;
+            color: #ffffff;
+            box-shadow: 0 2px 8px rgba(21, 62, 2, 0.25);
+        }
+
+        .ticker-push-hint {
+            font-size: 0.82rem;
+            color: #576553;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.45rem;
+        }
+
+        .ticker-push-hint i {
+            color: #e5b352;
+        }
+
+        .ticker-stream {
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+            margin-bottom: 3.5rem;
+        }
+
+        .ticker-stream::before {
+            content: '';
+            position: absolute;
+            top: 20px;
+            bottom: 20px;
+            left: 45px;
+            width: 2px;
+            background: rgba(21, 62, 2, 0.1);
+            border-radius: 1px;
+            z-index: 1;
+        }
+
+        .ticker-item {
+            display: grid;
+            grid-template-columns: 90px 1fr;
+            gap: 1.5rem;
+            align-items: flex-start;
+            position: relative;
+            z-index: 2;
+        }
+
+        .ticker-item-meta {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0.35rem;
+            padding-top: 0.25rem;
+        }
+
+        .ticker-item-minute {
+            font-family: 'Outfit', sans-serif;
+            font-size: 1.15rem;
+            font-weight: 800;
+            color: #0a1c01;
+            line-height: 1;
+        }
+
+        .ticker-item-node {
+            width: 34px;
+            height: 34px;
+            border-radius: 50%;
+            background: #ffffff;
+            border: 2px solid rgba(21, 62, 2, 0.15);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.9rem;
+            color: #576553;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+        }
+
+        .ticker-item-card {
+            background: #ffffff;
+            border: 1px solid rgba(21, 62, 2, 0.1);
+            border-radius: 16px;
+            padding: 1.4rem 1.75rem;
+            box-shadow: 0 4px 15px rgba(10, 28, 1, 0.03);
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        .ticker-item-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(10, 28, 1, 0.07);
+        }
+
+        .ticker-item-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 0.75rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .ticker-item-title {
+            font-family: 'Outfit', sans-serif;
+            font-size: 1.2rem;
+            font-weight: 800;
+            color: #0a1c01;
+            margin: 0;
+            line-height: 1.25;
+        }
+
+        .ticker-pill-player {
+            font-size: 0.82rem;
+            font-weight: 700;
+            color: #0a1c01;
+            background: rgba(229, 179, 82, 0.2);
+            padding: 0.25rem 0.75rem;
+            border-radius: 999px;
+            border: 1px solid rgba(229, 179, 82, 0.35);
+        }
+
+        .ticker-pill-score {
+            font-family: 'Outfit', sans-serif;
+            font-size: 1.05rem;
+            font-weight: 900;
+            background: #153e02;
+            color: #ffffff;
+            padding: 0.25rem 0.75rem;
+            border-radius: 8px;
+            margin-left: auto;
+        }
+
+        .ticker-item-body {
+            font-size: 0.96rem;
+            color: #1f2a1b;
+            line-height: 1.65;
+            margin: 0;
+        }
+
+        .ticker-item-footer {
+            display: flex;
+            justify-content: flex-end;
+            align-items: center;
+            margin-top: 0.85rem;
+            padding-top: 0.6rem;
+            border-top: 1px solid rgba(21, 62, 2, 0.06);
+            font-size: 0.78rem;
+            color: #576553;
+        }
+
+        .ticker-item.event-goal .ticker-item-minute { color: #996e00; font-weight: 900; font-size: 1.25rem; }
+        .ticker-item.event-goal .ticker-item-node { background: #e5b352; border-color: #cf9e3f; color: #0a1c01; box-shadow: 0 0 0 3px rgba(229, 179, 82, 0.25); }
+        .ticker-item.event-goal .ticker-item-card { background: #fffdf9; border-color: rgba(229, 179, 82, 0.45); border-left: 5px solid #e5b352; }
+        .ticker-item.event-goal .ticker-item-title { color: #153e02; }
+
+        .ticker-item.event-yellow_card .ticker-item-node { background: #fff9db; border-color: #f59f00; color: #d97706; }
+        .ticker-item.event-yellow_card .ticker-item-card { border-left: 5px solid #f59f00; }
+
+        .ticker-item.event-red_card .ticker-item-node, .ticker-item.event-yellow_red_card .ticker-item-node { background: #ffe3e3; border-color: #fa5252; color: #dc2626; }
+        .ticker-item.event-red_card .ticker-item-card, .ticker-item.event-yellow_red_card .ticker-item-card { border-left: 5px solid #fa5252; }
+
+        .ticker-item.event-penalty .ticker-item-minute { color: #d9480f; font-weight: 900; }
+        .ticker-item.event-penalty .ticker-item-node { background: #fff3bf; border-color: #f59f00; color: #d9480f; box-shadow: 0 0 0 3px rgba(245, 159, 0, 0.25); }
+        .ticker-item.event-penalty .ticker-item-card { background: #fffdf5; border-left: 5px solid #f59f00; }
+        .ticker-item.event-penalty .ticker-item-title { color: #b25e00; }
+
+        .ticker-item.event-sub .ticker-item-node { background: #e7f5ff; border-color: #228be6; color: #1971c2; }
+        .ticker-item.event-sub .ticker-item-card { border-left: 5px solid #228be6; }
+
+        .ticker-item.event-chance .ticker-item-node { background: #fff4e6; border-color: #fd7e14; color: #ea580c; }
+        .ticker-item.event-chance .ticker-item-card { border-left: 5px solid #fd7e14; }
+
+        .ticker-item.event-whistle .ticker-item-node { background: rgba(21, 62, 2, 0.1); border-color: #153e02; color: #153e02; }
+        .ticker-item.event-whistle .ticker-item-card { background: #f3f5ef; border-color: rgba(21, 62, 2, 0.12); }
+
+        /* --- Archiv vergangener Spiele (Aufklappbar) --- */
+        .ticker-archive-section {
+            margin-top: 4.5rem;
+            padding-top: 3.5rem;
+            border-top: 2px dashed rgba(21, 62, 2, 0.15);
+        }
+
+        .ticker-archive-header {
+            margin-bottom: 2rem;
+        }
+
+        .ticker-archive-title {
+            font-family: 'Outfit', sans-serif;
+            font-size: 1.65rem;
+            font-weight: 800;
+            color: #0a1c01;
+            display: flex;
+            align-items: center;
+            gap: 0.65rem;
+            margin-bottom: 0.35rem;
+        }
+
+        .ticker-archive-title i {
+            color: #e5b352;
+        }
+
+        .ticker-archive-subtitle {
+            color: #576553;
+            font-size: 0.95rem;
+            margin: 0;
+        }
+
+        .ticker-archive-list {
+            display: flex;
+            flex-direction: column;
+            gap: 1.25rem;
+        }
+
+        .ticker-archive-card {
+            background: #ffffff;
+            border: 1px solid rgba(21, 62, 2, 0.12);
+            border-radius: 16px;
+            box-shadow: 0 4px 15px rgba(10, 28, 1, 0.03);
+            overflow: hidden;
+            transition: all 0.25s ease;
+        }
+
+        .ticker-archive-card:hover {
+            border-color: rgba(21, 62, 2, 0.25);
+            box-shadow: 0 8px 25px rgba(10, 28, 1, 0.06);
+        }
+
+        .ticker-archive-summary {
+            padding: 1.25rem 1.75rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            cursor: pointer;
+            background: #ffffff;
+            transition: background 0.2s ease;
+            user-select: none;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .ticker-archive-summary:hover {
+            background: #fafbf9;
+        }
+
+        .ticker-archive-meta-left {
+            display: flex;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .ticker-archive-matchday {
+            font-size: 0.78rem;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 0.06em;
+            color: #153e02;
+            background: rgba(21, 62, 2, 0.07);
+            padding: 0.25rem 0.65rem;
+            border-radius: 6px;
+        }
+
+        .ticker-archive-date {
+            font-size: 0.85rem;
+            color: #576553;
+        }
+
+        .ticker-archive-match-teams {
+            font-family: 'Outfit', sans-serif;
+            font-size: 1.25rem;
+            font-weight: 800;
+            color: #0a1c01;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .ticker-archive-score-badge {
+            font-family: 'Outfit', sans-serif;
+            font-size: 1.05rem;
+            font-weight: 900;
+            background: #153e02;
+            color: #ffffff;
+            padding: 0.2rem 0.75rem;
+            border-radius: 6px;
+            letter-spacing: 0.02em;
+        }
+
+        .ticker-archive-toggle-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.45rem;
+            font-size: 0.85rem;
+            font-weight: 700;
+            color: #153e02;
+            background: #f3f5ef;
+            padding: 0.45rem 1rem;
+            border-radius: 20px;
+            transition: all 0.2s ease;
+        }
+
+        .ticker-archive-toggle-btn i {
+            transition: transform 0.3s ease;
+        }
+
+        .ticker-archive-card.open .ticker-archive-toggle-btn i {
+            transform: rotate(180deg);
+        }
+
+        .ticker-archive-body {
+            display: none;
+            padding: 1.5rem 1.75rem 2rem;
+            border-top: 1px solid rgba(21, 62, 2, 0.08);
+            background: #fafbf9;
+        }
+
+        .ticker-archive-card.open .ticker-archive-body {
+            display: block;
+            animation: fadeInArchive 0.3s ease-out;
+        }
+
+        @keyframes fadeInArchive {
+            from { opacity: 0; transform: translateY(-8px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .ticker-empty-state {
+            text-align: center;
+            padding: 4rem 2rem;
+            background: #ffffff;
+            border-radius: 16px;
+            border: 1px dashed rgba(21, 62, 2, 0.15);
+        }
+
+        .ticker-empty-state i {
+            font-size: 2.8rem;
+            color: #e5b352;
+            margin-bottom: 1.25rem;
+            opacity: 0.85;
+        }
+
+        @media (max-width: 768px) {
+            .ticker-scoreboard-card { padding: 1.25rem; }
+            .ticker-board-header { flex-direction: column; align-items: flex-start; gap: 0.75rem; }
+            .ticker-bell-pill { width: 100%; justify-content: center; }
+            .ticker-board-main { grid-template-columns: 1fr; gap: 1.25rem; padding: 1.5rem 0; text-align: center; }
+            .ticker-team-home, .ticker-team-away { align-items: center; text-align: center; }
+            .ticker-team-home .ticker-team-info, .ticker-team-away .ticker-team-info { justify-content: center; flex-direction: column; }
+            .ticker-center-col { padding: 0.5rem 0; }
+            .ticker-board-footer { flex-direction: column; align-items: flex-start; gap: 0.65rem; }
+            .ticker-sync-item { margin-left: 0; }
+            .ticker-control-bar { flex-direction: column; align-items: stretch; }
+            .ticker-filters { width: 100%; justify-content: center; }
+            .ticker-pill { flex: 1; justify-content: center; padding: 0.45rem 0.6rem; font-size: 0.78rem; }
+            .ticker-stream::before { left: 20px; }
+            .ticker-item { grid-template-columns: 42px 1fr; gap: 0.85rem; }
+            .ticker-item-node { width: 26px; height: 26px; font-size: 0.72rem; }
+            .ticker-item-minute { font-size: 0.82rem; }
+            .ticker-item-card { padding: 1.1rem 1.15rem; }
+            .ticker-item-title { font-size: 1.05rem; }
+            .ticker-archive-summary { flex-direction: column; align-items: flex-start; }
+            .ticker-archive-toggle-btn { width: 100%; justify-content: center; }
+        }
+    </style>
+    
+    <!-- Cookie Banner -->
+    <script src="https://autumn-flower-76fa.friese-scholz.workers.dev/embed.js" data-tenant-id="spvgg-h-ddessum-machtsum-e-v-von-1920-09e9ce7d" defer></script>
+</head>
+<body>
+
+    <!-- Header / Navigation -->
+    <header class="header subpage-header">
+        <div class="container nav-container">
+            <a href="index.html" class="logo">
+                <img src="https://pub-b33108412309406a9a941ddc51e9a5b9.r2.dev/spvgg-huemax/logo.png" onerror="this.onerror=null; this.src='logo.png';" alt="SpVgg HüMax Logo">
+                <span class="logo-text">SpVgg HüMax</span>
+            </a>
+            <nav class="nav-menu">
+                <div class="nav-item">
+                    <a href="index.html" class="nav-link">Willkommen</a>
+                </div>
+                <div class="nav-item">
+                    <a href="verein.html" class="nav-link">Verein <i class="fas fa-chevron-down"></i></a>
+                    <ul class="dropdown-menu">
+                        <li class="dropdown-item"><a href="verein.html">Verein</a></li>
+                        <li class="dropdown-item"><a href="sponsoren.html">Sponsoren</a></li>
+                        <li class="dropdown-item"><a href="vorstand.html">Vorstand</a></li>
+                        <li class="dropdown-item"><a href="geschichte.html">Geschichte</a></li>
+                        <li class="dropdown-item"><a href="aktuelles.html">Aktuelles</a></li>
+                    </ul>
+                </div>
+                <div class="nav-item">
+                    <a href="gruppen.html" class="nav-link">Mannschaften <i class="fas fa-chevron-down"></i></a>
+                    <ul class="dropdown-menu">
+                        <li class="dropdown-item"><a href="gruppen.html">Mannschaften</a></li>
+                        <li class="dropdown-item"><a href="ersteherren.html">1. Herren</a></li>
+                        <li class="dropdown-item"><a href="zweiteherren.html">2. Herren</a></li>
+                        <li class="dropdown-item"><a href="altherren.html">Altherren</a></li>
+                    </ul>
+                </div>
+                <div class="nav-item">
+                    <a href="liveticker.html" class="nav-link nav-link-ticker active">
+                        <span class="ticker-live-dot"></span> Live-Ticker
+                    </a>
+                </div>
+                <div class="nav-item">
+                    <a href="kontakt.html" class="nav-link">Kontakt</a>
+                </div>
+            </nav>
+            <div class="burger-menu">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+    </header>
+
+    <!-- Subpage Hero -->
+    <section class="subpage-hero">
+        <div class="hero-bg-pattern"></div>
+        <div class="container">
+            <h1 class="hero-title">1. Herren <span>Live-Ticker</span></h1>
+            <div class="subpage-hero-nav">
+                <a href="index.html">Startseite</a>
+                <span class="separator"></span>
+                <a href="ersteherren.html">1. Herren</a>
+                <span class="separator"></span>
+                <span class="current">Live-Ticker</span>
+            </div>
+        </div>
+    </section>
+
+    <!-- Main Live Ticker Section -->
+    <section class="section section-light ticker-page-section">
+        <div class="container" style="max-width: 960px;">
+
+            <!-- 1. Match Scoreboard Card (Pure Light Mode & Editorial Typography) -->
+            <div class="ticker-scoreboard-card reveal-item">
+                <!-- Top Header Bar -->
+                <div class="ticker-board-header">
+                    <div style="display: inline-flex; align-items: center; gap: 0.6rem;">
+                        <span class="ticker-live-dot"></span>
+                        <span style="font-family: 'Outfit', sans-serif; font-size: 0.85rem; font-weight: 800; letter-spacing: 0.08em; text-transform: uppercase; color: #153e02;">1. Herren Live</span>
+                    </div>
+
+                    <!-- Prominent Bell Toggle Pill -->
+                    <button type="button" id="btn-toggle-notifications" class="ticker-bell-pill" aria-label="Tor-Alarm">
+                        <i class="fas fa-bell"></i>
+                        <span id="bell-btn-text">Tor-Alarm aktivieren</span>
+                    </button>
+                </div>
+
+                <!-- Scoreboard Core -->
+                <div class="ticker-board-main">
+                    <!-- Home Team -->
+                    <div class="ticker-team-col ticker-team-home">
+                        <div class="ticker-team-info">
+                            <div class="ticker-team-crest" id="home-crest-wrapper">
+                                <img id="home-crest-img" src="logo.png" alt="SpVgg HüMax Logo">
+                            </div>
+                            <h2 class="ticker-team-title" id="match-home-team">SpVgg HüMax</h2>
+                        </div>
+                        <span class="ticker-team-label">Heim</span>
+                    </div>
+
+                    <!-- Center Score & Status -->
+                    <div class="ticker-center-col">
+                        <div class="ticker-score-wrap">
+                            <span id="score-home">2</span>
+                            <span class="ticker-colon">:</span>
+                            <span id="score-away">1</span>
+                        </div>
+                        <div class="ticker-status-pill" id="match-status-badge">
+                            <span class="ticker-status-pulse"></span>
+                            <span id="match-status-text">73' • 2. Halbzeit</span>
+                        </div>
+                    </div>
+
+                    <!-- Away Team -->
+                    <div class="ticker-team-col ticker-team-away">
+                        <div class="ticker-team-info">
+                            <div class="ticker-team-crest" id="away-crest-wrapper">
+                                <img id="away-crest-img" src="bavenstedt-logo.png" alt="SV Bavenstedt II Logo">
+                            </div>
+                            <h2 class="ticker-team-title" id="match-away-team">SV Bavenstedt II</h2>
+                        </div>
+                        <span class="ticker-team-label">Gast</span>
+                    </div>
+                </div>
+
+                <!-- Footer Bar -->
+                <div class="ticker-board-footer">
+                    <div class="ticker-footer-item">
+                        <i class="far fa-calendar-alt"></i>
+                        <span id="match-datetime">Sonntag, 15:00 Uhr</span>
+                    </div>
+                    <div class="ticker-footer-item">
+                        <i class="fas fa-map-marker-alt"></i>
+                        <span id="match-venue">Sportplatz Machtsum (Rasen)</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 2. Minimal Segmented Control Bar -->
+            <div class="ticker-control-bar reveal-item">
+                <div class="ticker-filters">
+                    <button class="ticker-pill active" data-filter="all">Alle Meldungen</button>
+                    <button class="ticker-pill" data-filter="highlights"><i class="fas fa-bolt"></i> Highlights (Tore, Elfmeter, Karten)</button>
+                </div>
+                <div class="ticker-push-hint" id="bell-status-hint">
+                    <i class="fas fa-bell"></i>
+                    <span>Tipp: Klicke oben auf „Tor-Alarm“, um Push-Meldungen zu empfangen</span>
+                </div>
+            </div>
+
+            <!-- 3. Editorial Timeline Stream -->
+            <div id="ticker-feed-container" class="ticker-stream reveal-item">
+                <!-- Dynamically generated via JS -->
+            </div>
+
+            <!-- 4. Archiv vergangener Spiele (Aufklappbar) -->
+            <div class="ticker-archive-section reveal-item">
+                <div class="ticker-archive-header">
+                    <h3 class="ticker-archive-title">
+                        <i class="fas fa-history"></i>
+                        <span>Archiv vergangener Spiele</span>
+                    </h3>
+                    <p class="ticker-archive-subtitle">Frühere Begegnungen unserer 1. Herren im Rückblick & Minutentakt zum Aufklappen</p>
+                </div>
+                <div id="ticker-archive-list" class="ticker-archive-list">
+                    <!-- Dynamically populated via JS -->
+                </div>
+            </div>
+
+            <!-- 5. Fussball.de Official Table & Schedule Accordion -->
+            <div style="margin-top: 3.5rem;" class="reveal-item">
+                <div class="card" style="padding: 1.5rem 2rem; background: var(--bg-light); border: 1px solid rgba(21, 62, 2, 0.08);">
+                    <div style="display: flex; justify-content: space-between; align-items: center; cursor: pointer;" id="toggle-fussball-widget">
+                        <h3 style="color: var(--primary-dark); font-size: 1.15rem; font-weight: 800; margin: 0; display: flex; align-items: center; gap: 0.6rem;">
+                            <i class="fas fa-table" style="color: var(--accent-color);"></i>
+                            <span>Offizielle Tabelle & Spieltage (fussball.de)</span>
+                        </h3>
+                        <i class="fas fa-chevron-down" id="fussball-widget-icon" style="color: var(--primary-color); transition: transform 0.3s ease;"></i>
+                    </div>
+                    <div id="fussball-widget-body" style="display: none; margin-top: 1.5rem; padding-top: 1.5rem; border-top: 1px solid var(--border-color);">
+                        <script type="text/javascript" src="https://www.fussball.de/widgets.js" defer></script>
+                        <div class="fussballde_widget" data-id="61a9cf77-3e40-4f35-b8fe-7e9cab718fec" data-type="team-matches" style="width: 100%"></div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-col footer-about">
+                    <h3 style="color: var(--text-light); font-weight: 800; font-size: 1.4rem;">SpVgg HüMax</h3>
+                    <p>Spielvereinigung Hüddessum/Machtsum e.V. von 1920. Dein familiärer Sportverein mit Herz, Leidenschaft und großer Tradition.</p>
+                    <div class="footer-socials">
+                        <a href="https://www.facebook.com/svghuemax" target="_blank" class="footer-social-link" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
+                        <a href="https://www.instagram.com/spvgg.huemax?igsh=cTA3YmF6M2lxeGpr" target="_blank" class="footer-social-link" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+                    </div>
+                </div>
+                <div class="footer-col">
+                    <h3>Verein</h3>
+                    <ul class="footer-links">
+                        <li><a href="verein.html">Über uns</a></li>
+                        <li><a href="sponsoren.html">Sponsoren</a></li>
+                        <li><a href="vorstand.html">Vorstand</a></li>
+                        <li><a href="geschichte.html">Geschichte</a></li>
+                        <li><a href="aktuelles.html">Aktuelles</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h3>Mannschaften</h3>
+                    <ul class="footer-links">
+                        <li><a href="liveticker.html">1. Herren Live-Ticker</a></li>
+                        <li><a href="ersteherren.html">1. Herren</a></li>
+                        <li><a href="zweiteherren.html">2. Herren</a></li>
+                        <li><a href="altherren.html">Altherren</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h3>Kontakt Info</h3>
+                    <div class="footer-info-item">
+                        <i class="fas fa-map-marker-alt"></i>
+                        <div class="footer-info-text">
+                            <strong>Sportplatz Machtsum</strong>
+                            <a href="https://maps.app.goo.gl/Ek7YuJRUTfPhwm8u5" target="_blank" style="color: inherit; text-decoration: none; font-weight: 500; transition: var(--transition-fast);" onmouseover="this.style.textDecoration='underline'" onmouseout="this.style.textDecoration='none'">Lindenallee 20, 31177 Harsum-Machtsum</a>
+                        </div>
+                    </div>
+                    <div class="footer-info-item">
+                        <i class="fas fa-envelope"></i>
+                        <div class="footer-info-text">
+                            <strong>E-Mail Kontakt</strong>
+                            <a href="mailto:info@huemax.de" style="color: inherit; text-decoration: none; font-weight: 500; transition: var(--transition-fast);" onmouseover="this.style.textDecoration='underline'" onmouseout="this.style.textDecoration='none'">info@huemax.de</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <hr class="footer-divider">
+            <div class="footer-bottom">
+                <p>&copy; 2026 SpVgg Hüddessum/Machtsum e.V. von 1920. Erstellt mit <a href="https://scholz-friese-webdesign.de/" target="_blank" style="color: var(--accent-color); font-weight: 700; text-decoration: none; transition: var(--transition-fast);">Scholz & Friese Webdesign</a>.</p>
+                <div class="footer-legal-links">
+                    <a href="impressum.html">Impressum</a>
+                    <a href="datenschutz.html">Datenschutz</a>
+                    <a href="barrierefreiheit.html">Barrierefreiheit</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Main Navigation / Mobile script -->
+    <script src="script.js"></script>
+
+    <!-- Live Ticker Logic -->
+    <script>
+        (function() {
+            const API_URL = 'https://huemax-news-api.friese-scholz.workers.dev/api/ticker';
+            
+            // Scoreboard Elements
+            const scoreHomeEl = document.getElementById('score-home');
+            const scoreAwayEl = document.getElementById('score-away');
+            const matchHomeTeamEl = document.getElementById('match-home-team');
+            const matchAwayTeamEl = document.getElementById('match-away-team');
+            const matchCompetitionEl = document.querySelector('#match-competition span:last-child');
+            const matchVenueInlineEl = document.getElementById('match-venue-inline');
+            const matchStatusBadge = document.getElementById('match-status-badge');
+            const matchStatusText = document.getElementById('match-status-text');
+            const matchVenueEl = document.getElementById('match-venue');
+            const matchDatetimeEl = document.getElementById('match-datetime');
+            const feedContainer = document.getElementById('ticker-feed-container');
+            const archiveListContainer = document.getElementById('ticker-archive-list');
+            const lastSyncTimeEl = document.getElementById('last-sync-time');
+            
+            // Crest elements
+            const homeCrestWrapper = document.getElementById('home-crest-wrapper');
+            const homeCrestImg = document.getElementById('home-crest-img');
+            const awayCrestWrapper = document.getElementById('away-crest-wrapper');
+            const awayCrestImg = document.getElementById('away-crest-img');
+
+            // Bell notification elements
+            const btnNotification = document.getElementById('btn-toggle-notifications');
+            const bellStatusHint = document.getElementById('bell-status-hint');
+
+            // Toggle fussball.de Accordion
+            const toggleFussballBtn = document.getElementById('toggle-fussball-widget');
+            const fussballWidgetBody = document.getElementById('fussball-widget-body');
+            const fussballWidgetIcon = document.getElementById('fussball-widget-icon');
+            if (toggleFussballBtn) {
+                toggleFussballBtn.addEventListener('click', () => {
+                    const isOpen = fussballWidgetBody.style.display === 'block';
+                    fussballWidgetBody.style.display = isOpen ? 'none' : 'block';
+                    fussballWidgetIcon.style.transform = isOpen ? 'rotate(0deg)' : 'rotate(180deg)';
+                });
+            }
+
+            // Default Realistic Archive of Past Matches
+            const defaultArchive = [
+                {
+                    id: "arch-1",
+                    match: {
+                        homeTeam: "SpVgg HüMax",
+                        awayTeam: "TuS Hasede",
+                        homeScore: 3,
+                        awayScore: 1,
+                        competition: "Kreisliga Hildesheim",
+                        matchday: "7. Spieltag",
+                        matchDate: "Sonntag, 28.09.2026",
+                        location: "Sportplatz Machtsum (Rasen)"
+                    },
+                    events: [
+                        { minute: "89'", type: "goal", title: "3:1 TOOOOR für SpVgg HüMax!", player: "L. Becker", description: "Konter wie aus dem Lehrbuch: Steilpass in die Tiefe und eiskalt am Torwart vorbei ins Netz geschoben!", score: "3:1" },
+                        { minute: "76'", type: "yellow_card", title: "Gelbe Karte für TuS Hasede", player: "Taktisches Foul", description: "Verhindert den schnellen Gegenstoß von HüMax im Mittelfeld.", score: "2:1" },
+                        { minute: "54'", type: "goal", title: "2:1 Anschlusstreffer TuS Hasede", player: "F. Schmidt", description: "Abstauber nach einem Freistoß aus dem Halbfeld.", score: "2:1" },
+                        { minute: "38'", type: "goal", title: "2:0 TOOOOR für SpVgg HüMax!", player: "M. Henke (Kopfball)", description: "Wunderschöne Flanke von links, mustergültiger Kopfball gegen die Laufrichtung des Keepers!", score: "2:0" },
+                        { minute: "12'", type: "goal", title: "1:0 TOOOOR für SpVgg HüMax!", player: "J. Brinkmann", description: "Frühe Führung für HüMax! Schöner Distanzschuss aus 18 Metern schlägt unhaltbar im Winkel ein.", score: "1:0" },
+                        { minute: "1'", type: "whistle", title: "Anpfiff zur 1. Halbzeit", player: "", description: "Partie angepfiffen vor rund 150 Zuschauern auf dem Sportplatz Machtsum.", score: "0:0" }
+                    ]
+                },
+                {
+                    id: "arch-2",
+                    match: {
+                        homeTeam: "FSV Sarstedt",
+                        awayTeam: "SpVgg HüMax",
+                        homeScore: 0,
+                        awayScore: 2,
+                        competition: "Kreisliga Hildesheim",
+                        matchday: "6. Spieltag",
+                        matchDate: "Sonntag, 21.09.2026",
+                        location: "Sportpark Sarstedt (Auswärts)"
+                    },
+                    events: [
+                        { minute: "90'", type: "whistle", title: "Schlusspfiff - Auswärtssieg!", player: "", description: "Starke Mannschaftsleistung sichert verdiente drei Punkte auf fremdem Platz.", score: "0:2" },
+                        { minute: "78'", type: "goal", title: "0:2 TOOOOR für SpVgg HüMax!", player: "J. Brinkmann", description: "Die Entscheidung! Nach Ballgewinn im Mittelfeld zieht Brinkmann trocken ab.", score: "0:2" },
+                        { minute: "61'", type: "sub", title: "Wechsel bei HüMax", player: "Doppelwechsel zur Stabilisierung", description: "Trainer bringt frische Kräfte für die Schlussphase.", score: "0:1" },
+                        { minute: "24'", type: "goal", title: "0:1 TOOOOR für SpVgg HüMax!", player: "T. Meyer", description: "Führungstreffer für unsere 1. Herren nach einer einstudierten Eckballvariante.", score: "0:1" },
+                        { minute: "1'", type: "whistle", title: "Anpfiff in Sarstedt", player: "", description: "Beginn der Auswärtspartie bei regnerischem Herbstwetter.", score: "0:0" }
+                    ]
+                },
+                {
+                    id: "arch-3",
+                    match: {
+                        homeTeam: "SpVgg HüMax",
+                        awayTeam: "SV Einum II",
+                        homeScore: 4,
+                        awayScore: 2,
+                        competition: "Kreisliga Hildesheim",
+                        matchday: "5. Spieltag",
+                        matchDate: "Sonntag, 14.09.2026",
+                        location: "Sportplatz Machtsum (Rasen)"
+                    },
+                    events: [
+                        { minute: "88'", type: "goal", title: "4:2 TOOOOR für SpVgg HüMax!", player: "L. Becker", description: "Deckel drauf! Toller Sololauf über 40 Meter und überlegter Abschluss.", score: "4:2" },
+                        { minute: "74'", type: "goal", title: "3:2 Tor für SV Einum II", player: "K. Weber", description: "Einum verkürzt nach einer Unachtsamkeit in der Hintermannschaft.", score: "3:2" },
+                        { minute: "62'", type: "goal", title: "3:1 TOOOOR für SpVgg HüMax!", player: "M. Henke", description: "Wieder Henke zur Stelle! Schnelle Drehung im Strafraum und drin ist das Ding.", score: "3:1" },
+                        { minute: "45'", type: "goal", title: "2:1 TOOOOR für SpVgg HüMax!", player: "J. Brinkmann", description: "Psychologisch wichtiger Treffer mit dem Pausenpfiff!", score: "2:1" },
+                        { minute: "22'", type: "goal", title: "1:1 Ausgleich SV Einum II", player: "Foulelfmeter", description: "Sicher verwandelt nach einem Zweikampf im Sechzehner.", score: "1:1" },
+                        { minute: "15'", type: "goal", title: "1:0 TOOOOR für SpVgg HüMax!", player: "T. Meyer", description: "Traumhafter Volleyschuss aus 20 Metern direkt unter die Latte.", score: "1:0" }
+                    ]
+                }
+            ];
+
+            // Default Initial State
+            let currentData = {
+                match: {
+                    homeTeam: "SpVgg HüMax",
+                    awayTeam: "SV Bavenstedt II",
+                    homeLogo: "logo.png",
+                    awayLogo: "bavenstedt-logo.png",
+                    competition: "Kreisliga Hildesheim",
+                    matchDate: "Sonntag, 15:00 Uhr",
+                    location: "Sportplatz Machtsum (Rasen)",
+                    homeScore: 2,
+                    awayScore: 1,
+                    currentMinute: "73'",
+                    status: "second_half",
+                    statusText: "73' • 2. Halbzeit",
+                    isLive: true
+                },
+                events: [
+                    {
+                        id: "evt-4",
+                        minute: "72'",
+                        type: "sub",
+                        team: "home",
+                        title: "Wechsel bei SpVgg HüMax",
+                        description: "Applaus von den Rängen auf dem Machtsumer Sportplatz: Frische Kräfte für die Schlussphase.",
+                        player: "T. Meyer für L. Becker",
+                        score: "2:1",
+                        timestamp: "16:28"
+                    },
+                    {
+                        id: "evt-3",
+                        minute: "64'",
+                        type: "goal",
+                        team: "home",
+                        title: "TOOOOR für SpVgg HüMax!",
+                        description: "Was für eine Bude! Nach einer maßgeschneiderten Ecke steigt der Angreifer am Fünfmeterraum am höchsten und köpft unhaltbar ins lange Eck ein!",
+                        player: "M. Henke (Kopfball)",
+                        score: "2:1",
+                        timestamp: "16:19"
+                    },
+                    {
+                        id: "evt-2",
+                        minute: "41'",
+                        type: "goal",
+                        team: "away",
+                        title: "Tor für SV Bavenstedt II",
+                        description: "Ausgleich kurz vor der Pause. Ein strammer Flachschuss aus 16 Metern schlägt im linken unteren Toreck ein.",
+                        player: "D. Krause",
+                        score: "1:1",
+                        timestamp: "15:42"
+                    },
+                    {
+                        id: "evt-1",
+                        minute: "18'",
+                        type: "goal",
+                        team: "home",
+                        title: "TOOOOR für SpVgg HüMax!",
+                        description: "Traumstart für die Hausherren! Ballgewinn im Mittelfeld, schnelles Umschaltspiel und eiskalt vollstreckt.",
+                        player: "J. Brinkmann",
+                        score: "1:0",
+                        timestamp: "15:19"
+                    },
+                    {
+                        id: "evt-0",
+                        minute: "1'",
+                        type: "whistle",
+                        team: "neutral",
+                        title: "Anpfiff zur 1. Halbzeit",
+                        description: "Schiedsrichter pfeift die Partie bei bestem Fußballwetter auf dem Sportplatz Machtsum an.",
+                        player: "",
+                        score: "0:0",
+                        timestamp: "15:00"
+                    }
+                ],
+                archive: defaultArchive
+            };
+
+            // Seen event IDs to prevent duplicate alerts
+            let seenEventIds = new Set(currentData.events.map(e => e.id));
+            let currentFilter = 'all';
+
+            // Audio Notification Chime
+            const playGoalChime = () => {
+                try {
+                    const ctx = new (window.AudioContext || window.webkitAudioContext)();
+                    const now = ctx.currentTime;
+                    const osc = ctx.createOscillator();
+                    const gain = ctx.createGain();
+                    osc.type = 'triangle';
+                    osc.connect(gain);
+                    gain.connect(ctx.destination);
+                    
+                    osc.frequency.setValueAtTime(523.25, now);
+                    osc.frequency.setValueAtTime(659.25, now + 0.12);
+                    osc.frequency.setValueAtTime(783.99, now + 0.24);
+                    osc.frequency.setValueAtTime(1046.50, now + 0.36);
+
+                    gain.gain.setValueAtTime(0.2, now);
+                    gain.gain.exponentialRampToValueAtTime(0.01, now + 0.7);
+
+                    osc.start(now);
+                    osc.stop(now + 0.7);
+                } catch(e) {}
+            };
+
+            // User Toggle Preference for Live Push Notifications
+            let isNotificationMuted = localStorage.getItem('huemax_notifications_muted') === 'true';
+
+            // Notification Bell UI Update (Toggleable On/Off with distinct visibility)
+            const updateBellUI = () => {
+                if (!("Notification" in window)) {
+                    btnNotification.style.display = 'none';
+                    if (bellStatusHint) bellStatusHint.style.display = 'none';
+                    return;
+                }
+                if (Notification.permission === 'denied') {
+                    btnNotification.className = 'ticker-bell-pill denied';
+                    btnNotification.innerHTML = '<i class="fas fa-bell-slash"></i> <span>Blockiert</span>';
+                    if (bellStatusHint) {
+                        bellStatusHint.innerHTML = '<i class="fas fa-exclamation-circle" style="color: #dc3545;"></i> <span>Push-Meldungen im Browser blockiert (in Einstellungen freigeben).</span>';
+                    }
+                } else if (Notification.permission === 'granted') {
+                    if (isNotificationMuted) {
+                        btnNotification.className = 'ticker-bell-pill muted';
+                        btnNotification.innerHTML = '<i class="fas fa-bell-slash"></i> <span>Tor-Alarm AUS (Klick = An)</span>';
+                        if (bellStatusHint) {
+                            bellStatusHint.innerHTML = '<i class="fas fa-volume-mute" style="color: #8c9888;"></i> <span>Tor-Alarm ist pausiert. Klicke auf die Glocke, um Benachrichtigungen wieder zu aktivieren.</span>';
+                        }
+                    } else {
+                        btnNotification.className = 'ticker-bell-pill active';
+                        btnNotification.innerHTML = '<i class="fas fa-bell"></i> <span>Tor-Alarm ist AN (Klick = Aus)</span>';
+                        if (bellStatusHint) {
+                            bellStatusHint.innerHTML = '<i class="fas fa-check-circle" style="color: #28a745;"></i> <span>Tor-Alarm aktiv: Du wirst bei Toren & Highlights live benachrichtigt.</span>';
+                        }
+                    }
+                } else {
+                    btnNotification.className = 'ticker-bell-pill';
+                    btnNotification.innerHTML = '<i class="fas fa-bell"></i> <span>Tor-Alarm aktivieren</span>';
+                    if (bellStatusHint) {
+                        bellStatusHint.innerHTML = '<i class="fas fa-bell"></i> <span>Tipp: Klicke oben auf „Tor-Alarm aktivieren“, um Push-Meldungen zu empfangen</span>';
+                    }
+                }
+            };
+
+            btnNotification.addEventListener('click', async () => {
+                if (!("Notification" in window)) {
+                    alert("Dein Browser unterstützt leider keine Web-Benachrichtigungen.");
+                    return;
+                }
+                if (Notification.permission === 'denied') {
+                    alert("Benachrichtigungen wurden in deinem Browser blockiert. Du kannst sie in den Seiteneinstellungen deines Browsers freigeben.");
+                    return;
+                }
+                if (Notification.permission === 'granted') {
+                    // Toggle on/off
+                    isNotificationMuted = !isNotificationMuted;
+                    localStorage.setItem('huemax_notifications_muted', isNotificationMuted ? 'true' : 'false');
+                    updateBellUI();
+                    if (!isNotificationMuted) {
+                        playGoalChime();
+                    }
+                    return;
+                }
+                const perm = await Notification.requestPermission();
+                if (perm === 'granted') {
+                    isNotificationMuted = false;
+                    localStorage.setItem('huemax_notifications_muted', 'false');
+                    updateBellUI();
+                    new Notification("⚽ SpVgg HüMax Tor-Alarm aktiviert!", {
+                        body: "Du wirst ab sofort live über alle Tore und Highlights der 1. Herren informiert.",
+                        icon: "logo.png"
+                    });
+                    playGoalChime();
+                } else {
+                    updateBellUI();
+                }
+            });
+
+            updateBellUI();
+
+            // Render Scoreboard
+            const renderScoreboard = (match) => {
+                if (!match) return;
+                scoreHomeEl.textContent = match.homeScore ?? 0;
+                scoreAwayEl.textContent = match.awayScore ?? 0;
+                matchHomeTeamEl.textContent = match.homeTeam || "SpVgg HüMax";
+                matchAwayTeamEl.textContent = match.awayTeam || "Gast";
+                if (matchCompetitionEl) {
+                    matchCompetitionEl.textContent = match.competition || "Kreisliga Hildesheim";
+                }
+                
+                const venueShort = (match.location || "Sportplatz Machtsum").split('(')[0].trim();
+                if (matchVenueInlineEl) matchVenueInlineEl.textContent = venueShort;
+                if (matchVenueEl) matchVenueEl.textContent = match.location || "Sportplatz Machtsum";
+                if (matchDatetimeEl) matchDatetimeEl.textContent = match.matchDate || "Sonntag, 15:00 Uhr";
+
+                // Logos Handling: "wenn beide logos von beiden Mannschaften einfügen und dezent oder keins"
+                const homeLogoUrl = match.homeLogo || "logo.png";
+                const awayLogoUrl = match.awayLogo || (match.awayTeam && match.awayTeam.includes("Bavenstedt") ? "bavenstedt-logo.png" : "");
+
+                if (homeLogoUrl && awayLogoUrl) {
+                    homeCrestImg.src = homeLogoUrl;
+                    homeCrestWrapper.style.display = 'flex';
+                    awayCrestImg.src = awayLogoUrl;
+                    awayCrestWrapper.style.display = 'flex';
+                } else {
+                    homeCrestWrapper.style.display = 'none';
+                    awayCrestWrapper.style.display = 'none';
+                }
+
+                // Status Badge
+                if (match.isLive) {
+                    matchStatusBadge.className = 'ticker-status-pill live';
+                    matchStatusBadge.innerHTML = '<span class="ticker-status-pulse"></span> <span>' + (match.statusText || match.currentMinute || 'LIVE') + '</span>';
+                } else if (match.status === 'finished') {
+                    matchStatusBadge.className = 'ticker-status-pill finished';
+                    matchStatusBadge.innerHTML = '<i class="fas fa-flag-checkered" style="color: var(--text-muted); font-size: 0.8rem;"></i> <span>' + (match.statusText || 'Abpfiff') + '</span>';
+                } else {
+                    matchStatusBadge.className = 'ticker-status-pill';
+                    matchStatusBadge.innerHTML = '<i class="far fa-clock" style="color: var(--text-muted); font-size: 0.8rem;"></i> <span>' + (match.statusText || 'Vorbericht') + '</span>';
+                }
+            };
+
+            // Event icon mapper
+            const getEventIcon = (type) => {
+                switch(type) {
+                    case 'goal': return '<i class="fas fa-futbol"></i>';
+                    case 'penalty': return '<i class="fas fa-crosshairs"></i>';
+                    case 'yellow_card': return '<i class="fas fa-square" style="color: #f59f00;"></i>';
+                    case 'red_card': return '<i class="fas fa-square" style="color: #dc3545;"></i>';
+                    case 'yellow_red_card': return '<i class="fas fa-clone" style="color: #fa5252;"></i>';
+                    case 'sub': return '<i class="fas fa-exchange-alt"></i>';
+                    case 'chance': return '<i class="fas fa-bullseye"></i>';
+                    case 'whistle': return '<i class="fas fa-stopwatch"></i>';
+                    default: return '<i class="fas fa-comment-dots"></i>';
+                }
+            };
+
+            // Render Events Feed (Timeline Stream)
+            const renderEvents = (events) => {
+                feedContainer.innerHTML = '';
+                
+                if (!events || events.length === 0) {
+                    feedContainer.innerHTML = `
+                        <div class="ticker-empty-state">
+                            <i class="fas fa-futbol"></i>
+                            <h3 style="color: #0a1c01; font-weight: 800; margin-bottom: 0.5rem; font-family: 'Outfit', sans-serif; font-size: 1.35rem;">Der Ticker startet in Kürze!</h3>
+                            <p style="color: #576553; max-width: 480px; margin: 0 auto; font-size: 0.95rem;">Pünktlich zum Anpfiff unserer 1. Herren findest du hier alle Spielereignisse, Tore und Aufstellungen live.</p>
+                        </div>
+                    `;
+                    return;
+                }
+
+                // Filter logic
+                const filtered = events.filter(evt => {
+                    if (currentFilter === 'goal') return evt.type === 'goal';
+                    if (currentFilter === 'highlights') return evt.type === 'goal' || evt.type === 'penalty' || evt.type === 'chance' || evt.type === 'red_card' || evt.type === 'yellow_red_card' || evt.type === 'yellow_card';
+                    return true;
+                });
+
+                if (filtered.length === 0) {
+                    feedContainer.innerHTML = `
+                        <div class="ticker-empty-state" style="padding: 2.5rem 1rem;">
+                            <p style="color: #576553; margin: 0; font-size: 0.95rem;">Keine Einträge für diese Auswahl vorhanden.</p>
+                        </div>
+                    `;
+                    return;
+                }
+
+                filtered.forEach(evt => {
+                    const item = document.createElement('div');
+                    item.className = `ticker-item event-${evt.type}`;
+                    
+                    let playerPill = evt.player ? `<span class="ticker-pill-player">${evt.player}</span>` : '';
+                    let scorePill = evt.score ? `<span class="ticker-pill-score">${evt.score}</span>` : '';
+
+                    // For standard info/commentary, only show title if it is distinct from generic 'Spielszene'
+                    const isGenericTitle = !evt.title || evt.title === 'Spielszene' || evt.title === 'Ticker-Meldung' || evt.title === 'Info';
+                    let headerHtml = '';
+                    if (!isGenericTitle || playerPill || scorePill) {
+                        headerHtml = `
+                            <div class="ticker-item-header">
+                                ${!isGenericTitle ? `<h4 class="ticker-item-title">${evt.title}</h4>` : ''}
+                                ${playerPill}
+                                ${scorePill}
+                            </div>
+                        `;
+                    }
+
+                    item.innerHTML = `
+                        <div class="ticker-item-meta">
+                            <span class="ticker-item-minute">${evt.minute || '-'}</span>
+                            <div class="ticker-item-node">${getEventIcon(evt.type)}</div>
+                        </div>
+                        <div class="ticker-item-card">
+                            ${headerHtml}
+                            <p class="ticker-item-body">${evt.description || ''}</p>
+                            <div class="ticker-item-footer">
+                                <span><i class="far fa-clock" style="margin-right: 0.35rem;"></i>${evt.timestamp || ''} Uhr</span>
+                            </div>
+                        </div>
+                    `;
+                    feedContainer.appendChild(item);
+                });
+            };
+
+            // Render Archive of Past Matches (Aufklappbar / Accordion)
+            const renderArchive = (archiveData) => {
+                if (!archiveListContainer) return;
+                archiveListContainer.innerHTML = '';
+
+                const matches = (archiveData && archiveData.length > 0) ? archiveData : defaultArchive;
+
+                matches.forEach((item, index) => {
+                    const card = document.createElement('div');
+                    card.className = 'ticker-archive-card';
+                    if (index === 0) card.classList.add('open'); // Open latest finished match by default
+
+                    const m = item.match;
+                    const evts = item.events || [];
+
+                    let eventsHtml = '';
+                    if (evts.length === 0) {
+                        eventsHtml = '<p style="color: #576553; margin: 0;">Keine detaillierten Spielereignisse gespeichert.</p>';
+                    } else {
+                        eventsHtml = '<div class="ticker-stream" style="margin-bottom: 0;">';
+                        evts.forEach(e => {
+                            let pPill = e.player ? `<span class="ticker-pill-player">${e.player}</span>` : '';
+                            let sPill = e.score ? `<span class="ticker-pill-score">${e.score}</span>` : '';
+                            eventsHtml += `
+                                <div class="ticker-item event-${e.type}">
+                                    <div class="ticker-item-meta">
+                                        <span class="ticker-item-minute">${e.minute || '-'}</span>
+                                        <div class="ticker-item-node">${getEventIcon(e.type)}</div>
+                                    </div>
+                                    <div class="ticker-item-card">
+                                        <div class="ticker-item-header">
+                                            <h4 class="ticker-item-title">${e.title || ''}</h4>
+                                            ${pPill}
+                                            ${sPill}
+                                        </div>
+                                        <p class="ticker-item-body">${e.description || ''}</p>
+                                    </div>
+                                </div>
+                            `;
+                        });
+                        eventsHtml += '</div>';
+                    }
+
+                    card.innerHTML = `
+                        <div class="ticker-archive-summary">
+                            <div class="ticker-archive-meta-left">
+                                <span class="ticker-archive-matchday">${m.matchday || 'Kreisliga'}</span>
+                                <span class="ticker-archive-date"><i class="far fa-calendar-alt" style="color: #e5b352; margin-right: 0.35rem;"></i>${m.matchDate || ''}</span>
+                                <div class="ticker-archive-match-teams">
+                                    <span>${m.homeTeam}</span>
+                                    <span class="ticker-archive-score-badge">${m.homeScore} : ${m.awayScore}</span>
+                                    <span>${m.awayTeam}</span>
+                                </div>
+                            </div>
+                            <div class="ticker-archive-toggle-btn">
+                                <span>Spielchronik</span>
+                                <i class="fas fa-chevron-down"></i>
+                            </div>
+                        </div>
+                        <div class="ticker-archive-body">
+                            ${eventsHtml}
+                        </div>
+                    `;
+
+                    // Accordion click toggle
+                    const summary = card.querySelector('.ticker-archive-summary');
+                    summary.addEventListener('click', () => {
+                        card.classList.toggle('open');
+                    });
+
+                    archiveListContainer.appendChild(card);
+                });
+            };
+
+            // Filter button click handlers
+            document.querySelectorAll('.ticker-pill').forEach(btn => {
+                btn.addEventListener('click', () => {
+                    document.querySelectorAll('.ticker-pill').forEach(b => b.classList.remove('active'));
+                    btn.classList.add('active');
+                    currentFilter = btn.getAttribute('data-filter');
+                    renderEvents(currentData.events);
+                });
+            });
+
+            // Fetch Live Ticker Data
+            const fetchTickerData = async () => {
+                try {
+                    const res = await fetch(API_URL);
+                    if (res.ok) {
+                        const data = await res.json();
+                        if (data && data.match) {
+                            handleNewData(data);
+                            localStorage.setItem('huemax_live_ticker_backup', JSON.stringify(data));
+                        }
+                    } else {
+                        const local = localStorage.getItem('huemax_live_ticker_backup');
+                        if (local) handleNewData(JSON.parse(local));
+                    }
+                } catch (e) {
+                    const local = localStorage.getItem('huemax_live_ticker_backup');
+                    if (local) handleNewData(JSON.parse(local));
+                } finally {
+                    const now = new Date();
+                    if (lastSyncTimeEl) {
+                        lastSyncTimeEl.textContent = now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', second: '2-digit' });
+                    }
+                }
+            };
+
+            // Handle incoming data & trigger push alerts for new items
+            const handleNewData = (data) => {
+                if (data.events && Array.isArray(data.events)) {
+                    data.events.forEach(evt => {
+                        if (!seenEventIds.has(evt.id)) {
+                            seenEventIds.add(evt.id);
+                            if ("Notification" in window && Notification.permission === 'granted' && !isNotificationMuted) {
+                                new Notification(`⚽ SpVgg HüMax (${evt.minute || 'Live'}): ${evt.title}`, {
+                                    body: evt.description || `${data.match.homeTeam} ${data.match.homeScore}:${data.match.awayScore} ${data.match.awayTeam}`,
+                                    icon: "logo.png"
+                                });
+                                playGoalChime();
+                            }
+                        }
+                    });
+                }
+
+                currentData = data;
+                renderScoreboard(data.match);
+                renderEvents(data.events);
+                renderArchive(data.archive || defaultArchive);
+            };
+
+            // Initial Render
+            const stored = localStorage.getItem('huemax_live_ticker_backup');
+            if (stored) {
+                try { 
+                    const parsed = JSON.parse(stored);
+                    if (parsed && parsed.match) {
+                        currentData = parsed;
+                    }
+                } catch(e) {}
+            }
+            renderScoreboard(currentData.match);
+            renderEvents(currentData.events);
+            renderArchive(currentData.archive || defaultArchive);
+
+            // Fetch immediately & poll every 15 seconds
+            fetchTickerData();
+            setInterval(fetchTickerData, 15000);
+        })();
+    </script>
+</body>
+</html>

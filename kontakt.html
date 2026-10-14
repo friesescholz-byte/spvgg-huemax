@@ -78,10 +78,14 @@
                     <a href="gruppen.html" class="nav-link">Mannschaften <i class="fas fa-chevron-down"></i></a>
                     <ul class="dropdown-menu">
                         <li class="dropdown-item"><a href="gruppen.html">Mannschaften</a></li>
+                        <li class="dropdown-item"><a href="liveticker.html">1. Herren Live-Ticker</a></li>
                         <li class="dropdown-item"><a href="ersteherren.html">1. Herren</a></li>
                         <li class="dropdown-item"><a href="zweiteherren.html">2. Herren</a></li>
                         <li class="dropdown-item"><a href="altherren.html">Altherren</a></li>
                     </ul>
+                </div>
+                <div class="nav-item">
+                    <a href="liveticker.html" class="nav-link nav-link-ticker"><span class="ticker-live-dot"></span> Live-Ticker</a>
                 </div>
                 <div class="nav-item">
                     <a href="kontakt.html" class="nav-link">Kontakt</a>
@@ -122,20 +126,20 @@
                         <div class="form-row">
                             <div class="form-group">
                                 <label for="vorname">Vorname (erforderlich)</label>
-                                <input type="text" id="vorname" name="vorname" class="form-control" required>
+                                <input type="text" id="vorname" name="vorname" class="form-control" placeholder="z. B. Max" required>
                             </div>
                             <div class="form-group">
                                 <label for="nachname">Nachname (erforderlich)</label>
-                                <input type="text" id="nachname" name="nachname" class="form-control" required>
+                                <input type="text" id="nachname" name="nachname" class="form-control" placeholder="z. B. Mustermann" required>
                             </div>
                         </div>
                         <div class="form-group">
                             <label for="email">E-Mail Adresse (erforderlich)</label>
-                            <input type="email" id="email" name="email" class="form-control" required>
+                            <input type="email" id="email" name="email" class="form-control" placeholder="max.mustermann@beispiel.de" required>
                         </div>
                         <div class="form-group">
                             <label for="nachricht">Nachricht (erforderlich)</label>
-                            <textarea id="nachricht" name="nachricht" class="form-control" required></textarea>
+                            <textarea id="nachricht" name="nachricht" class="form-control" placeholder="Deine Nachricht oder Anfrage an die SpVgg HüMax..." rows="5" required></textarea>
                         </div>
 
                         <!-- Cloudflare Turnstile Widget -->
@@ -231,6 +235,7 @@
                 <div class="footer-legal-links">
                     <a href="impressum.html">Impressum</a>
                     <a href="datenschutz.html">Datenschutz</a>
+                    <a href="barrierefreiheit.html">Barrierefreiheit</a>
                 </div>
             </div>
         </div>
