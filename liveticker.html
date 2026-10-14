@@ -932,7 +932,7 @@
             </div>
 
             <!-- Ausführlicher Abschlussbericht (Aufklappbar mit Teaser) -->
-            <div id="ticker-final-report-card" class="card reveal-item" style="display: none; padding: 2rem 2.25rem; margin-bottom: 2rem; background: #ffffff; border: 1px solid rgba(21, 62, 2, 0.12); border-left: 5px solid #e5b352; border-radius: 16px; box-shadow: 0 4px 20px rgba(10, 28, 1, 0.04);">
+            <div id="ticker-final-report-card" class="card" style="display: none; padding: 2rem 2.25rem; margin-bottom: 2rem; background: #ffffff; border: 1px solid rgba(21, 62, 2, 0.12); border-left: 5px solid #e5b352; border-radius: 16px; box-shadow: 0 4px 20px rgba(10, 28, 1, 0.04);">
                 <div style="display: flex; align-items: center; justify-content: space-between; gap: 0.75rem; margin-bottom: 0.75rem; flex-wrap: wrap;">
                     <span style="font-size: 0.8rem; font-weight: 800; text-transform: uppercase; letter-spacing: 0.06em; color: #153e02; background: rgba(21, 62, 2, 0.07); padding: 0.25rem 0.75rem; border-radius: 6px; display: inline-flex; align-items: center; gap: 0.45rem;">
                         <i class="fas fa-newspaper" style="color: #b8860b;"></i> Ausführlicher Spielbericht
@@ -948,7 +948,7 @@
             </div>
 
             <!-- 2. Minimal Segmented Control Bar -->
-            <div class="ticker-control-bar reveal-item">
+            <div class="ticker-control-bar">
                 <div class="ticker-filters">
                     <button class="ticker-pill active" data-filter="all">Alle Meldungen</button>
                     <button class="ticker-pill" data-filter="highlights"><i class="fas fa-bolt"></i> Highlights (Tore, Elfmeter, Karten)</button>
@@ -960,12 +960,12 @@
             </div>
 
             <!-- 3. Editorial Timeline Stream -->
-            <div id="ticker-feed-container" class="ticker-stream reveal-item">
+            <div id="ticker-feed-container" class="ticker-stream">
                 <!-- Dynamically generated via JS -->
             </div>
 
             <!-- 4. Archiv vergangener Spiele (Aufklappbar) -->
-            <div class="ticker-archive-section reveal-item">
+            <div class="ticker-archive-section">
                 <div class="ticker-archive-header">
                     <h3 class="ticker-archive-title">
                         <i class="fas fa-history"></i>
@@ -1186,8 +1186,15 @@
                 archive: defaultArchive
             };
 
+            // Safe Local Storage Wrapper (Never crashes on Safari private mode)
+            const safeStorage = {
+                get: (k) => { try { return localStorage.getItem(k); } catch(e) { return null; } },
+                set: (k, v) => { try { localStorage.setItem(k, v); } catch(e) {} }
+            };
+
             // Seen event IDs to prevent duplicate alerts
             let seenEventIds = new Set(currentData.events.map(e => e.id));
+            let isInitialFetch = true;
             let currentFilter = 'all';
 
             // Audio & Universal Goal Alarm Engine (iOS, Android & Desktop)
@@ -1255,7 +1262,7 @@
             };
 
             // Goal Alarm State: Defaults to true if user enabled it, or false
-            let isAlarmActive = localStorage.getItem('huemax_goal_alarm_active') === 'true';
+            let isAlarmActive = safeStorage.get('huemax_goal_alarm_active') === 'true';
 
             // Universal Bell UI Update (Never hides on mobile!)
             const updateBellUI = () => {
@@ -1277,14 +1284,16 @@
                 }
             };
 
-            // Single Universal Toggle Button Handler (Works on 100% of devices)
-            btnNotification.addEventListener('click', () => {
+            const toggleGoalAlarm = (e) => {
+                if (e && e.type === 'click') {
+                    // Normal click handler
+                }
                 // 1. Immediately unlock audio on user gesture
                 unlockAudio();
 
                 // 2. Toggle Alarm state
                 isAlarmActive = !isAlarmActive;
-                localStorage.setItem('huemax_goal_alarm_active', isAlarmActive ? 'true' : 'false');
+                safeStorage.set('huemax_goal_alarm_active', isAlarmActive ? 'true' : 'false');
                 updateBellUI();
 
                 if (isAlarmActive) {
@@ -1294,32 +1303,36 @@
                         try { navigator.vibrate(100); } catch(e) {}
                     }
 
-                    // Background Web Notification permission request if supported
+                    // Background Web Notification permission request if supported (safely)
                     if ("Notification" in window) {
-                        if (Notification.permission === 'default') {
-                            try {
-                                Notification.requestPermission().then(perm => {
-                                    if (perm === 'granted') {
-                                        try {
-                                            new Notification("⚽ SpVgg HüMax Tor-Alarm", {
-                                                body: "Push-Meldungen erfolgreich aktiviert!",
-                                                icon: "logo.png"
-                                            });
-                                        } catch(e) {}
-                                    }
-                                });
-                            } catch(e) {}
-                        } else if (Notification.permission === 'granted') {
-                            try {
-                                new Notification("⚽ SpVgg HüMax Tor-Alarm aktiv", {
-                                    body: "Du wirst bei allen Toren benachrichtigt.",
-                                    icon: "logo.png"
-                                });
-                            } catch(e) {}
-                        }
+                        try {
+                            if (Notification.permission === 'default') {
+                                const req = Notification.requestPermission();
+                                if (req && typeof req.then === 'function') {
+                                    req.then(perm => {
+                                        if (perm === 'granted') {
+                                            try {
+                                                new Notification("⚽ SpVgg HüMax Tor-Alarm", {
+                                                    body: "Push-Meldungen erfolgreich aktiviert!",
+                                                    icon: "logo.png"
+                                                });
+                                            } catch(e) {}
+                                        }
+                                    }).catch(() => {});
+                                }
+                            }
+                        } catch(e) {}
                     }
+
+                    // Visual confirmation banner on mobile
+                    showGoalBanner('🔔 Tor-Alarm eingeschaltet', 'Du erhältst bei jedem Tor ein Signal und die Live-Meldung!', '');
                 }
-            });
+            };
+
+            // Register toggle listeners
+            if (btnNotification) {
+                btnNotification.addEventListener('click', toggleGoalAlarm);
+            }
 
             updateBellUI();
 
@@ -1716,37 +1729,42 @@
             // Handle incoming data & trigger push alerts for new items
             const handleNewData = (data) => {
                 if (data.events && Array.isArray(data.events)) {
-                    data.events.forEach(evt => {
-                        if (!seenEventIds.has(evt.id)) {
-                            seenEventIds.add(evt.id);
-                            
-                            // Trigger Alarm if enabled
-                            if (isAlarmActive) {
-                                if (evt.type === 'goal') {
-                                    playGoalChime();
-                                    if (navigator.vibrate) {
-                                        try { navigator.vibrate([200, 100, 200, 100, 400]); } catch(e) {}
+                    if (isInitialFetch) {
+                        data.events.forEach(evt => seenEventIds.add(evt.id));
+                        isInitialFetch = false;
+                    } else {
+                        data.events.forEach(evt => {
+                            if (!seenEventIds.has(evt.id)) {
+                                seenEventIds.add(evt.id);
+                                
+                                // Trigger Alarm if enabled
+                                if (isAlarmActive) {
+                                    if (evt.type === 'goal') {
+                                        playGoalChime();
+                                        if (navigator.vibrate) {
+                                            try { navigator.vibrate([200, 100, 200, 100, 400]); } catch(e) {}
+                                        }
+                                        showGoalBanner(evt.title, evt.description, evt.score || `${data.match.homeScore}:${data.match.awayScore}`);
+                                    } else if (evt.type === 'red_card' || evt.type === 'yellow_red_card') {
+                                        playGoalChime();
+                                        if (navigator.vibrate) {
+                                            try { navigator.vibrate([150, 100, 150]); } catch(e) {}
+                                        }
+                                        showGoalBanner(`🟥 ${evt.title}`, evt.description, '');
                                     }
-                                    showGoalBanner(evt.title, evt.description, evt.score || `${data.match.homeScore}:${data.match.awayScore}`);
-                                } else if (evt.type === 'red_card' || evt.type === 'yellow_red_card') {
-                                    playGoalChime();
-                                    if (navigator.vibrate) {
-                                        try { navigator.vibrate([150, 100, 150]); } catch(e) {}
-                                    }
-                                    showGoalBanner(`🟥 ${evt.title}`, evt.description, '');
-                                }
 
-                                if ("Notification" in window && Notification.permission === 'granted') {
-                                    try {
-                                        new Notification(`⚽ SpVgg HüMax (${evt.minute || 'Live'}): ${evt.title}`, {
-                                            body: evt.description || `${data.match.homeTeam} ${data.match.homeScore}:${data.match.awayScore} ${data.match.awayTeam}`,
-                                            icon: "logo.png"
-                                        });
-                                    } catch(e) {}
+                                    if ("Notification" in window && Notification.permission === 'granted') {
+                                        try {
+                                            new Notification(`⚽ SpVgg HüMax (${evt.minute || 'Live'}): ${evt.title}`, {
+                                                body: evt.description || `${data.match.homeTeam} ${data.match.homeScore}:${data.match.awayScore} ${data.match.awayTeam}`,
+                                                icon: "logo.png"
+                                            });
+                                        } catch(e) {}
+                                    }
                                 }
                             }
-                        }
-                    });
+                        });
+                    }
                 }
 
                 currentData = data;
@@ -1766,7 +1784,7 @@
             };
 
             // Initial Render
-            const stored = localStorage.getItem('huemax_live_ticker_backup');
+            const stored = safeStorage.get('huemax_live_ticker_backup');
             if (stored) {
                 try { 
                     const parsed = JSON.parse(stored);
@@ -1779,9 +1797,9 @@
             renderEvents(currentData.events);
             renderArchive(currentData.archive !== undefined ? currentData.archive : defaultArchive);
 
-            // Fetch immediately & poll every 10 seconds for real-time live sync
+            // Fetch immediately & poll every 3 seconds for instant real-time sync
             fetchTickerData();
-            setInterval(fetchTickerData, 10000);
+            setInterval(fetchTickerData, 3000);
         })();
     </script>
 </body>

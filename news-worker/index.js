@@ -20,12 +20,20 @@ export default {
       return token === env.ADMIN_PASSWORD;
     };
 
+    const noCacheHeaders = {
+      ...corsHeaders,
+      "Content-Type": "application/json",
+      "Cache-Control": "no-store, no-cache, must-revalidate, proxy-revalidate, max-age=0",
+      "Pragma": "no-cache",
+      "Expires": "0"
+    };
+
     try {
       // GET /api/news - List all articles
       if (request.method === "GET" && path === "/api/news") {
         const list = await env.NEWS_KV.get("articles_list");
         return new Response(list || "[]", {
-          headers: { ...corsHeaders, "Content-Type": "application/json" }
+          headers: noCacheHeaders
         });
       }
 
@@ -34,7 +42,7 @@ export default {
         if (!checkAuth(request)) {
           return new Response(JSON.stringify({ error: "Unauthorized" }), {
             status: 401,
-            headers: { ...corsHeaders, "Content-Type": "application/json" }
+            headers: noCacheHeaders
           });
         }
 
@@ -43,14 +51,14 @@ export default {
         if (!body || !Array.isArray(body)) {
           return new Response(JSON.stringify({ error: "Invalid articles list" }), {
             status: 400,
-            headers: { ...corsHeaders, "Content-Type": "application/json" }
+            headers: noCacheHeaders
           });
         }
 
         // Save to KV
         await env.NEWS_KV.put("articles_list", JSON.stringify(body));
         return new Response(JSON.stringify({ success: true }), {
-          headers: { ...corsHeaders, "Content-Type": "application/json" }
+          headers: noCacheHeaders
         });
       }
 
@@ -58,7 +66,7 @@ export default {
       if (request.method === "GET" && path === "/api/birthdays") {
         const list = await env.NEWS_KV.get("birthdays_list");
         return new Response(list || "[]", {
-          headers: { ...corsHeaders, "Content-Type": "application/json" }
+          headers: noCacheHeaders
         });
       }
 
@@ -67,7 +75,7 @@ export default {
         if (!checkAuth(request)) {
           return new Response(JSON.stringify({ error: "Unauthorized" }), {
             status: 401,
-            headers: { ...corsHeaders, "Content-Type": "application/json" }
+            headers: noCacheHeaders
           });
         }
 
@@ -75,13 +83,13 @@ export default {
         if (!body || !Array.isArray(body)) {
           return new Response(JSON.stringify({ error: "Invalid birthdays list" }), {
             status: 400,
-            headers: { ...corsHeaders, "Content-Type": "application/json" }
+            headers: noCacheHeaders
           });
         }
 
         await env.NEWS_KV.put("birthdays_list", JSON.stringify(body));
         return new Response(JSON.stringify({ success: true }), {
-          headers: { ...corsHeaders, "Content-Type": "application/json" }
+          headers: noCacheHeaders
         });
       }
 
@@ -90,17 +98,48 @@ export default {
         if (!checkAuth(request)) {
           return new Response(JSON.stringify({ error: "Unauthorized" }), {
             status: 401,
-            headers: { ...corsHeaders, "Content-Type": "application/json" }
+            headers: noCacheHeaders
           });
         }
         return new Response(JSON.stringify({ success: true }), {
-          headers: { ...corsHeaders, "Content-Type": "application/json" }
+          headers: noCacheHeaders
         });
       }
 
-      // GET /api/ticker - Get current match and live ticker events
+      // GET /api/ticker - Get current match and live ticker events (R2 strong consistency + KV fallback)
       if (request.method === "GET" && path === "/api/ticker") {
-        const data = await env.NEWS_KV.get("ticker_data");
+        let data = null;
+
+        // 1. Try R2 first (Strongly consistent read-after-write globally, 0s delay)
+        if (env.R2_BUCKET) {
+          try {
+            const r2Obj = await env.R2_BUCKET.get("spvgg-huemax/ticker.json");
+            if (r2Obj) {
+              data = await r2Obj.text();
+            }
+          } catch(e) {
+            console.error("R2 read error:", e);
+          }
+        }
+
+        // 2. Fallback to KV
+        if (!data) {
+          try {
+            data = await env.NEWS_KV.get("ticker_data");
+            if (data && env.R2_BUCKET) {
+              // Auto-seed R2 so all subsequent reads are strongly consistent with 0s delay
+              await env.R2_BUCKET.put("spvgg-huemax/ticker.json", data, {
+                httpMetadata: {
+                  contentType: "application/json",
+                  cacheControl: "no-store, no-cache, must-revalidate, max-age=0"
+                }
+              }).catch(() => {});
+            }
+          } catch(e) {
+            console.error("KV read error:", e);
+          }
+        }
+
         const defaultData = {
           match: {
             homeTeam: "SpVgg HüMax",
@@ -177,16 +216,16 @@ export default {
           archive: []
         };
         return new Response(data || JSON.stringify(defaultData), {
-          headers: { ...corsHeaders, "Content-Type": "application/json" }
+          headers: noCacheHeaders
         });
       }
 
-      // POST /api/ticker - Update match or add/update ticker events
+      // POST /api/ticker - Update match or add/update ticker events (Saves to R2 + KV)
       if (request.method === "POST" && path === "/api/ticker") {
         if (!checkAuth(request)) {
           return new Response(JSON.stringify({ error: "Unauthorized" }), {
             status: 401,
-            headers: { ...corsHeaders, "Content-Type": "application/json" }
+            headers: noCacheHeaders
           });
         }
 
@@ -194,13 +233,31 @@ export default {
         if (!body || !body.match || !Array.isArray(body.events)) {
           return new Response(JSON.stringify({ error: "Invalid ticker data structure" }), {
             status: 400,
-            headers: { ...corsHeaders, "Content-Type": "application/json" }
+            headers: noCacheHeaders
           });
         }
 
-        await env.NEWS_KV.put("ticker_data", JSON.stringify(body));
+        const jsonStr = JSON.stringify(body);
+
+        // 1. Save to R2 (Strong consistency globally, 0s propagation delay)
+        if (env.R2_BUCKET) {
+          try {
+            await env.R2_BUCKET.put("spvgg-huemax/ticker.json", jsonStr, {
+              httpMetadata: {
+                contentType: "application/json",
+                cacheControl: "no-store, no-cache, must-revalidate, max-age=0"
+              }
+            });
+          } catch(e) {
+            console.error("R2 put error:", e);
+          }
+        }
+
+        // 2. Save to KV (Backup storage)
+        await env.NEWS_KV.put("ticker_data", jsonStr);
+
         return new Response(JSON.stringify({ success: true, message: "Ticker erfolgreich aktualisiert" }), {
-          headers: { ...corsHeaders, "Content-Type": "application/json" }
+          headers: noCacheHeaders
         });
       }
 

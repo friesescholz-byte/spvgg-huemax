@@ -5,3 +5,8 @@ compatibility_date = "2026-07-15"
 [[kv_namespaces]]
 binding = "NEWS_KV"
 id = "212554fce73a4b24af5f037235ae078c"
+
+[[r2_buckets]]
+binding = "R2_BUCKET"
+bucket_name = "website-datein"
+
