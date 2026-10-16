@@ -1432,7 +1432,8 @@
                     tag: 'huemax-live-' + Date.now(),
                     renotify: true,
                     vibrate: [200, 100, 200, 100, 400],
-                    data: { url: url }
+                    data: { url: url },
+                    requireInteraction: true
                 };
 
                 // 1. Mandatory for Android Chrome & mobile browsers: ServiceWorker showNotification
@@ -1454,6 +1455,40 @@
                 } catch(e) {
                     console.log('Window Notification fallback error:', e);
                 }
+            };
+
+            // Audio Keep-Alive for Background Tabs
+            // Keeps tab active in Chrome and prevents background timer freezing
+            let keepAliveSource = null;
+            const startAudioKeepAlive = () => {
+                try {
+                    if (!sharedAudioCtx) sharedAudioCtx = new (window.AudioContext || window.webkitAudioContext)();
+                    if (sharedAudioCtx.state === 'suspended') sharedAudioCtx.resume();
+                    
+                    if (!keepAliveSource && sharedAudioCtx) {
+                        const silentBuffer = sharedAudioCtx.createBuffer(1, sharedAudioCtx.sampleRate * 2, sharedAudioCtx.sampleRate);
+                        keepAliveSource = sharedAudioCtx.createBufferSource();
+                        keepAliveSource.buffer = silentBuffer;
+                        keepAliveSource.loop = true;
+                        
+                        const silentGain = sharedAudioCtx.createGain();
+                        silentGain.gain.value = 0.0001; // Inaudible to human ear, keeps audio session alive
+                        
+                        keepAliveSource.connect(silentGain);
+                        silentGain.connect(sharedAudioCtx.destination);
+                        keepAliveSource.start();
+                    }
+                } catch(e) {}
+            };
+
+            const stopAudioKeepAlive = () => {
+                try {
+                    if (keepAliveSource) {
+                        keepAliveSource.stop();
+                        keepAliveSource.disconnect();
+                        keepAliveSource = null;
+                    }
+                } catch(e) {}
             };
 
             // Goal Alarm State: Defaults to true if user enabled it, or false
@@ -1489,6 +1524,7 @@
                 updateBellUI();
 
                 if (isAlarmActive) {
+                    startAudioKeepAlive();
                     // Play test confirmation chime immediately
                     playGoalChime();
                     if (navigator.vibrate) {
@@ -1527,6 +1563,7 @@
                     // Visual confirmation banner on mobile
                     showGoalBanner('🔔 Tor-Alarm eingeschaltet', 'Du erhältst bei jedem Ereignis ein Sound-Signal und die Live-Meldung!', '', 'ALARM EINGESCHALTET');
                 } else {
+                    stopAudioKeepAlive();
                     showGoalBanner('🔕 Tor-Alarm ausgeschaltet', 'Keine Töne & Push-Meldungen mehr.', '', 'ALARM AUS');
                 }
             };
@@ -1537,6 +1574,9 @@
             }
 
             updateBellUI();
+            if (isAlarmActive) {
+                startAudioKeepAlive();
+            }
 
             // Helper to format article text paragraphs cleanly
             const formatParagraphs = (text) => {
@@ -2035,9 +2075,42 @@
             renderEvents(currentData.events);
             renderArchive(currentData.archive !== undefined ? currentData.archive : defaultArchive);
 
-            // Fetch immediately & poll every 3 seconds for instant real-time sync
+            // 1. Initial immediate fetch
             fetchTickerData();
-            setInterval(fetchTickerData, 3000);
+
+            // 2. Dedicated Background Web Worker (prevents tab sleep / timer throttling in inactive tabs)
+            let tickerWorker = null;
+            try {
+                tickerWorker = new Worker('ticker-worker.js');
+                tickerWorker.onmessage = (e) => {
+                    if (e.data && e.data.type === 'TICKER_DATA') {
+                        const data = e.data.data;
+                        if (data && data.match) {
+                            handleNewData(data);
+                            localStorage.setItem('huemax_live_ticker_backup', JSON.stringify(data));
+                            const now = new Date();
+                            if (lastSyncTimeEl) {
+                                lastSyncTimeEl.textContent = now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', second: '2-digit' });
+                            }
+                        }
+                    }
+                };
+                tickerWorker.postMessage({ type: 'START', url: tickerApiUrl });
+            } catch(e) {
+                console.log('Worker fallback to setInterval:', e);
+                setInterval(fetchTickerData, 3000);
+            }
+
+            // Tab visibility change: Instant poll when tab is focused
+            document.addEventListener('visibilitychange', () => {
+                if (document.visibilityState === 'visible') {
+                    if (tickerWorker) {
+                        tickerWorker.postMessage({ type: 'POLL_NOW' });
+                    } else {
+                        fetchTickerData();
+                    }
+                }
+            });
         })();
     </script>
 </body>
