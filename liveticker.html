@@ -22,6 +22,11 @@
     <meta property="og:image" content="https://pub-b33108412309406a9a941ddc51e9a5b9.r2.dev/spvgg-huemax/logo.png">
 
     <link rel="stylesheet" href="style.css?v=20261014-5">
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#153e02">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="HüMax Live">
     
     <!-- Performance Preconnects -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -1283,6 +1288,56 @@
                 }, 8000);
             };
 
+            // Service Worker Registration for Native Mobile Push Notifications (Android & modern browsers)
+            let swRegistration = null;
+            if ('serviceWorker' in navigator) {
+                window.addEventListener('load', () => {
+                    navigator.serviceWorker.register('sw.js').then((reg) => {
+                        swRegistration = reg;
+                        console.log('HüMax Service Worker registered successfully');
+                    }).catch((err) => {
+                        console.log('HüMax Service Worker registration note:', err);
+                    });
+                });
+            }
+
+            // Universal Native Notification Sender (Android Chrome via SW, Desktop Fallback)
+            const sendMobilePushNotification = async (title, body, score = '', url = 'liveticker.html') => {
+                const fullBody = body + (score ? ` (Spielstand: ${score})` : '');
+                
+                if (!("Notification" in window) || Notification.permission !== 'granted') return;
+
+                const notifOptions = {
+                    body: fullBody,
+                    icon: 'logo.png',
+                    badge: 'logo.png',
+                    tag: 'huemax-live-' + Date.now(),
+                    renotify: true,
+                    vibrate: [200, 100, 200, 100, 400],
+                    data: { url: url }
+                };
+
+                // 1. Mandatory for Android Chrome & mobile browsers: ServiceWorker showNotification
+                try {
+                    if ('serviceWorker' in navigator) {
+                        const reg = swRegistration || await navigator.serviceWorker.ready.catch(() => null);
+                        if (reg && typeof reg.showNotification === 'function') {
+                            await reg.showNotification(title, notifOptions);
+                            return;
+                        }
+                    }
+                } catch(e) {
+                    console.log('SW showNotification error:', e);
+                }
+
+                // 2. Classical window Notification fallback (Desktop Safari, Firefox, PC Chrome)
+                try {
+                    new Notification(title, notifOptions);
+                } catch(e) {
+                    console.log('Window Notification fallback error:', e);
+                }
+            };
+
             // Goal Alarm State: Defaults to true if user enabled it, or false
             let isAlarmActive = safeStorage.get('huemax_goal_alarm_active') === 'true';
 
@@ -1295,21 +1350,18 @@
                     btnNotification.className = 'ticker-bell-pill active';
                     btnNotification.innerHTML = '<i class="fas fa-bell"></i> <span>Tor-Alarm AN</span>';
                     if (bellStatusHint) {
-                        bellStatusHint.innerHTML = '<i class="fas fa-check-circle" style="color: #28a745;"></i> <span>Tor-Alarm aktiv: Sound-Signal & Live-Meldung bei jedem Tor!</span>';
+                        bellStatusHint.innerHTML = '<i class="fas fa-check-circle" style="color: #28a745;"></i> <span>Tor-Alarm aktiv: Sound-Signal & Live-Push-Meldungen bereit!</span>';
                     }
                 } else {
                     btnNotification.className = 'ticker-bell-pill';
                     btnNotification.innerHTML = '<i class="far fa-bell"></i> <span>Tor-Alarm aktivieren</span>';
                     if (bellStatusHint) {
-                        bellStatusHint.innerHTML = '<i class="fas fa-bell" style="color: #153e02;"></i> <span>Tipp: Klicke auf „Tor-Alarm aktivieren“, um bei Toren ein Sound-Signal zu hören.</span>';
+                        bellStatusHint.innerHTML = '<i class="fas fa-bell" style="color: #153e02;"></i> <span>Tipp: Klicke auf „Tor-Alarm aktivieren“, um Live-Meldungen & Tor-Sounds zu empfangen.</span>';
                     }
                 }
             };
 
-            const toggleGoalAlarm = (e) => {
-                if (e && e.type === 'click') {
-                    // Normal click handler
-                }
+            const toggleGoalAlarm = async (e) => {
                 // 1. Immediately unlock audio on user gesture
                 unlockAudio();
 
@@ -1322,32 +1374,37 @@
                     // Play test confirmation chime immediately
                     playGoalChime();
                     if (navigator.vibrate) {
-                        try { navigator.vibrate(100); } catch(e) {}
+                        try { navigator.vibrate([120, 80, 120]); } catch(e) {}
                     }
 
-                    // Background Web Notification permission request if supported (safely)
+                    // Background Web Notification permission request if supported
                     if ("Notification" in window) {
                         try {
-                            if (Notification.permission === 'default') {
-                                const req = Notification.requestPermission();
-                                if (req && typeof req.then === 'function') {
-                                    req.then(perm => {
-                                        if (perm === 'granted') {
-                                            try {
-                                                new Notification("⚽ SpVgg HüMax Tor-Alarm", {
-                                                    body: "Push-Meldungen erfolgreich aktiviert!",
-                                                    icon: "logo.png"
-                                                });
-                                            } catch(e) {}
-                                        }
-                                    }).catch(() => {});
-                                }
+                            let perm = Notification.permission;
+                            if (perm === 'default') {
+                                perm = await Notification.requestPermission();
                             }
-                        } catch(e) {}
+
+                            if (perm === 'granted') {
+                                // Send instant test notification so the user sees it immediately on mobile & PC!
+                                await sendMobilePushNotification(
+                                    "⚽ Tor-Alarm aktiviert!",
+                                    "Push-Meldungen & Sound-Signal sind bereit für den Live-Ticker.",
+                                    "",
+                                    "liveticker.html"
+                                );
+                            } else if (perm === 'denied') {
+                                showGoalBanner('⚠️ Benachrichtigungen gesperrt', 'System-Meldungen sind im Browser blockiert. Sound-Signal & Tor-Banner im Live-Ticker bleiben aktiv!', '');
+                            }
+                        } catch(e) {
+                            console.log('Notification permission request error:', e);
+                        }
                     }
 
                     // Visual confirmation banner on mobile
                     showGoalBanner('🔔 Tor-Alarm eingeschaltet', 'Du erhältst bei jedem Tor ein Signal und die Live-Meldung!', '');
+                } else {
+                    showGoalBanner('🔕 Tor-Alarm ausgeschaltet', 'Keine Töne & Push-Meldungen mehr.', '');
                 }
             };
 
@@ -1766,22 +1823,24 @@
                                         if (navigator.vibrate) {
                                             try { navigator.vibrate([200, 100, 200, 100, 400]); } catch(e) {}
                                         }
-                                        showGoalBanner(evt.title, evt.description, evt.score || `${data.match.homeScore}:${data.match.awayScore}`);
+                                        const currentScore = evt.score || `${data.match.homeScore}:${data.match.awayScore}`;
+                                        showGoalBanner(evt.title, evt.description, currentScore);
+                                        sendMobilePushNotification(
+                                            `⚽ TOOOOOOR! (${evt.minute || 'Live'})`,
+                                            `${evt.title}: ${evt.description || 'Neuer Spielstand!'}`,
+                                            currentScore
+                                        );
                                     } else if (evt.type === 'red_card' || evt.type === 'yellow_red_card') {
                                         playGoalChime();
                                         if (navigator.vibrate) {
                                             try { navigator.vibrate([150, 100, 150]); } catch(e) {}
                                         }
                                         showGoalBanner(`🟥 ${evt.title}`, evt.description, '');
-                                    }
-
-                                    if ("Notification" in window && Notification.permission === 'granted') {
-                                        try {
-                                            new Notification(`⚽ SpVgg HüMax (${evt.minute || 'Live'}): ${evt.title}`, {
-                                                body: evt.description || `${data.match.homeTeam} ${data.match.homeScore}:${data.match.awayScore} ${data.match.awayTeam}`,
-                                                icon: "logo.png"
-                                            });
-                                        } catch(e) {}
+                                        sendMobilePushNotification(
+                                            `🟥 Platzverweis (${evt.minute || 'Live'})`,
+                                            `${evt.title}: ${evt.description || ''}`,
+                                            ''
+                                        );
                                     }
                                 }
                             }
