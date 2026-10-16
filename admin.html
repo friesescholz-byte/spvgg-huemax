@@ -522,27 +522,118 @@
             line-height: 1;
         }
 
+        .tabs-container {
+            display: flex;
+            gap: 1.25rem;
+            margin-bottom: 2.5rem;
+            border-bottom: 2px solid var(--border-color);
+            padding-bottom: 12px;
+            margin-top: -1rem;
+        }
+        .tab-btn {
+            background: transparent;
+            border: none;
+            font-family: var(--font-heading);
+            font-size: 1.15rem;
+            font-weight: 800;
+            color: var(--text-muted);
+            cursor: pointer;
+            padding-bottom: 8px;
+            border-bottom: 3px solid transparent;
+            transition: var(--transition-fast);
+            display: inline-flex;
+            align-items: center;
+            gap: 0.45rem;
+        }
+        .tab-btn:hover {
+            color: var(--primary-color);
+        }
+        .tab-btn.active {
+            color: var(--primary-color) !important;
+            border-bottom: 3px solid var(--primary-color) !important;
+        }
+
         @media (max-width: 768px) {
-            .rentner-card {
-                padding: 1.15rem !important;
+            .subpage-hero {
+                padding: 2.2rem 0 1.2rem !important;
             }
-            .rentner-score-val {
-                font-size: 2.5rem !important;
+            .tabs-container {
+                display: flex !important;
+                flex-wrap: nowrap !important;
+                overflow-x: auto !important;
+                -webkit-overflow-scrolling: touch !important;
+                scrollbar-width: none !important;
+                gap: 0.5rem !important;
+                margin-bottom: 1.5rem !important;
+                padding-bottom: 6px !important;
+                border-bottom: 1px solid rgba(21, 62, 2, 0.12) !important;
+            }
+            .tabs-container::-webkit-scrollbar {
+                display: none !important;
+            }
+            .tab-btn {
+                flex-shrink: 0 !important;
+                font-size: 0.88rem !important;
+                padding: 0.5rem 0.85rem !important;
+                border-radius: 999px !important;
+                background: #f0f3eb !important;
+                color: #576553 !important;
+                border: 1px solid rgba(21, 62, 2, 0.1) !important;
+                border-bottom: 1px solid rgba(21, 62, 2, 0.1) !important;
+                white-space: nowrap !important;
+            }
+            .tab-btn.active {
+                background: #153e02 !important;
+                color: #ffffff !important;
+                border-color: #153e02 !important;
+            }
+            .tab-btn.active i {
+                color: #ffffff !important;
+            }
+            .rentner-container {
+                gap: 1rem !important;
+            }
+            .rentner-card {
+                padding: 1rem 0.9rem !important;
+                border-radius: 16px !important;
+            }
+            .rentner-score-grid {
+                display: grid !important;
+                grid-template-columns: 1fr auto 1fr !important;
+                align-items: center !important;
+                gap: 0.35rem !important;
             }
             .rentner-touch-btn {
-                width: 48px !important;
-                height: 48px !important;
-                font-size: 1.7rem !important;
+                width: 44px !important;
+                height: 44px !important;
+                font-size: 1.5rem !important;
+                border-radius: 12px !important;
+                flex-shrink: 0 !important;
+            }
+            .rentner-score-val {
+                font-size: 2.2rem !important;
+                min-width: 32px !important;
+            }
+            .rentner-btn-big {
+                padding: 1rem 1.25rem !important;
+                font-size: 1.05rem !important;
+                border-radius: 12px !important;
             }
             .admin-input, .admin-select, .admin-textarea {
-                font-size: 16px !important; /* Prevents auto-zoom on iOS */
+                font-size: 16px !important; /* Prevents auto-zoom on iOS Safari */
+            }
+            .btn-delete-event {
+                width: 44px !important;
+                height: 44px !important;
+                font-size: 1.1rem !important;
             }
             #admin-ticker-toast {
-                left: 16px;
-                right: 16px;
-                bottom: 16px;
-                text-align: center;
-                justify-content: center;
+                left: 12px !important;
+                right: 12px !important;
+                bottom: 16px !important;
+                text-align: center !important;
+                justify-content: center !important;
+                font-size: 0.95rem !important;
             }
         }
     </style>
@@ -626,15 +717,15 @@
         <div class="container">
             
             <!-- Tab Navigation -->
-            <div class="tabs-container" style="display: flex; gap: 1rem; margin-bottom: 2.5rem; border-bottom: 2px solid var(--border-color); padding-bottom: 12px; margin-top: -1rem; flex-wrap: wrap;">
-                <button class="tab-btn active" id="tab-ticker-btn" style="background: transparent; border: none; font-family: var(--font-heading); font-size: 1.15rem; font-weight: 800; color: var(--primary-color); cursor: pointer; padding-bottom: 8px; border-bottom: 3px solid var(--primary-color); transition: var(--transition-fast);">
-                    <i class="fas fa-futbol" style="margin-right: 0.4rem; color: #28a745;"></i> 1. Herren Live-Ticker
+            <div class="tabs-container">
+                <button class="tab-btn active" id="tab-ticker-btn">
+                    <i class="fas fa-futbol" style="color: #28a745;"></i> 1. Herren Live-Ticker
                 </button>
-                <button class="tab-btn" id="tab-news-btn" style="background: transparent; border: none; font-family: var(--font-heading); font-size: 1.15rem; font-weight: 800; color: var(--text-muted); cursor: pointer; padding-bottom: 8px; border-bottom: 3px solid transparent; transition: var(--transition-fast);">
-                    <i class="fas fa-newspaper" style="margin-right: 0.4rem;"></i> Beiträge verwalten
+                <button class="tab-btn" id="tab-news-btn">
+                    <i class="fas fa-newspaper"></i> Beiträge verwalten
                 </button>
-                <button class="tab-btn" id="tab-birthdays-btn" style="background: transparent; border: none; font-family: var(--font-heading); font-size: 1.15rem; font-weight: 800; color: var(--text-muted); cursor: pointer; padding-bottom: 8px; border-bottom: 3px solid transparent; transition: var(--transition-fast);">
-                    <i class="fas fa-gift" style="margin-right: 0.4rem;"></i> Geburtstage & Jubiläen
+                <button class="tab-btn" id="tab-birthdays-btn">
+                    <i class="fas fa-gift"></i> Geburtstage & Jubiläen
                 </button>
             </div>
 
@@ -857,7 +948,7 @@
                             <span style="font-size: 0.85rem; font-weight: 800; color: #b8860b; text-transform: uppercase; letter-spacing: 0.05em;">Aktueller Spielstand</span>
                         </div>
 
-                        <div style="display: grid; grid-template-columns: 1fr auto 1fr; align-items: center; gap: 0.75rem;">
+                        <div class="rentner-score-grid" style="display: grid; grid-template-columns: 1fr auto 1fr; align-items: center; gap: 0.75rem;">
                             <!-- Heim (HüMax) -->
                             <div style="display: flex; flex-direction: column; align-items: center; gap: 0.5rem;">
                                 <div style="display: flex; align-items: center; gap: 0.45rem;">
@@ -1148,25 +1239,23 @@
             // --- TAB SWITCHING LOGIC ---
             const switchTab = (activeTab) => {
                 [tabNewsBtn, tabBirthdaysBtn, tabTickerBtn].forEach(b => {
-                    b.style.color = 'var(--text-muted)';
-                    b.style.borderBottomColor = 'transparent';
+                    b.classList.remove('active');
+                    b.style.color = '';
+                    b.style.borderBottomColor = '';
                 });
                 [tabNewsContent, tabBirthdaysContent, tabTickerContent].forEach(c => {
                     c.style.display = 'none';
                 });
 
                 if (activeTab === 'news') {
-                    tabNewsBtn.style.color = 'var(--primary-color)';
-                    tabNewsBtn.style.borderBottomColor = 'var(--primary-color)';
+                    tabNewsBtn.classList.add('active');
                     tabNewsContent.style.display = 'grid';
                 } else if (activeTab === 'birthdays') {
-                    tabBirthdaysBtn.style.color = 'var(--primary-color)';
-                    tabBirthdaysBtn.style.borderBottomColor = 'var(--primary-color)';
+                    tabBirthdaysBtn.classList.add('active');
                     tabBirthdaysContent.style.display = 'grid';
                     fetchBirthdays();
                 } else if (activeTab === 'ticker') {
-                    tabTickerBtn.style.color = 'var(--primary-color)';
-                    tabTickerBtn.style.borderBottomColor = 'var(--primary-color)';
+                    tabTickerBtn.classList.add('active');
                     tabTickerContent.style.display = 'block';
                     fetchTickerAdmin();
                 }
@@ -2513,7 +2602,7 @@
                             <p style="margin: 0; font-size: 0.95rem; color: #2d3829; line-height: 1.45;">${evt.description}</p>
                             <span style="font-size: 0.78rem; color: #888; display: inline-block; margin-top: 0.35rem;">${evt.timestamp || ''} Uhr</span>
                         </div>
-                        <button type="button" class="btn-delete-event" data-id="${evt.id}" style="background: transparent; border: none; color: #dc3545; cursor: pointer; padding: 0.4rem; font-size: 1rem; border-radius: 6px;" title="Löschen">
+                        <button type="button" class="btn-delete-event" data-id="${evt.id}" style="background: rgba(220,53,69,0.08); border: 1px solid rgba(220,53,69,0.2); color: #dc3545; cursor: pointer; width: 44px; height: 44px; font-size: 1.1rem; border-radius: 10px; display: inline-flex; align-items: center; justify-content: center; flex-shrink: 0;" title="Löschen">
                             <i class="fas fa-trash"></i>
                         </button>
                     `;

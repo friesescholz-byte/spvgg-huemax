@@ -4049,106 +4049,279 @@ textarea.form-control {
 
 /* --- Responsive Adaptations --- */
 @media (max-width: 768px) {
-    .ticker-scoreboard-card {
-        padding: 1.25rem;
+    .subpage-hero {
+        padding: 2.5rem 0 1.5rem !important;
     }
 
+    .ticker-page-section {
+        padding-top: 1.25rem !important;
+        padding-bottom: 3.5rem !important;
+    }
+
+    /* Scoreboard Card: Sleek, compact and high-contrast */
+    .ticker-scoreboard-card {
+        padding: 1rem 0.9rem !important;
+        margin-bottom: 1.25rem !important;
+        border-radius: 16px !important;
+    }
+
+    /* Scoreboard Top Header Bar: Clean single row */
     .ticker-board-header {
-        flex-direction: column;
-        align-items: flex-start;
-        gap: 0.75rem;
+        display: flex !important;
+        flex-direction: row !important;
+        justify-content: space-between !important;
+        align-items: center !important;
+        padding-bottom: 0.75rem !important;
+        gap: 0.5rem !important;
+    }
+
+    .ticker-comp-badge {
+        font-size: 0.72rem !important;
+        padding: 0.2rem 0.55rem !important;
     }
 
     .ticker-bell-pill {
-        width: 100%;
-        justify-content: center;
+        width: auto !important;
+        padding: 0.35rem 0.75rem !important;
+        font-size: 0.78rem !important;
+        gap: 0.4rem !important;
+        border-radius: 999px !important;
     }
 
+    .ticker-bell-pill i {
+        font-size: 0.85rem !important;
+    }
+
+    /* Horizontal Scoreboard Core: 3 Columns (Home - Score - Away) */
     .ticker-board-main {
-        grid-template-columns: 1fr;
-        gap: 1.25rem;
-        padding: 1.5rem 0;
-        text-align: center;
+        display: grid !important;
+        grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr) !important;
+        gap: 0.5rem !important;
+        padding: 0.85rem 0 !important;
+        align-items: center !important;
+    }
+
+    .ticker-team-col {
+        align-items: center !important;
+        text-align: center !important;
+        min-width: 0 !important;
     }
 
     .ticker-team-home,
     .ticker-team-away {
-        text-align: center;
-        align-items: center;
+        align-items: center !important;
+        text-align: center !important;
     }
 
     .ticker-team-home .ticker-team-info,
     .ticker-team-away .ticker-team-info {
-        justify-content: center;
-        flex-direction: column;
+        flex-direction: column !important;
+        align-items: center !important;
+        justify-content: center !important;
+        gap: 0.35rem !important;
+        width: 100% !important;
+    }
+
+    .ticker-team-crest {
+        width: 44px !important;
+        height: 44px !important;
+        padding: 4px !important;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06) !important;
+    }
+
+    .ticker-team-title {
+        font-size: 0.88rem !important;
+        line-height: 1.2 !important;
+        text-align: center !important;
+        font-weight: 800 !important;
+        max-width: 110px !important;
+        display: -webkit-box !important;
+        -webkit-line-clamp: 2 !important;
+        -webkit-box-orient: vertical !important;
+        overflow: hidden !important;
+    }
+
+    .ticker-team-label {
+        display: none !important;
     }
 
     .ticker-center-col {
-        padding: 0.5rem 0;
+        min-width: 84px !important;
+        padding: 0 0.25rem !important;
     }
 
+    .ticker-score-wrap {
+        font-size: 2.3rem !important;
+        gap: 0.35rem !important;
+        line-height: 1 !important;
+        font-weight: 900 !important;
+    }
+
+    .ticker-colon {
+        transform: translateY(-1px) !important;
+    }
+
+    .ticker-status-pill {
+        padding: 0.22rem 0.6rem !important;
+        font-size: 0.72rem !important;
+        margin-top: 0.35rem !important;
+        gap: 0.35rem !important;
+    }
+
+    .ticker-status-pulse {
+        width: 5px !important;
+        height: 5px !important;
+    }
+
+    /* Scoreboard Footer Bar */
     .ticker-board-footer {
-        flex-direction: column;
-        align-items: flex-start;
-        gap: 0.65rem;
+        flex-direction: row !important;
+        justify-content: space-between !important;
+        align-items: center !important;
+        gap: 0.5rem !important;
+        padding-top: 0.75rem !important;
+        font-size: 0.75rem !important;
+        flex-wrap: wrap !important;
+    }
+
+    .ticker-footer-item {
+        font-size: 0.75rem !important;
     }
 
     .ticker-sync-item {
-        margin-left: 0;
+        margin-left: 0 !important;
     }
 
+    /* Segmented Filter Pills */
     .ticker-control-bar {
-        flex-direction: column;
-        align-items: stretch;
+        flex-direction: column !important;
+        align-items: stretch !important;
+        gap: 0.65rem !important;
+        margin-bottom: 1.25rem !important;
     }
 
     .ticker-filters {
-        width: 100%;
-        justify-content: center;
+        width: 100% !important;
+        display: flex !important;
+        padding: 0.25rem !important;
     }
 
     .ticker-pill {
-        flex: 1;
-        justify-content: center;
-        padding: 0.45rem 0.6rem;
-        font-size: 0.78rem;
+        flex: 1 !important;
+        justify-content: center !important;
+        padding: 0.5rem 0.6rem !important;
+        font-size: 0.8rem !important;
+        font-weight: 700 !important;
+    }
+
+    .ticker-push-hint {
+        font-size: 0.75rem !important;
+        text-align: center !important;
+        justify-content: center !important;
+    }
+
+    /* Timeline Stream on Mobile */
+    .ticker-stream {
+        gap: 1.15rem !important;
+        margin-bottom: 2.5rem !important;
     }
 
     .ticker-stream::before {
-        left: 20px;
+        left: 18px !important;
     }
 
     .ticker-item {
-        grid-template-columns: 42px 1fr;
-        gap: 0.85rem;
+        grid-template-columns: 36px 1fr !important;
+        gap: 0.75rem !important;
     }
 
-    .ticker-item-node {
-        width: 26px;
-        height: 26px;
-        font-size: 0.72rem;
+    .ticker-item-meta {
+        padding-top: 0.15rem !important;
+        gap: 0.25rem !important;
     }
 
     .ticker-item-minute {
-        font-size: 0.82rem;
+        font-size: 0.8rem !important;
+        font-weight: 800 !important;
+    }
+
+    .ticker-item-node {
+        width: 24px !important;
+        height: 24px !important;
+        font-size: 0.68rem !important;
     }
 
     .ticker-item-card {
-        padding: 1.1rem 1.15rem;
+        padding: 0.95rem 1rem !important;
+        border-radius: 14px !important;
+    }
+
+    .ticker-item-header {
+        gap: 0.4rem !important;
+        margin-bottom: 0.35rem !important;
     }
 
     .ticker-item-title {
-        font-size: 1.05rem;
+        font-size: 1rem !important;
+        line-height: 1.3 !important;
+    }
+
+    .ticker-pill-player {
+        font-size: 0.75rem !important;
+        padding: 0.15rem 0.55rem !important;
+    }
+
+    .ticker-pill-score {
+        font-size: 0.9rem !important;
+        padding: 0.15rem 0.55rem !important;
+    }
+
+    .ticker-item-body {
+        font-size: 0.92rem !important;
+        line-height: 1.55 !important;
+    }
+
+    .ticker-item-footer {
+        margin-top: 0.6rem !important;
+        padding-top: 0.45rem !important;
+        font-size: 0.72rem !important;
+    }
+
+    /* Archive Cards on Mobile */
+    .ticker-archive-section {
+        margin-top: 3rem !important;
+        padding-top: 2rem !important;
+    }
+
+    .ticker-archive-title {
+        font-size: 1.35rem !important;
     }
 
     .ticker-archive-summary {
-        flex-direction: column;
-        align-items: flex-start;
+        padding: 1rem 1.15rem !important;
+        flex-direction: column !important;
+        align-items: stretch !important;
+        gap: 0.75rem !important;
+    }
+
+    .ticker-archive-meta-left {
+        gap: 0.5rem !important;
+    }
+
+    .ticker-archive-match-teams {
+        font-size: 1.05rem !important;
+        justify-content: space-between !important;
+        width: 100% !important;
     }
 
     .ticker-archive-toggle-btn {
-        width: 100%;
-        justify-content: center;
+        width: 100% !important;
+        justify-content: center !important;
+        padding: 0.5rem !important;
+    }
+
+    .ticker-archive-body {
+        padding: 1rem 1.15rem !important;
     }
 }
 
