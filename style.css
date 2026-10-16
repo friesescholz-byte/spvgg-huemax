@@ -2715,13 +2715,28 @@ textarea.form-control {
         display: none !important; /* Hide to save vertical height */
     }
     
-    /* Subpage Hero */
+    .header {
+        padding: 0.75rem 0 !important;
+    }
+    .header .logo img {
+        height: 38px !important;
+    }
+    .header .logo-text {
+        font-size: 1.15rem !important;
+    }
+
+    /* Subpage Hero: Header-Overlap Protection with safe-area support */
     .subpage-hero {
-        padding: 6.5rem 0 3.5rem !important;
+        padding-top: calc(70px + 2.5rem + env(safe-area-inset-top, 0px)) !important;
+        padding-bottom: 2.25rem !important;
     }
     
-    .subpage-hero .hero-title {
-        font-size: 2.2rem !important;
+    .subpage-hero .hero-title,
+    .subpage-hero .subpage-title {
+        font-size: 2rem !important;
+        line-height: 1.25 !important;
+        margin-top: 0 !important;
+        margin-bottom: 0.5rem !important;
     }
     
     /* Headings and Lines */
@@ -4050,7 +4065,8 @@ textarea.form-control {
 /* --- Responsive Adaptations --- */
 @media (max-width: 768px) {
     .subpage-hero {
-        padding: 2.5rem 0 1.5rem !important;
+        padding-top: calc(70px + 2.5rem + env(safe-area-inset-top, 0px)) !important;
+        padding-bottom: 2.25rem !important;
     }
 
     .ticker-page-section {
@@ -4224,6 +4240,7 @@ textarea.form-control {
     .ticker-stream {
         gap: 1.15rem !important;
         margin-bottom: 2.5rem !important;
+        padding-bottom: 4rem !important;
     }
 
     .ticker-stream::before {

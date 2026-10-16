@@ -23,6 +23,7 @@
 
     <link rel="stylesheet" href="style.css?v=20261014-5">
     <link rel="manifest" href="manifest.json">
+    <link rel="apple-touch-icon" href="logo.png">
     <meta name="theme-color" content="#153e02">
     <meta name="mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
@@ -762,9 +763,93 @@
             opacity: 0.85;
         }
 
+        /* In-Page Live Goal Alert Banner */
+        .ticker-goal-overlay {
+            position: fixed;
+            top: max(1rem, env(safe-area-inset-top, 1rem));
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 999999;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            width: 92%;
+            max-width: 480px;
+            animation: slideDownBounce 0.4s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+        }
+
+        .ticker-goal-popup {
+            background: #153e02;
+            color: #ffffff;
+            border-radius: 16px;
+            padding: 1.15rem 1.4rem;
+            box-shadow: 0 16px 40px rgba(10, 28, 1, 0.35), 0 0 0 2px rgba(229, 179, 82, 0.5);
+            position: relative;
+            width: 100%;
+            text-align: center;
+        }
+
+        .goal-popup-badge {
+            display: inline-block;
+            background: #e5b352;
+            color: #153e02;
+            font-size: 0.8rem;
+            font-weight: 900;
+            letter-spacing: 0.08em;
+            padding: 0.2rem 0.65rem;
+            border-radius: 6px;
+            margin-bottom: 0.45rem;
+        }
+
+        .goal-popup-title {
+            font-size: 1.15rem;
+            font-weight: 900;
+            color: #ffffff;
+            margin-bottom: 0.25rem;
+            font-family: 'Outfit', sans-serif;
+        }
+
+        .goal-popup-desc {
+            font-size: 0.92rem;
+            color: rgba(255, 255, 255, 0.85);
+            margin-bottom: 0.5rem;
+            line-height: 1.4;
+        }
+
+        .goal-popup-score {
+            font-size: 1.6rem;
+            font-weight: 900;
+            color: #e5b352;
+            letter-spacing: 0.05em;
+            margin-top: 0.35rem;
+            font-family: 'Outfit', sans-serif;
+        }
+
+        .goal-popup-close {
+            position: absolute;
+            top: 10px;
+            right: 14px;
+            background: transparent;
+            border: none;
+            color: rgba(255, 255, 255, 0.7);
+            font-size: 1.4rem;
+            line-height: 1;
+            cursor: pointer;
+            padding: 4px 8px;
+        }
+
+        @keyframes slideDownBounce {
+            0% { opacity: 0; transform: translate(-50%, -30px); }
+            100% { opacity: 1; transform: translate(-50%, 0); }
+        }
+
         @media (max-width: 768px) {
-            .subpage-hero { padding: 2.2rem 0 1.2rem !important; }
-            .ticker-page-section { padding-top: 1.25rem !important; padding-bottom: 3.5rem !important; }
+            .header { padding: 0.75rem 0 !important; }
+            .header .logo img { height: 38px !important; }
+            .header .logo-text { font-size: 1.15rem !important; }
+            .subpage-hero { padding-top: calc(70px + 2.5rem + env(safe-area-inset-top, 0px)) !important; padding-bottom: 2.25rem !important; }
+            .subpage-hero .hero-title, .subpage-hero .subpage-title { font-size: 2rem !important; line-height: 1.25 !important; margin-top: 0 !important; margin-bottom: 0.5rem !important; }
+            .ticker-page-section { padding-top: 1.25rem !important; padding-bottom: 4rem !important; }
             .ticker-scoreboard-card { padding: 1rem 0.9rem !important; margin-bottom: 1.25rem !important; border-radius: 16px !important; }
             .ticker-board-header { display: flex !important; flex-direction: row !important; justify-content: space-between !important; align-items: center !important; gap: 0.5rem !important; padding-bottom: 0.75rem !important; }
             .ticker-comp-badge { font-size: 0.72rem !important; padding: 0.2rem 0.55rem !important; }
@@ -793,7 +878,7 @@
             .ticker-filters { width: 100% !important; display: flex !important; padding: 0.25rem !important; }
             .ticker-pill { flex: 1 !important; justify-content: center !important; padding: 0.5rem 0.6rem !important; font-size: 0.8rem !important; font-weight: 700 !important; }
             .ticker-push-hint { font-size: 0.75rem !important; text-align: center !important; justify-content: center !important; }
-            .ticker-stream { gap: 1.15rem !important; margin-bottom: 2.5rem !important; }
+            .ticker-stream { gap: 1.15rem !important; margin-bottom: 2.5rem !important; padding-bottom: 4rem !important; }
             .ticker-stream::before { left: 18px !important; }
             .ticker-item { grid-template-columns: 36px 1fr !important; gap: 0.75rem !important; }
             .ticker-item-meta { padding-top: 0.15rem !important; gap: 0.25rem !important; }
@@ -1232,6 +1317,12 @@
                     if (AudioCtx) {
                         if (!sharedAudioCtx) sharedAudioCtx = new AudioCtx();
                         if (sharedAudioCtx.state === 'suspended') sharedAudioCtx.resume();
+                        // iOS/Mobile WebKit buffer unlock
+                        const buffer = sharedAudioCtx.createBuffer(1, 1, 22050);
+                        const source = sharedAudioCtx.createBufferSource();
+                        source.buffer = buffer;
+                        source.connect(sharedAudioCtx.destination);
+                        source.start(0);
                     }
                 } catch(e) {}
             };
@@ -1240,6 +1331,7 @@
                 try {
                     unlockAudio();
                     if (!sharedAudioCtx) return;
+                    if (sharedAudioCtx.state === 'suspended') sharedAudioCtx.resume();
                     const now = sharedAudioCtx.currentTime;
                     const osc = sharedAudioCtx.createOscillator();
                     const gain = sharedAudioCtx.createGain();
@@ -1254,17 +1346,43 @@
                     osc.frequency.setValueAtTime(783.99, now + 0.22);
                     osc.frequency.setValueAtTime(1046.50, now + 0.33);
 
-                    gain.gain.setValueAtTime(0.28, now);
-                    gain.gain.exponentialRampToValueAtTime(0.001, now + 0.75);
+                    gain.gain.setValueAtTime(0.35, now);
+                    gain.gain.exponentialRampToValueAtTime(0.001, now + 0.85);
 
                     osc.start(now);
-                    osc.stop(now + 0.75);
+                    osc.stop(now + 0.85);
                 } catch(e) {}
             };
 
-            // In-Page Goal Alert Modal / Banner
+            const playSubtleChime = (isHigh = true) => {
+                try {
+                    unlockAudio();
+                    if (!sharedAudioCtx) return;
+                    if (sharedAudioCtx.state === 'suspended') sharedAudioCtx.resume();
+                    const now = sharedAudioCtx.currentTime;
+                    const osc = sharedAudioCtx.createOscillator();
+                    const gain = sharedAudioCtx.createGain();
+
+                    osc.type = 'sine';
+                    osc.connect(gain);
+                    gain.connect(sharedAudioCtx.destination);
+
+                    const f1 = isHigh ? 880 : 587.33;
+                    const f2 = isHigh ? 1174.66 : 440;
+                    osc.frequency.setValueAtTime(f1, now);
+                    osc.frequency.setValueAtTime(f2, now + 0.1);
+
+                    gain.gain.setValueAtTime(0.3, now);
+                    gain.gain.exponentialRampToValueAtTime(0.001, now + 0.5);
+
+                    osc.start(now);
+                    osc.stop(now + 0.5);
+                } catch(e) {}
+            };
+
+            // In-Page Goal Alert Modal / Banner with custom badge support
             let goalBannerTimer = null;
-            const showGoalBanner = (title, desc, score) => {
+            const showGoalBanner = (title, desc, score = '', badge = '⚽ TOOOOOOR!') => {
                 let banner = document.getElementById('ticker-goal-banner-overlay');
                 if (!banner) {
                     banner = document.createElement('div');
@@ -1274,9 +1392,9 @@
                 }
                 banner.innerHTML = `
                     <div class="ticker-goal-popup">
-                        <div class="goal-popup-badge">⚽ TOOOOOOR!</div>
-                        <div class="goal-popup-title">${title || 'Tor für SpVgg HüMax!'}</div>
-                        <div class="goal-popup-desc">${desc || ''}</div>
+                        <div class="goal-popup-badge">${badge}</div>
+                        <div class="goal-popup-title">${title || 'Live-Ticker Update'}</div>
+                        ${desc ? `<div class="goal-popup-desc">${desc}</div>` : ''}
                         ${score ? `<div class="goal-popup-score">${score}</div>` : ''}
                         <button type="button" class="goal-popup-close" aria-label="Schließen" onclick="document.getElementById('ticker-goal-banner-overlay').style.display='none'">&times;</button>
                     </div>
@@ -1382,19 +1500,24 @@
                         try {
                             let perm = Notification.permission;
                             if (perm === 'default') {
-                                perm = await Notification.requestPermission();
+                                try {
+                                    perm = await Notification.requestPermission();
+                                } catch(err) {
+                                    perm = await new Promise(resolve => Notification.requestPermission(resolve));
+                                }
                             }
 
                             if (perm === 'granted') {
                                 // Send instant test notification so the user sees it immediately on mobile & PC!
                                 await sendMobilePushNotification(
                                     "⚽ Tor-Alarm aktiviert!",
-                                    "Push-Meldungen & Sound-Signal sind bereit für den Live-Ticker.",
+                                    "Live-Meldungen & Sound sind bereit für alle Spielereignisse.",
                                     "",
                                     "liveticker.html"
                                 );
                             } else if (perm === 'denied') {
-                                showGoalBanner('⚠️ Benachrichtigungen gesperrt', 'System-Meldungen sind im Browser blockiert. Sound-Signal & Tor-Banner im Live-Ticker bleiben aktiv!', '');
+                                showGoalBanner('⚠️ Benachrichtigungen gesperrt', 'System-Meldungen sind im Browser blockiert. Sound-Signal & Live-Banner im Ticker bleiben aktiv!', '', 'HINWEIS');
+                                return;
                             }
                         } catch(e) {
                             console.log('Notification permission request error:', e);
@@ -1402,9 +1525,9 @@
                     }
 
                     // Visual confirmation banner on mobile
-                    showGoalBanner('🔔 Tor-Alarm eingeschaltet', 'Du erhältst bei jedem Tor ein Signal und die Live-Meldung!', '');
+                    showGoalBanner('🔔 Tor-Alarm eingeschaltet', 'Du erhältst bei jedem Ereignis ein Sound-Signal und die Live-Meldung!', '', 'ALARM EINGESCHALTET');
                 } else {
-                    showGoalBanner('🔕 Tor-Alarm ausgeschaltet', 'Keine Töne & Push-Meldungen mehr.', '');
+                    showGoalBanner('🔕 Tor-Alarm ausgeschaltet', 'Keine Töne & Push-Meldungen mehr.', '', 'ALARM AUS');
                 }
             };
 
@@ -1816,7 +1939,7 @@
                             if (!seenEventIds.has(evt.id)) {
                                 seenEventIds.add(evt.id);
                                 
-                                // Trigger Alarm if enabled
+                                // Trigger Alarm if enabled for any incoming live event
                                 if (isAlarmActive) {
                                     if (evt.type === 'goal') {
                                         playGoalChime();
@@ -1824,7 +1947,7 @@
                                             try { navigator.vibrate([200, 100, 200, 100, 400]); } catch(e) {}
                                         }
                                         const currentScore = evt.score || `${data.match.homeScore}:${data.match.awayScore}`;
-                                        showGoalBanner(evt.title, evt.description, currentScore);
+                                        showGoalBanner(evt.title, evt.description, currentScore, '⚽ TOOOOOOR!');
                                         sendMobilePushNotification(
                                             `⚽ TOOOOOOR! (${evt.minute || 'Live'})`,
                                             `${evt.title}: ${evt.description || 'Neuer Spielstand!'}`,
@@ -1835,10 +1958,44 @@
                                         if (navigator.vibrate) {
                                             try { navigator.vibrate([150, 100, 150]); } catch(e) {}
                                         }
-                                        showGoalBanner(`🟥 ${evt.title}`, evt.description, '');
+                                        showGoalBanner(evt.title, evt.description, '', '🟥 PLATZVERWEIS!');
                                         sendMobilePushNotification(
                                             `🟥 Platzverweis (${evt.minute || 'Live'})`,
                                             `${evt.title}: ${evt.description || ''}`,
+                                            ''
+                                        );
+                                    } else if (evt.type === 'yellow_card') {
+                                        playSubtleChime(false);
+                                        if (navigator.vibrate) {
+                                            try { navigator.vibrate([100]); } catch(e) {}
+                                        }
+                                        showGoalBanner(evt.title, evt.description, '', '🟨 GELBE KARTE');
+                                        sendMobilePushNotification(
+                                            `🟨 Gelbe Karte (${evt.minute || 'Live'})`,
+                                            `${evt.title}: ${evt.description || ''}`,
+                                            ''
+                                        );
+                                    } else if (evt.type === 'chance' || evt.type === 'penalty') {
+                                        playSubtleChime(true);
+                                        if (navigator.vibrate) {
+                                            try { navigator.vibrate([150, 80, 150]); } catch(e) {}
+                                        }
+                                        showGoalBanner(evt.title, evt.description, '', '🎯 GROSSCHANCE!');
+                                        sendMobilePushNotification(
+                                            `🎯 Großchance (${evt.minute || 'Live'})`,
+                                            `${evt.title}: ${evt.description || ''}`,
+                                            ''
+                                        );
+                                    } else {
+                                        // Universal handler for all events (info, sub, whistle, commentary, test notes)
+                                        playSubtleChime(true);
+                                        if (navigator.vibrate) {
+                                            try { navigator.vibrate([80]); } catch(e) {}
+                                        }
+                                        showGoalBanner(evt.title || 'Live-Ticker Update', evt.description || '', '', '📢 LIVE-MELDUNG');
+                                        sendMobilePushNotification(
+                                            `📢 Live-Ticker (${evt.minute || 'Live'})`,
+                                            `${evt.title ? evt.title + ': ' : ''}${evt.description || 'Neuer Eintrag'}`,
                                             ''
                                         );
                                     }
