@@ -1,21 +1,41 @@
 {
-  "name": "SpVgg HüMax 1. Herren Live-Ticker",
-  "short_name": "HüMax Live",
-  "start_url": "/liveticker.html",
+  "name": "SpVgg Hüddessum/Machtsum e.V. von 1920",
+  "short_name": "SpVgg HüMax",
+  "start_url": "/index.html",
   "display": "standalone",
   "background_color": "#ffffff",
   "theme_color": "#153e02",
-  "description": "Offizieller Live-Ticker der 1. Herren der SpVgg Hüddessum/Machtsum mit Echtzeit-Toralarm.",
+  "description": "Offizielle Website und Live-Ticker der SpVgg Hüddessum/Machtsum e.V. von 1920.",
   "icons": [
     {
-      "src": "logo.png",
-      "sizes": "192x192",
-      "type": "image/png"
+      "src": "favicon-48x48.png",
+      "sizes": "48x48",
+      "type": "image/png",
+      "purpose": "any"
     },
     {
-      "src": "logo.png",
+      "src": "favicon-96x96.png",
+      "sizes": "96x96",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "favicon-192x192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "favicon-512x512.png",
       "sizes": "512x512",
-      "type": "image/png"
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "apple-touch-icon.png",
+      "sizes": "180x180",
+      "type": "image/png",
+      "purpose": "any"
     }
   ]
 }
