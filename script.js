@@ -551,24 +551,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
-    // 10. Hero Fixed Parallax Background with Fallback
-    const hero = document.querySelector('.hero');
-    if (hero) {
-        const img = new Image();
-        const r2Url = 'https://pub-b33108412309406a9a941ddc51e9a5b9.r2.dev/spvgg-huemax/hero-bg.jpg';
-        img.src = r2Url;
-        
-        const setBg = (url) => {
-            // Lighter overlay opacities (0.58 and 0.38) to make the image stand out even more vividly
-            hero.style.backgroundImage = `linear-gradient(135deg, rgba(10, 28, 1, 0.58) 0%, rgba(21, 62, 2, 0.38) 100%), url('${url}')`;
-            hero.style.backgroundAttachment = 'fixed';
-            hero.style.backgroundSize = 'cover';
-            hero.style.backgroundPosition = 'center';
-        };
 
-        img.onload = () => setBg(r2Url);
-        img.onerror = () => setBg('hero-bg.jpg');
-    }
 
     // 11. Interactive Contact Form Handler with Success Toast
     const contactForm = document.querySelector('.form-card form');

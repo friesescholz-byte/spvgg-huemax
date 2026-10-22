@@ -547,6 +547,10 @@ a {
 .hero {
     position: relative;
     background-color: var(--primary-dark);
+    background-image: linear-gradient(135deg, rgba(10, 28, 1, 0.58) 0%, rgba(21, 62, 2, 0.38) 100%), url('hero-bg.webp');
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
     min-height: 100vh;
     display: flex;
     align-items: center;
