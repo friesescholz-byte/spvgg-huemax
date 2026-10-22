@@ -821,9 +821,6 @@
                 <button class="tab-btn" id="tab-news-btn">
                     <i class="fas fa-newspaper"></i> Beiträge verwalten
                 </button>
-                <button class="tab-btn" id="tab-birthdays-btn">
-                    <i class="fas fa-gift"></i> Geburtstage & Jubiläen
-                </button>
             </div>
 
             <!-- TAB 1: News & Beiträge -->
@@ -906,96 +903,7 @@
                 </div>
             </div>
 
-            <!-- TAB 2: Geburtstage & Jubiläen -->
-            <div id="tab-birthdays-content" class="admin-grid" style="display: none;">
-                <!-- Left: Form to Add/Edit Birthday -->
-                <div class="card" style="padding: 2.5rem;">
-                    <h3 id="birthday-form-title" style="color: var(--primary-dark); font-weight: 800; font-size: 1.5rem; margin-bottom: 1.5rem; border-bottom: 2px solid var(--accent-color); padding-bottom: 8px;"><i class="fas fa-gift" style="color: var(--accent-color); margin-right: 0.5rem;"></i> Eintrag hinzufügen</h3>
-                    
-                    <form id="add-birthday-form">
-                        <div class="admin-form-group">
-                            <label for="birthday-name">Name der Person</label>
-                            <input type="text" id="birthday-name" class="admin-input" placeholder="z. B. Frank Müller..." required>
-                        </div>
-                        
-                        <div class="admin-form-group" style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
-                            <div>
-                                <label for="birthday-day">Tag</label>
-                                <select id="birthday-day" class="admin-select" required>
-                                    <!-- Populated dynamically -->
-                                </select>
-                            </div>
-                            <div>
-                                <label for="birthday-month">Monat</label>
-                                <select id="birthday-month" class="admin-select" required>
-                                    <option value="0">Januar</option>
-                                    <option value="1">Februar</option>
-                                    <option value="2">März</option>
-                                    <option value="3">April</option>
-                                    <option value="4">Mai</option>
-                                    <option value="5">Juni</option>
-                                    <option value="6">Juli</option>
-                                    <option value="7">August</option>
-                                    <option value="8">September</option>
-                                    <option value="9">Oktober</option>
-                                    <option value="10">November</option>
-                                    <option value="11">Dezember</option>
-                                </select>
-                            </div>
-                        </div>
-
-                        <div class="admin-form-group">
-                            <label for="birthday-type">Eintrags-Typ</label>
-                            <select id="birthday-type" class="admin-select" required>
-                                <option value="birthday">Geburtstag</option>
-                                <option value="jubilee">Vereinsjubiläum</option>
-                            </select>
-                        </div>
-
-                        <div class="admin-form-group" id="group-member-since" style="display: none;">
-                            <label for="birthday-member-since">Vereinsmitglied seit (Jahr) (optional)</label>
-                            <input type="number" id="birthday-member-since" class="admin-input" placeholder="z. B. 2016..." min="1920" max="2026">
-                        </div>
-
-                        <div class="admin-form-group" id="group-birth-year">
-                            <label for="birthday-birth-year">Geburtsjahr (optional, z. B. 1947 - berechnet das Alter automatisch)</label>
-                            <input type="number" id="birthday-birth-year" class="admin-input" placeholder="z. B. 1947..." min="1900" max="2026">
-                        </div>
-
-                        <div style="display: flex; gap: 1rem; align-items: center; margin-top: 2rem;">
-                            <button type="submit" id="submit-birthday-btn" class="btn btn-primary" style="flex-grow: 1;"><i class="fas fa-plus"></i> Eintrag hinzufügen</button>
-                            <button type="button" id="cancel-birthday-edit-btn" class="btn btn-outline-red" style="display: none; padding: 0.85rem 1.5rem; background-color: transparent; border: 1px solid #dc3545; color: #dc3545; border-radius: var(--radius-sm); font-weight: 700; cursor: pointer; transition: var(--transition-fast);"><i class="fas fa-times"></i> Abbrechen</button>
-                        </div>
-                    </form>
-                </div>
-
-                <!-- Right: List of Birthdays & Export -->
-                <div style="display: flex; flex-direction: column; gap: 2rem;">
-                    <div class="card" style="padding: 2.5rem;">
-                        <h3 style="color: var(--primary-dark); font-weight: 800; font-size: 1.5rem; margin-bottom: 1.5rem; border-bottom: 2px solid var(--accent-color); padding-bottom: 8px;"><i class="fas fa-list-ul" style="color: var(--accent-color); margin-right: 0.5rem;"></i> Kalender-Einträge verwalten</h3>
-                        
-                        <div class="search-wrapper" style="position: relative; margin-bottom: 1.25rem;">
-                            <i class="fas fa-search" style="position: absolute; left: 1rem; top: 50%; transform: translateY(-50%); color: var(--text-muted); font-size: 0.9rem;"></i>
-                            <input type="text" id="admin-birthdays-search" class="admin-input" placeholder="Nach Mitgliedern suchen..." style="width: 100%; padding: 0.65rem 1rem 0.65rem 2.5rem; font-size: 0.9rem;">
-                        </div>
-                        
-                        <div id="admin-birthdays-list" style="max-height: 450px; overflow-y: auto; padding-right: 0.5rem;">
-                            <!-- Dynamically populated -->
-                        </div>
-
-                        <div style="margin-top: 1.5rem; text-align: center;">
-                            <button id="btn-export-birthdays" class="btn btn-secondary" style="width: 100%; padding: 0.75rem;"><i class="fas fa-code"></i> Code für lokale Datei exportieren</button>
-                        </div>
-                        
-                        <div id="export-birthdays-area" class="export-textarea-wrapper">
-                            <label for="export-birthdays-code-box" style="font-weight: 600; color: var(--primary-dark); display: block; margin-bottom: 0.5rem; margin-top: 1rem;">Lokaler Code-Backup (Kopieren und in `script.js` ersetzen):</label>
-                            <textarea id="export-birthdays-code-box" class="admin-textarea" rows="8" readonly style="font-family: monospace; font-size: 0.85rem;"></textarea>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- TAB 3: 1. Herren Live-Ticker (Rentner-tauglich & kinderleicht) -->
+            <!-- TAB 2: 1. Herren Live-Ticker (Rentner-tauglich & kinderleicht) -->
             <div id="tab-ticker-content" style="display: block;">
                 
                 <!-- Floating Live-Sync Toast -->
@@ -1263,19 +1171,6 @@
 
     <!-- Admin Dynamic Page Script -->
     <script>
-        // Global Developer Error Banner Helper
-        window.onerror = function(message, source, lineno, colno, error) {
-            let errDiv = document.getElementById('debug-error-banner');
-            if (!errDiv) {
-                errDiv = document.createElement('div');
-                errDiv.id = 'debug-error-banner';
-                errDiv.style = 'position: fixed; top: 0; left: 0; width: 100%; background: #dc3545; color: #fff; padding: 1rem; font-family: monospace; z-index: 999999; font-size: 0.9rem; text-align: left; box-shadow: 0 4px 10px rgba(0,0,0,0.3);';
-                document.body.appendChild(errDiv);
-            }
-            errDiv.innerHTML = `<strong>JavaScript-Fehler aufgetreten:</strong> ${message}<br><small>Datei: ${source} | Zeile: ${lineno}:${colno}</small>`;
-            return false;
-        };
-
         document.addEventListener('DOMContentLoaded', () => {
             const defaultArticlesList = [
                 {
@@ -1335,30 +1230,24 @@
 
             // Tab navigation elements
             const tabNewsBtn = document.getElementById('tab-news-btn');
-            const tabBirthdaysBtn = document.getElementById('tab-birthdays-btn');
             const tabTickerBtn = document.getElementById('tab-ticker-btn');
             const tabNewsContent = document.getElementById('tab-news-content');
-            const tabBirthdaysContent = document.getElementById('tab-birthdays-content');
             const tabTickerContent = document.getElementById('tab-ticker-content');
 
             // --- TAB SWITCHING LOGIC ---
             const switchTab = (activeTab) => {
-                [tabNewsBtn, tabBirthdaysBtn, tabTickerBtn].forEach(b => {
+                [tabNewsBtn, tabTickerBtn].forEach(b => {
                     b.classList.remove('active');
                     b.style.color = '';
                     b.style.borderBottomColor = '';
                 });
-                [tabNewsContent, tabBirthdaysContent, tabTickerContent].forEach(c => {
+                [tabNewsContent, tabTickerContent].forEach(c => {
                     c.style.display = 'none';
                 });
 
                 if (activeTab === 'news') {
                     tabNewsBtn.classList.add('active');
                     tabNewsContent.style.display = 'grid';
-                } else if (activeTab === 'birthdays') {
-                    tabBirthdaysBtn.classList.add('active');
-                    tabBirthdaysContent.style.display = 'grid';
-                    fetchBirthdays();
                 } else if (activeTab === 'ticker') {
                     tabTickerBtn.classList.add('active');
                     tabTickerContent.style.display = 'block';
@@ -1368,7 +1257,6 @@
 
             tabTickerBtn.addEventListener('click', () => switchTab('ticker'));
             tabNewsBtn.addEventListener('click', () => switchTab('news'));
-            tabBirthdaysBtn.addEventListener('click', () => switchTab('birthdays'));
 
             // Weymann Compliant SHA-256 Auth
             const sha256 = async (str) => {
@@ -1825,342 +1713,8 @@
             });
 
 
-            // --- TAB 2: BIRTHDAYS CRUD SYSTEM ---
-            
-            // Populate days dropdown (1 to 31)
-            const daySelect = document.getElementById('birthday-day');
-            if (daySelect) {
-                for (let i = 1; i <= 31; i++) {
-                    const opt = document.createElement('option');
-                    opt.value = i;
-                    opt.textContent = i;
-                    daySelect.appendChild(opt);
-                }
-            }
-
-            const birthdayApiUrl = 'https://huemax-news-api.friese-scholz.workers.dev/api/birthdays';
-            let birthdays = [];
-            let birthdayEditMode = false;
-            let editBirthdayId = null;
-
-            const adminBirthdaysList = document.getElementById('admin-birthdays-list');
-            const addBirthdayForm = document.getElementById('add-birthday-form');
-            const birthdayFormTitle = document.getElementById('birthday-form-title');
-            const submitBirthdayBtn = document.getElementById('submit-birthday-btn');
-            const cancelBirthdayEditBtn = document.getElementById('cancel-birthday-edit-btn');
-            const btnExportBirthdays = document.getElementById('btn-export-birthdays');
-            const exportBirthdaysArea = document.getElementById('export-birthdays-area');
-            const exportBirthdaysCodeBox = document.getElementById('export-birthdays-code-box');
-
-            const adminBirthdaysSearch = document.getElementById('admin-birthdays-search');
-            if (adminBirthdaysSearch) {
-                adminBirthdaysSearch.addEventListener('input', renderAdminBirthdaysList);
-            }
-
-            const formatDetail = (detail) => {
-                if (!detail) return '';
-                let str = detail.trim();
-                if (str.startsWith('Wurde ')) {
-                    str = str.replace(/^Wurde\s+/, '');
-                }
-                if (/^\d+$/.test(str)) {
-                    str += ' (Geburtstag)';
-                }
-                return str;
-            };
-
-            // --- BIRTHDAYS FORM FIELDS DYNAMIC TOGGLE ---
-            const birthdayTypeSelect = document.getElementById('birthday-type');
-            const groupMemberSince = document.getElementById('group-member-since');
-            const groupBirthYear = document.getElementById('group-birth-year');
-
-            const toggleBirthdayFormFields = () => {
-                if (birthdayTypeSelect.value === 'jubilee') {
-                    groupMemberSince.style.display = 'block';
-                    groupBirthYear.style.display = 'none';
-                } else {
-                    groupMemberSince.style.display = 'none';
-                    groupBirthYear.style.display = 'block';
-                }
-            };
-
-            if (birthdayTypeSelect) {
-                birthdayTypeSelect.addEventListener('change', toggleBirthdayFormFields);
-                toggleBirthdayFormFields(); // Init on page load
-            }
-
-            // Fetch live birthdays from Worker with visual loading state and error reporting
-            function fetchBirthdays() {
-                adminBirthdaysList.innerHTML = '<p style="text-align: center; color: var(--text-muted); padding: 1.5rem 0;"><i class="fas fa-spinner fa-spin"></i> Lade Einträge aus der Datenbank...</p>';
-                
-                fetch(birthdayApiUrl)
-                    .then(res => {
-                        if (!res.ok) {
-                            throw new Error(`Server antwortete mit Status ${res.status}`);
-                        }
-                        return res.json();
-                    })
-                    .then(data => {
-                        if (data && Array.isArray(data)) {
-                            birthdays = data;
-                        } else {
-                            throw new Error('Empfangene Daten sind kein gültiges Array.');
-                        }
-                        renderAdminBirthdaysList();
-                    })
-                    .catch(err => {
-                        console.error('Error loading birthdays:', err);
-                        adminBirthdaysList.innerHTML = `<p style="text-align: center; color: #dc3545; padding: 1.5rem 0;"><i class="fas fa-exclamation-triangle"></i> Fehler beim Laden: ${err.message || err}<br><small style="color: var(--text-muted); display: block; margin-top: 0.5rem;">Tipp: Falls lokal geöffnet, starte den Server oder leere den Browser-Cache.</small></p>`;
-                    });
-            }
-
-            // Save birthdays to Worker
-            const saveBirthdays = () => {
-                const token = getAdminToken();
-                if (!token) {
-                    alert('Sitzung abgelaufen. Bitte laden Sie die Seite neu.');
-                    return Promise.reject('No password');
-                }
-
-                return fetch(birthdayApiUrl, {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'X-Admin-Token': token
-                    },
-                    body: JSON.stringify(birthdays)
-                })
-                .then(res => {
-                    if (res.status === 401) {
-                        throw new Error('Ungültiges Passwort! Freigabe verweigert.');
-                    }
-                    if (!res.ok) {
-                        throw new Error('Fehler beim Speichern der Kalendereinträge.');
-                    }
-                    return res.json();
-                });
-            };
-
-            function renderAdminBirthdaysList() {
-                adminBirthdaysList.innerHTML = '';
-                
-                const searchEl = document.getElementById('admin-birthdays-search');
-                const query = searchEl ? searchEl.value.toLowerCase().trim() : '';
-
-                let filtered = [...birthdays];
-                if (query !== '') {
-                    filtered = filtered.filter(b => (b.label || '').toLowerCase().includes(query));
-                }
-
-                if (filtered.length === 0) {
-                    adminBirthdaysList.innerHTML = '<p style="text-align: center; color: var(--text-muted); padding: 1.5rem 0;">Keine Kalendereinträge vorhanden.</p>';
-                    return;
-                }
-                
-                // Sort by month and day
-                const sorted = filtered.sort((a, b) => {
-                    if (a.month !== b.month) return a.month - b.month;
-                    return a.day - b.day;
-                });
-
-                const months = ['Januar', 'Februar', 'März', 'April', 'Mai', 'Juni', 'Juli', 'August', 'September', 'Oktober', 'November', 'Dezember'];
-
-                sorted.forEach(entry => {
-                    const item = document.createElement('div');
-                    item.className = 'admin-list-item';
-                    
-                    const isJubilaeum = (entry.detail || '').toLowerCase().includes('jubiläum');
-                    const iconClass = isJubilaeum ? 'fas fa-award' : 'fas fa-gift';
-
-                    item.innerHTML = `
-                        <div style="width: 50px; height: 50px; border-radius: 50%; background-color: rgba(21, 62, 2, 0.06); color: var(--primary-color); display: flex; align-items: center; justify-content: center; font-weight: bold; font-size: 0.9rem; flex-shrink: 0; flex-direction: column;">
-                            <span>${entry.day}</span>
-                            <span style="font-size: 0.65rem; text-transform: uppercase;">${months[entry.month] ? months[entry.month].substring(0,3) : ''}</span>
-                        </div>
-                        <div class="admin-list-info" style="margin-left: 1rem;">
-                            <div class="admin-list-title" style="font-size: 0.95rem; margin-bottom: 0.15rem;">${entry.label}</div>
-                            <div class="admin-list-meta" style="font-size: 0.82rem;">
-                                <span><i class="${iconClass}" style="color: var(--accent-color);"></i> ${formatDetail(entry.detail)}</span>
-                            </div>
-                        </div>
-                        <div style="display: flex; align-items: center; gap: 0.5rem;">
-                            <button class="admin-btn-edit-bd" title="Eintrag bearbeiten" style="background-color: var(--primary-color); color: #ffffff; border: none; width: 32px; height: 32px; border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; transition: var(--transition-fast);"><i class="fas fa-pencil-alt" style="font-size: 0.85rem;"></i></button>
-                            <button class="admin-btn-delete-bd" title="Eintrag löschen" style="background-color: #dc3545; color: #ffffff; border: none; width: 32px; height: 32px; border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; transition: var(--transition-fast);"><i class="fas fa-trash-alt" style="font-size: 0.85rem;"></i></button>
-                        </div>
-                    `;
-
-                    // Edit birthday listener
-                    item.querySelector('.admin-btn-edit-bd').addEventListener('click', () => {
-                        const target = birthdays.find(b => b.id === entry.id);
-                        if (target) {
-                            document.getElementById('birthday-name').value = target.label;
-                            document.getElementById('birthday-day').value = target.day;
-                            document.getElementById('birthday-month').value = target.month;
-                            
-                            const hasSince = target.memberSince !== undefined && target.memberSince !== null;
-                            let hasBirthYear = target.birthYear !== undefined && target.birthYear !== null;
-                            let birthYearVal = hasBirthYear ? target.birthYear : '';
-                            
-                            // Fallback: extract birthYear from detail string if it contains "Wurde X" or "X (Geburtstag)"
-                            if (!hasBirthYear && target.detail && !hasSince) {
-                                const match = target.detail.match(/(?:Wurde\s+)?(\d+)/);
-                                if (match) {
-                                    const age = parseInt(match[1]);
-                                    birthYearVal = 2026 - age;
-                                }
-                            }
-                            
-                            document.getElementById('birthday-type').value = hasSince ? 'jubilee' : 'birthday';
-                            document.getElementById('birthday-member-since').value = hasSince ? target.memberSince : '';
-                            document.getElementById('birthday-birth-year').value = birthYearVal;
-                            toggleBirthdayFormFields();
-
-                            birthdayFormTitle.innerHTML = '<i class="fas fa-edit" style="color: var(--accent-color); margin-right: 0.5rem;"></i> Eintrag bearbeiten';
-                            submitBirthdayBtn.innerHTML = '<i class="fas fa-save"></i> Änderungen speichern';
-                            cancelBirthdayEditBtn.style.display = 'inline-block';
-
-                            birthdayEditMode = true;
-                            editBirthdayId = entry.id;
-
-                            document.getElementById('tab-birthdays-content').scrollIntoView({ behavior: 'smooth' });
-                        }
-                    });
-
-                    // Delete birthday listener
-                    item.querySelector('.admin-btn-delete-bd').addEventListener('click', () => {
-                        if (confirm('Möchten Sie diesen Eintrag wirklich löschen?')) {
-                            const old = [...birthdays];
-                            birthdays = birthdays.filter(b => b.id !== entry.id);
-                            saveBirthdays()
-                                .then(() => {
-                                    renderAdminBirthdaysList();
-                                    alert('Eintrag erfolgreich gelöscht!');
-                                    if (birthdayEditMode && editBirthdayId === entry.id) {
-                                        resetBirthdayForm();
-                                    }
-                                })
-                                .catch(err => {
-                                    birthdays = old; // revert
-                                    alert(err.message || err);
-                                });
-                        }
-                    });
-
-                    adminBirthdaysList.appendChild(item);
-                });
-            }
-
-            const resetBirthdayForm = () => {
-                addBirthdayForm.reset();
-                birthdayFormTitle.innerHTML = '<i class="fas fa-gift" style="color: var(--accent-color); margin-right: 0.5rem;"></i> Eintrag hinzufügen';
-                submitBirthdayBtn.innerHTML = '<i class="fas fa-plus"></i> Eintrag hinzufügen';
-                cancelBirthdayEditBtn.style.display = 'none';
-                
-                birthdayEditMode = false;
-                editBirthdayId = null;
-                toggleBirthdayFormFields();
-            };
-
-            cancelBirthdayEditBtn.addEventListener('click', resetBirthdayForm);
-
-            // Handle birthday submit
-            addBirthdayForm.addEventListener('submit', (e) => {
-                e.preventDefault();
-
-                const name = document.getElementById('birthday-name').value.trim();
-                const day = parseInt(document.getElementById('birthday-day').value);
-                const month = parseInt(document.getElementById('birthday-month').value);
-                const type = document.getElementById('birthday-type').value;
-                const memberSinceVal = document.getElementById('birthday-member-since').value.trim();
-                const birthYearVal = document.getElementById('birthday-birth-year').value.trim();
-
-                let detail = '';
-                let memberSince = null;
-                let birthYear = null;
-
-                if (type === 'jubilee') {
-                    if (memberSinceVal) {
-                        memberSince = parseInt(memberSinceVal);
-                        const years = 2026 - memberSince;
-                        detail = `${years} Jahre Vereinsjubiläum`;
-                    } else {
-                        detail = 'Vereinsjubiläum';
-                    }
-                } else {
-                    if (birthYearVal) {
-                        birthYear = parseInt(birthYearVal);
-                        const age = 2026 - birthYear;
-                        detail = `${age} (Geburtstag)`;
-                    } else {
-                        detail = 'Geburtstag';
-                    }
-                }
-
-                const oldBirthdays = [...birthdays];
-
-                if (birthdayEditMode) {
-                    birthdays = birthdays.map(b => {
-                        if (b.id === editBirthdayId) {
-                            return {
-                                ...b,
-                                day: day,
-                                month: month,
-                                label: name,
-                                detail: detail,
-                                memberSince: memberSince,
-                                birthYear: birthYear
-                            };
-                        }
-                        return b;
-                    });
-
-                    saveBirthdays()
-                        .then(() => {
-                            resetBirthdayForm();
-                            renderAdminBirthdaysList();
-                            alert('Kalendereintrag erfolgreich aktualisiert!');
-                        })
-                        .catch(err => {
-                            birthdays = oldBirthdays;
-                            alert(err.message || err);
-                        });
-                } else {
-                    const newId = birthdays.length > 0 ? Math.max(...birthdays.map(b => b.id || 0)) + 1 : 1;
-                    const newEntry = {
-                        id: newId,
-                        day: day,
-                        month: month,
-                        type: 'birthday',
-                        label: name,
-                        detail: detail,
-                        memberSince: memberSince
-                    };
-
-                    birthdays.push(newEntry);
-
-                    saveBirthdays()
-                        .then(() => {
-                            resetBirthdayForm();
-                            renderAdminBirthdaysList();
-                            alert('Kalendereintrag erfolgreich hinzugefügt!');
-                        })
-                        .catch(err => {
-                            birthdays = oldBirthdays;
-                            alert(err.message || err);
-                        });
-                }
-            });
-
-            // Generate export code for birthdays
-            btnExportBirthdays.addEventListener('click', () => {
-                const exportedArrayString = JSON.stringify(birthdays, null, 4);
-                exportBirthdaysCodeBox.value = `const defaultBirthdays = ${exportedArrayString};`;
-                exportBirthdaysArea.style.display = 'block';
-                exportBirthdaysCodeBox.select();
-            });
-
             // =========================================================================
-            // TAB 3: 1. HERREN LIVE-TICKER ADMIN LOGIC
+            // TAB 2: 1. HERREN LIVE-TICKER ADMIN LOGIC
             // =========================================================================
             const tickerApiUrl = 'https://huemax-news-api.friese-scholz.workers.dev/api/ticker';
             
@@ -2966,8 +2520,6 @@
                 if (isValid) {
                     if (window.location.hash === '#news') {
                         switchTab('news');
-                    } else if (window.location.hash === '#birthdays') {
-                        switchTab('birthdays');
                     } else {
                         switchTab('ticker');
                     }
