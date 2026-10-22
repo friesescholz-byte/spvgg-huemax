@@ -2,4 +2,4 @@ User-agent: *
 Allow: /
 Disallow: /admin.html
 
-Sitemap: https://spvgg-huemax.pages.dev/sitemap.xml
+Sitemap: https://spvgg-huemax.friese-scholz.workers.dev/sitemap.xml
