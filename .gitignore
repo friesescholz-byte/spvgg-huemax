@@ -3,3 +3,10 @@ node_modules/
 .DS_Store
 *.log
 dist/
+
+# Environment Variables & Secrets
+.env
+.env.*
+!.env.example
+.dev.vars
+.dev.vars.*
